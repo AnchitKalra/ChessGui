@@ -1,0 +1,47 @@
+.container_div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.eight_div{
+    display: flex;
+    flex-direction: row;
+}
+.colorBlack {
+    background-color: burlywood;
+}
+
+.colorWhite {
+    background-color: aliceblue;
+}
+
+.buttonStyle{
+    height: 80px;
+    width: 80px;
+    padding: 5px;
+}
+
+.colorGreen{
+    background-color: greenyellow;
+}
+#game{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+}
+
+.hide{
+    display: none;
+}
+.colorRed{
+    background-color: red;
+}
+.colorBlue {
+    background-color: aqua;
+}
+.colorCheck {
+    background-color: royalblue;
+}
