@@ -4,7 +4,7 @@ import {useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getStateActionCreator } from '../reducers/stateReducer';
 import { Button, Snackbar, Alert } from '@mui/material';
-import { arrayDecrementActionCreator, arrayIdActionCreator, checkCountDecrementActionCreator, checkCountIncrementActionCreator, checkFalseActionCreator, detectCheckActionCreator } from '../reducers/checkReducer';
+import { arrayDecrementActionCreator, arrayIdActionCreator, castlingBlackActionCreator, castlingBlackLeftActionCreator, castlingBlackRightActionCreator, castlingWhiteActionCreator, castlingWhiteLeftActionCreator, castlingWhiteRightActionCreator, checkCountDecrementActionCreator, checkCountIncrementActionCreator, checkFalseActionCreator, detectCheckActionCreator } from '../reducers/checkReducer';
 
 function ChessGui() {
 
@@ -251,6 +251,7 @@ function ChessGui() {
            
                 if(boardId === arrayId[1]) {
                     pieceValue = game[j].pieceValue;
+                    console.log('logging boardId');
                     console.log(boardId);
 
                     game[j].pieceValue = 0;
@@ -258,6 +259,24 @@ function ChessGui() {
                 if(game[j].boardValue === id) {
                   x = j;
                 }
+            }
+            if(pieceValue === 6 && arrayId.length < 3) {
+               dispatch(castlingWhiteActionCreator());
+            }
+            if(pieceValue === -6 && arrayId.length < 3) {
+                dispatch(castlingBlackActionCreator());
+            }
+            if(pieceValue === 5 && arrayId[1] === 56) {
+                dispatch(castlingWhiteLeftActionCreator());
+            }
+            if(pieceValue === 5 && arrayId[1] === 63) {
+                dispatch(castlingWhiteRightActionCreator())
+            }
+            if(pieceValue === -5 && arrayId[1] === 56) {
+                dispatch(castlingBlackLeftActionCreator());
+            }
+            if(pieceValue === -5 && arrayId[1] === 63) {
+                dispatch(castlingBlackRightActionCreator());
             }
 
 
@@ -3705,6 +3724,8 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                 let twoLeft = id - 2;
                                 let z = yIndex;
                                 let idIndex = id;
+
+                                if(checkData.castlingBlackLeft === true) {
                                 while(z >= 0) {
                                     z--;
                                     idIndex--;
@@ -3729,7 +3750,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     else if(piece !== 0) {
                                         break;
                                     }
-                                }
+                                }}
                                 
                                 
                             }
@@ -3743,6 +3764,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                 let twoRight = id + 2;
                                 let z = yIndex;
                                 let idIndex = id;
+                                if(checkData.castlingBlackRight === true) {
                                 while(z <= 7) {
                                     z++;
                                     idIndex++;
@@ -3767,7 +3789,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     else if(piece !== 0) {
                                         break;
                                     }
-                                }
+                                }}
 
                             }
                             catch(err) {
@@ -3793,8 +3815,10 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
+                                                if(pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
                                             }
+                                        }
                                             else{
                                                 if(pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
                                                      btn1.classList.add('colorRed');
@@ -3834,7 +3858,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
+                                                if(pieceBackedUp(rightIndex, rightX, rightY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
+                                                }
                                             }
                                             else{
                                                 if(pieceBackedUp(rightIndex, rightX, rightY, 0) === false) {
@@ -3876,7 +3902,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
+                                                if(pieceBackedUp(upIndex, upX, upY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
+                                                }
                                             }
                                             else{
                                                 if(pieceBackedUp(upIndex, upX, upY, 0) === false) {
@@ -3922,7 +3950,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
+                                                if(pieceBackedUp(downIndex, downX, downY, 0) === false) {    
                                                 btn1.classList.add('colorGreen');
+                                                }
                                             }
                                             else{
                                                 if(pieceBackedUp(downIndex, downX, downY, 0) === false) {    
@@ -3970,7 +4000,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
+                                                if(pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
+                                                }
                                             }
                                             else{
                                                 if(pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false) {
@@ -4017,7 +4049,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     let btn1 = document.getElementById(rightUpIndex);
                                     if(checkFlag === false){
                                     if(piece1 === 0) {
+                                        if(pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false) {
                                         btn1.classList.add('colorGreen');
+                                        }
                                     }
                                     else if(piece1 > 0) {
                                         if(pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false) {
@@ -5900,6 +5934,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     let twoLeft = id - 2;
                                     let z = yIndex;
                                     let idIndex = id;
+                                    if(checkData.castlingWhiteLeft === true) {
                                     while(z >= 0) {
                                         z--;
                                         idIndex--;
@@ -5927,7 +5962,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     }
                                     
                                     
-                                }
+                                }}
                            
                             
                             }
@@ -5942,6 +5977,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     let twoRight = id + 2;
                                     let z = yIndex;
                                     let idIndex = id;
+                                    if(checkData.castlingWhiteRight === true) {
                                     while(z <= 7) {
                                         z++;
                                         idIndex++;
@@ -5966,7 +6002,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         else if(piece !== 0) {
                                             break;
                                         }
-                                    }
+                                    }}
 
                                 }}
                                 catch(err) {
@@ -5989,7 +6025,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                             if(piece1 === 0 || piece1 < 0) {
                                               
                                                 if(piece1 === 0) {
+                                                    if(pieceBackedUp(leftIndex, leftX, leftY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
+                                                    }
                                                 }
                                                 else{
                                                     if(pieceBackedUp(leftIndex, leftX, leftY, 1) === false) {
@@ -6030,7 +6068,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                             if(piece1 === 0 || piece1 < 0) {
                                               
                                                 if(piece1 === 0) {
+                                                    if(pieceBackedUp(rightIndex, rightX, rightY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
+                                                    }
                                                 }
                                                 else{
                                                     if(pieceBackedUp(rightIndex, rightX, rightY, 1) === false) {
@@ -6072,7 +6112,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                             if(piece1 === 0 || piece1 < 0) {
                                               
                                                 if(piece1 === 0) {
+                                                    if(pieceBackedUp(upIndex, upX, upY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
+                                                    }
                                                 }
                                                 else{
                                                     if(pieceBackedUp(upIndex, upX, upY, 1) === false) {
@@ -6118,7 +6160,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                             if(piece1 === 0 || piece1 < 0) {
                                               
                                                 if(piece1 === 0) {
+                                                    if(pieceBackedUp(downIndex, downX, downY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
+                                                    }
                                                 }
                                                 else{
                                                     if(pieceBackedUp(downIndex, downX, downY, 1) === false) {    
@@ -6166,7 +6210,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                             if(piece1 === 0 || piece1 < 0) {
                                               
                                                 if(piece1 === 0) {
+                                                    if(pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
+                                                    }
                                                 }
                                                 else{
                                                     if(pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false) {
@@ -6211,7 +6257,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         let btn1 = document.getElementById(rightUpIndex);
                                         if(checkFlag === false){
                                         if(piece1 === 0) {
+                                            if(pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false) {
                                             btn1.classList.add('colorGreen');
+                                            }
                                         }
                                         else if(piece1 < 0) {
                                             if(pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false) {
@@ -6887,6 +6935,10 @@ function pieceBackedUp(id, x, y, color) {
    else if(color === whitePiece) {
         let j = x;
         let k = y;
+        if(j === 7 && k === 4) {
+            console.log('logging 7, 4') 
+            
+        }
         //let piece1 = game[id].pieceValue;
         //check for rook & Queen backup
         //upwards
@@ -6956,6 +7008,10 @@ function pieceBackedUp(id, x, y, color) {
                 leftAxis--;
                 piece = game[leftAxis].pieceValue;
             }
+            console.log('logging king down');
+            console.log(k);
+            console.log(piece);
+            console.log(leftAxis);
             if(piece === -5 || piece === -10) {
                 return true;
             }
@@ -6968,19 +7024,35 @@ function pieceBackedUp(id, x, y, color) {
         //right
         j = x;
         k = y;
+
         k++;
+        console.log('logging right side');
+        console.log(j);
+        console.log(k);
         if(k <= 7) {
             let rightAxis = id + 1;
             let piece = game[rightAxis].pieceValue;
             if(piece === -5 || piece === -10) {
+                console.log('logging right side inside while');
+                console.log(piece);
+                console.log(rightAxis);
+                console.log(k);
                 return true;
             }
             if(piece === 0 || piece === 6) {
                 while((piece === 0 || piece === 6) && k < 7) {
+                    console.log('logging right side inside while');
+                    console.log(piece);
+                    console.log(rightAxis);
+                    console.log(k);
                     k++;
                     rightAxis++;
                     piece = game[rightAxis].pieceValue;
                 }
+                console.log('logging king down right side');
+                console.log(k);
+                console.log(piece);
+                console.log(rightAxis);
                 if(piece === -5 || piece === -10) {
                     return true;
                 }

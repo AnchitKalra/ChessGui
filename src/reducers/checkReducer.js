@@ -5,7 +5,13 @@ const ACTION = {
    DECREMENT: 'DECREMENT',
    DETECTFALSECHECK: 'DETECTFALSECHECK',
    ARRAYID : 'ARRAYID',
-   DECREMENTARRAYID : 'DECREMENTARRAYID'
+   DECREMENTARRAYID : 'DECREMENTARRAYID',
+   CASTLINGWHITELEFT : 'CASTLINGWHITELEFT',
+   CASTLINGWHITERIGHT : 'CASTLINGWHITERIGHT',
+   CASTLINGBLACKLEFT : 'CASTLINGBLACKLEFT',
+   CASTLINGBLACKRIGHT : 'CASTLINGBLACKRIGHT',
+   CASTLINGWHITE: 'CASTLINGWHITE',
+   CASTLINGBLACK: 'CASTLINGBLACK'
  }
 
 
@@ -13,7 +19,11 @@ const ACTION = {
  let initialState = {
      checkFlag : false,
      checkCount : 0,
-     arrayId : []
+     arrayId : [],
+     castlingBlackLeft : true,
+     castlingBlackRight : true,
+     castlingWhiteLeft : true,
+     castlingWhiteRight : true
  }
  
  
@@ -36,6 +46,27 @@ const ACTION = {
     }
     else if(type === ACTION.ARRAYID){
         data.arrayId = payload.arrayId;
+    }
+    else if(type === ACTION.CASTLINGBLACKLEFT) {
+        data.castlingBlackLeft = false;
+    }
+    else if(type === ACTION.CASTLINGBLACKRIGHT) {
+        data.castlingBlackRight = false;
+    }
+    else if(type === ACTION.CASTLINGWHITELEFT) {
+        data.castlingWhiteLeft = false;
+    }
+    else if(type === ACTION.CASTLINGWHITERIGHT) {
+        data.castlingWhiteRight = false;
+    }
+    else if(type === ACTION.CASTLINGWHITE) {
+        data.castlingWhiteLeft = false;
+        data.castlingWhiteRight = false;
+    }
+
+    else if(type === ACTION.CASTLINGBLACK) {
+        data.castlingBlackLeft = false;
+        data.castlingBlackRight = false;
     }
      
     try{
@@ -75,6 +106,30 @@ const ACTION = {
  export const arrayDecrementActionCreator = () => {
     return actionCreator(ACTION.DECREMENTARRAYID)
  }
+
+ export const castlingBlackLeftActionCreator = () => {
+    return actionCreator(ACTION.CASTLINGBLACKLEFT);
+ }
+
+ export const castlingBlackRightActionCreator = () => {
+    return actionCreator(ACTION.CASTLINGBLACKRIGHT);
+ }
+
+ export const castlingWhiteLeftActionCreator = () => {
+    return actionCreator(ACTION.CASTLINGWHITELEFT);
+ }
+
+ export const castlingWhiteRightActionCreator = () => {
+    return actionCreator(ACTION.castlingWhiteRight);
+ }
+
+ export const castlingWhiteActionCreator = () => {
+    return actionCreator(ACTION.CASTLINGWHITE);
+ }
+
+ export const castlingBlackActionCreator = () => {
+    return actionCreator(ACTION.CASTLINGBLACK);
+ }
  
  
  export const checkReducer = (state = initialState, action) =>{
@@ -111,9 +166,27 @@ const ACTION = {
         case ACTION.DECREMENTARRAYID:
             state.arrayId = [];
             return {...state}
+        case ACTION.CASTLINGBLACKLEFT:
+            state.castlingBlackLeft = false;
+            return {...state};
+        case ACTION.CASTLINGBLACKRIGHT:
+            state.castlingBlackRight = false;
+            return {...state};
+        case ACTION.CASTLINGWHITELEFT:
+            state.castlingWhiteLeft = false;
+            return {...state};
+        case ACTION.CASTLINGWHITERIGHT:
+            state.castlingWhiteRight = false;
+            return {...state};
 
-
-
+        case ACTION.CASTLINGBLACK:
+            state.castlingBlackLeft = false;
+            state.castlingBlackRight = false;
+            return {...state};
+        case ACTION.CASTLINGWHITE:
+            state.castlingWhiteLeft = false;
+            state.castlingWhiteRight = false;
+            return {...state};
             default: return{...state};
  }}catch(err) {
      console.log(err);
