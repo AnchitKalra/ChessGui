@@ -145,7 +145,7 @@ function ChessGui() {
         }catch(err) {
             console.log(err);
         }
-        if(checkCount > 0 && checkmate === false) {
+        if(checkCount > 0 && checkMate === false) {
             check = true;
         }
         else{
@@ -219,6 +219,18 @@ function ChessGui() {
         
         addPieces();
         detectCheckmate();
+        if(checkFlag === true) {
+            console.log('logging turn of player from else');
+            console.log(turnOfPlayer[x]);
+            if(checkmate(x) === true) {
+                console.log('CHECKMATE');
+                setCheck(false);
+                setCheckmate(true);
+            }
+            console.log('logging turn of player from else');
+            console.log(turnOfPlayer[x]);
+        }
+       
         
     },[chessImages.length, game[0]])
 
@@ -2117,9 +2129,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                 if(checkmate(x) === true) {
                     console.log('CHECKMATE');
                     setCheck(false);
-                    check = false;
                     setCheckmate(true);
-                    checkMate = true;
                 }
                 console.log('logging turn of player from else');
                 console.log(turnOfPlayer[x]);
@@ -8500,7 +8510,7 @@ function pieceBackedUp(id, x, y, color) {
                
                             
                                let xIndex = j;
-                              let  yIndex = k;
+                              
                                 console.log('logging checkCount');
                                 console.log(checkCount);
                                 if(checkCount <= 1) {
@@ -8548,7 +8558,7 @@ function pieceBackedUp(id, x, y, color) {
                                 try{
 
                                let xIndex = j;
-                             let   yIndex = k;
+                            
                              
                                 if(checkCount <= 1) {
                                 let pieceDown = game[oneDown]?.pieceValue;
@@ -8588,7 +8598,7 @@ function pieceBackedUp(id, x, y, color) {
 
                                 try{
 
-                              let  xIndex = j;
+                              
                               let  yIndex = k;
                              
                                 if(checkCount <= 1) {
@@ -8631,7 +8641,7 @@ function pieceBackedUp(id, x, y, color) {
                                
                                 try{
                               
-                                 let   xIndex = j;
+                                 
                                   let  yIndex = k;
                                         if(checkCount <= 1) {
                                         let pieceRight = game[oneRight].pieceValue;
@@ -10024,7 +10034,7 @@ function pieceBackedUp(id, x, y, color) {
 
 <Snackbar open={checkMate}
             autoHideDuration={3000}
-            onClose={()=> setCheckmate(false)}><Alert severity ="success"> CheckMate! Game Over!</Alert></Snackbar>
+            ><Alert severity ="success"> CheckMate! Game Over!</Alert></Snackbar>
 
 
     <div id = 'game'>    <Button id = 'startGame' variant = 'contained' onClick = {handle2PlayerGame}>Play a 2 player game</Button>
