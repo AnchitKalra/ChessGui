@@ -45,3 +45,32 @@
 .colorCheck {
     background-color: royalblue;
 }
+.colorSelect {
+    background-color: yellow;
+}
+@media screen and (max-width :  1000px){
+
+    .container_div{
+    
+        
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    margin-top: 10%;
+    
+
+    }
+    
+.eight_div{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+}
+.buttonStyle{
+    height: 60px;
+    width: 60px;
+    padding: 1px;
+}
+
+}

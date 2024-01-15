@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import './style.css';
 import {useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getStateActionCreator } from '../reducers/stateReducer';
+import { getStateActionCreator, retreiveStateActionCreator } from '../reducers/stateReducer';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { arrayDecrementActionCreator, arrayIdActionCreator, castlingBlackActionCreator, castlingBlackLeftActionCreator, castlingBlackRightActionCreator, castlingWhiteActionCreator, castlingWhiteLeftActionCreator, castlingWhiteRightActionCreator, checkCountDecrementActionCreator, checkCountIncrementActionCreator, checkFalseActionCreator, detectCheckActionCreator } from '../reducers/checkReducer';
+import { decrementActionCreator, inrementActionCreator } from '../reducers/userReducer';
+
+
 
 function ChessGui() {
 
@@ -12,8 +15,18 @@ function ChessGui() {
     let [check, setCheck] = useState(false);
 
 
-    let turnOfPlayer = [true, false];
-    let [x, setX] = useState(0);
+   
+
+
+    let turn = useSelector(user => user.user);
+    console.log('logging turn');
+    console.log(turn)
+    turn = turn.turn;
+
+
+
+
+ 
 
     let i = 0;
 
@@ -39,6 +52,9 @@ function ChessGui() {
  [[56 , 5],[57 , 2],[58 , 3],[59 , 10],[60 , 6],[61 , 3],[62 , 2],[63 , 5]]];
 
     let [checkMate, setCheckmate] = useState(false);
+    var [ws, setWs] = useState(undefined);
+    console.log('logging ws')
+    console.log(ws)
 
     let game = useSelector(chessState => chessState.chessState);
 
@@ -48,6 +64,8 @@ function ChessGui() {
    let  checkCount = checkData?.checkCount;
    let checkFlag = checkData.checkFlag || false;
 
+   
+
      console.log('logging checkData');
     // console.log(checkData);
      console.log(checkFlag);
@@ -56,15 +74,10 @@ function ChessGui() {
 
     console.log('logging game');
     console.log(game);
-   
-    
-
+    addPieces()
    
 
-        addPieces();
-        
-   
-
+  
 
 
     function addPieces() {
@@ -72,54 +85,107 @@ function ChessGui() {
             console.log('inside add pieces');
             console.log('logging game pieces');
             console.log(game);
+             
+    let game1 = [];
+    for(let j = 0; j < 64; j++) {
+        let id = game[j].boardValue;
+        if(id !== j) {
+            game1[id] = game[j];
+        
+
+        }
+        else{
+            game1[j] = game[j];
+    
+        }
+    }
+
+    for(let j = 0; j < 64; j++) {
+        game[j] = game1[j];
+    }
+
+
+
+            
+          
+ 
+           
+
+           
+            if(game[63].player2 === null || game[63].player2 === undefined) {
+                localStorage.setItem('player1', game[63].player1);
+            }
+            else{
+             if(localStorage.getItem('player1') === undefined || localStorage.getItem('player1') === null) {
+                localStorage.setItem('player2', game[63].player2);
+                if(localStorage.getItem('player2') !== null && localStorage.getItem('player2') !== undefined) {
+                    if(localStorage.getItem('player2') !== game[63].player2) {
+                        localStorage.setItem('player2', game[63].player2);
+
+                    }
+            }
+        }
+    }
+   
+      
+    
+           
+
         for(let j = 0; j < 64; j++) {
           // console.log('player 1');
-           let boardId = game[j]?.boardValue;
+
+          let piece;
+        
+           piece = game[j]?.pieceValue;
+        
+
            //onsole.log(game[j])
-                if(game[j]?.pieceValue !== 0) {
+       
+
+                if(piece !== 0) {
                     
-                    let btn = document.getElementById(boardId);
-                    let piece = game[j]?.pieceValue;
+                    let btn = document.getElementById(j);
+                   
                     switch(piece) {
                         case -5:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[10]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[10]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             console.log('logging btn');
                             console.log(btn);
                             break;
 
                         case -2:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[5]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[5]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -3:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[0]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[0]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -10:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[8]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[8]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -6:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[3]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[3]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -1:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[2]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[2]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
 
                         case 5:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[11]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[11]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 2:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[6]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[6]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 3:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[1]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[1]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 10:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[9]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[9]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 1:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[7]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[7]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 6:
-                            btn.innerHTML = `<img id = i:${boardId} src = ${chessImages[4]?.image} alt = "pic of chess pieces" height = ${60} width= ${60} ></img>`
+                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[4]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
 
 
@@ -133,13 +199,16 @@ function ChessGui() {
                     }
                 }
                 else {
-                    let btn = document.getElementById(boardId);
+                    let btn = document.getElementById(j);
                     btn.innerHTML = "";
                 }
               
 
                 
-    }
+    
+
+
+}
   
     
         }catch(err) {
@@ -177,6 +246,7 @@ function ChessGui() {
                 btn.classList.remove('colorRed')
                 btn.classList.remove('colorBlue');
                 btn.classList.remove('colorCheck')
+                btn.classList.remove('colorSelect');
 
 
                 continue;
@@ -201,6 +271,7 @@ function ChessGui() {
             btn.classList.remove('colorRed')
             btn.classList.remove('colorBlue');
             btn.classList.remove('colorCheck');
+            btn.classList.remove('colorSelect');
             
         }
         }catch(err){
@@ -209,45 +280,67 @@ function ChessGui() {
         return;
       
     }
-
+  
   
 
     useEffect(() => {
         if(chessImages?.length > 2) {
        addStyles();
         }
-        
         addPieces();
         detectCheckmate();
         if(checkFlag === true) {
             console.log('logging turn of player from else');
-            console.log(turnOfPlayer[x]);
-            if(checkmate(x) === true) {
+            if(checkmate(turn) === true) {
+                console.log('CHECKMATE');
+                setCheck(false);
+                setCheckmate(true);
+            }
+            else if(checkmate(turn) === true) {
                 console.log('CHECKMATE');
                 setCheck(false);
                 setCheckmate(true);
             }
             console.log('logging turn of player from else');
-            console.log(turnOfPlayer[x]);
+           
         }
+        
        
         
     },[chessImages.length, game[0]])
+  
 
+   
 
 
 
 
    function makeAMove(id) {
-       
-        console.log('turnOfPlayer') 
-        console.log(turnOfPlayer);
+     
         let pieceValue = 0;
         let pieceValue2 = 0;
         let boardValue2 = 0;
+        let game1 = [];
+        for(let j = 0; j < 64; j++) {
+            let id = game[j].boardValue;
+            if(id !== j) {
+                game1[id] = game[j];
+            
+    
+            }
+            else{
+                game1[j] = game[j];
+        
+            }
+        }
+    
+        for(let j = 0; j < 64; j++) {
+            game[j] = game1[j];
+        }
+    
        
 
-        let x = 0;
+        let y = 0;
 
         if(arrayId.length === 3) {
             pieceValue2 = game[arrayId[arrayId.length - 1]].pieceValue;
@@ -257,7 +350,7 @@ function ChessGui() {
         console.log('arrayid')
         console.log(arrayId);
         for(let j = 0; j < 64; j++) {
-
+          
         let boardId = game[j].boardValue;
 
            
@@ -269,9 +362,10 @@ function ChessGui() {
                     game[j].pieceValue = 0;
                 }
                 if(game[j].boardValue === id) {
-                  x = j;
+                  y = j;
                 }
-            }
+          
+        }
             if(pieceValue === 6 && arrayId.length < 3) {
                dispatch(castlingWhiteActionCreator());
             }
@@ -292,42 +386,66 @@ function ChessGui() {
             }
 
 
-       game[x].pieceValue = pieceValue;
+       game[y].pieceValue = pieceValue;
 
        console.log('logging gamex')
-       console.log(game[x].pieceValue);
-       console.log(x);
+       console.log(game[y].pieceValue);
+       console.log(y);
        console.log(pieceValue)
        if(pieceValue2 !== 0) {
-        if(boardValue2 < x) {
-        game[x + 1].pieceValue = pieceValue2;
+        if(boardValue2 < y) {
+        game[y + 1].pieceValue = pieceValue2;
         }
         else{
-            game[x - 1].pieceValue = pieceValue2;
+            game[y - 1].pieceValue = pieceValue2;
         }
        }
 
+       
+
         let payload = [];
        
-            let k = 63;
+            
             for(let j = 0; j < 64; j++) {
-                payload[j] = [game[j].boardValue, game[k--].pieceValue];
+                payload[j] = [game[j].boardValue, game[j].pieceValue];
             }
         let gameId = {};
          gameId = game[0].gameId;
         console.log('logging payload of move');
         console.log(payload);
-        dispatch(getStateActionCreator(payload, gameId));
+
+        dispatch(getStateActionCreator(payload, gameId, false));
         addStyles();
         addPieces(); 
         check = false;
         dispatch(checkCountDecrementActionCreator());
+        let player1 = localStorage.getItem('player1');
+        let player2 = localStorage.getItem('player2')
         
+        if(turn === 1)
+        {
+        dispatch(inrementActionCreator())
+        }
+    else{
+        dispatch(decrementActionCreator())
+       
+    }
+
+        if(player1 !== null && player1 === game[63].player1) {
+            ws.send(2)
+        }
+        else {
+            if(player2 !== null && player2=== game[63].player2)
+            ws.send(1)
+    }
+
+        
+}
           
     
       // dispatch(checkCountDecrementActionCreator());
       // dispatch(checkFalseActionCreator());
-    }
+   
 
 
     function detectCheckmate() {
@@ -355,7 +473,7 @@ function ChessGui() {
             console.log(err);
         }
 
-        if(turnOfPlayer[x] === false) {
+        if(turn === 2) {
             console.log('detecting check for black king')
             try{
                 
@@ -741,6 +859,7 @@ function ChessGui() {
                             console.log(err);
                         }
                         try{
+                            
                         let rightUpDiagIndexX = indexIdX - 1;
                         let rightUpDiagIndexY = indexIdY + 1;
                         let id = board[indexIdX][indexIdY];
@@ -1194,6 +1313,7 @@ function ChessGui() {
         }
 
         else{
+            if(turn === 1) {
             try{
                checkCount = 0;
                 console.log('detecting check for white king')
@@ -2012,10 +2132,10 @@ console.log(checkCount);                                dispatch(detectCheckActi
                 }
                 else{
                     dispatch(checkCountDecrementActionCreator());
-                }
-            }catch(err) {
+                }}
+            catch(err) {
                 console.log(err);
-            }
+            
 
 
                
@@ -2023,11 +2143,11 @@ console.log(checkCount);                                dispatch(detectCheckActi
 
 
                 }
-            }}
+            }}}
         }catch(err) {
             console.log(err);
         }
-    }
+    }}
 
     return;
     }
@@ -2060,17 +2180,17 @@ console.log(checkCount);                                dispatch(detectCheckActi
       
           
            console.log('logging from handleGame');
-           console.log(turnOfPlayer[x]);
+          // console.log(turnOfPlayer[x]);
            
         let imgId = e.target.id;
         let id = (imgId.split(":")[1] === undefined ? imgId : imgId.split(":")[1]);
         id = parseInt(id);
         let btn = document.getElementById(id);
         console.log('logging turn of player from id');
-        console.log(turnOfPlayer[x]);
+       // console.log(turnOfPlayer[x]);
         if(btn.classList.contains('colorBlue')) {
             console.log('logging turn of player from else');
-            console.log(turnOfPlayer[x]);
+           // console.log(turnOfPlayer[x]);
             let piece = game[id - 2].pieceValue
             if(piece === 5) {
                 arrayId.push(id - 2);
@@ -2097,45 +2217,61 @@ console.log(checkCount);                                dispatch(detectCheckActi
                 }
             }
             makeAMove(id);
-            if(x === 0) {
-                setX(1);
-            }
-            else if(x === 1) {
-                setX(0);
-            }
+          
+         
            // detectCheckmate()
            //addPieces()
             return;
         }
         if(btn.classList.contains('colorGreen') || btn.classList.contains('colorRed')) {
             console.log('logging turn of player from else');
-            console.log(turnOfPlayer[x]);
+          //  console.log(turnOfPlayer[x]);
             makeAMove(id);
-            if(x === 0) {
-                setX(1);
-            }
-            else if(x === 1) {
-                setX(0);
-            }
+
+            /*
+              let board = [[0, 1, 2, 3, 4, 5, 6, 7],
+    [8, 9, 10, 11, 12, 13, 14, 15],
+    [16, 17, 18, 19, 20, 21, 22, 23],
+    [24, 25, 26, 27, 28, 29, 30, 31],
+    [32, 33, 34, 35, 36, 37, 38, 39],
+    [40, 41, 42, 43, 44, 45, 46, 47],
+    [48, 49, 50, 51, 52, 53, 54, 55],
+    [56, 57, 58, 59, 60, 61, 62, 63]];
+
+   let initGame =  [[[0 , -5], [1 , -2], [2 , -3], [3 , -10], [4 , -6], [5 , -3], [6 , -2], [7 , -5]],
+ [[8 , -1], [9 , -1], [10 , -1], [11 , -1], [12 , -1], [13 , -1], [14 , -1], [15 , -1]],
+ [[16 , 0], [17 , 0], [18 , 0], [19 , 0], [20 , 0], [21 , 0], [22 , 0], [23 , 0]],
+ [[24 , 0], [25 , 0], [26 , 0], [27 , 0], [28 , 0], [29 , 0], [30 , 0], [31 , 0]],
+ [[32 , 0],[33 , 0],[34 , 0],[35 , 0],[36 , 0],[37 , 0],[38 , 0],[39 , 0]],
+ [[40 , 0],[41 , 0],[42 , 0],[43 , 0],[44 , 0],[45 , 0],[46 , 0],[47 , 0]],
+ [[48 , 1],[49 , 1],[50 , 1],[51 , 1],[52 , 1],[53 , 1],[54 , 1],[55 , 1]],
+ [[56 , 5],[57 , 2],[58 , 3],[59 , 10],[60 , 6],[61 , 3],[62 , 2],[63 , 5]]];
+
+ */
+        
            
            //addPieces()
            dispatch(arrayDecrementActionCreator());
             return;
         }
         else{
+            let player2 = localStorage.getItem('player2')
             if(checkFlag === true) {
                 console.log('logging turn of player from else');
-                console.log(turnOfPlayer[x]);
-                if(checkmate(x) === true) {
+                if(checkmate(turn) === true) {
                     console.log('CHECKMATE');
                     setCheck(false);
                     setCheckmate(true);
                 }
                 console.log('logging turn of player from else');
-                console.log(turnOfPlayer[x]);
+               // console.log(turnOfPlayer[x]);
             }
             console.log('logging turn of player from else');
-            console.log(turnOfPlayer[x]);
+          //  console.log(turnOfPlayer[x]);
+        
+          if(player2 !== null && player2 === game[63].player2) {
+
+          }
             arrayId = [];
             arrayId.push(imgId);
             arrayId.push(id);
@@ -2146,42 +2282,57 @@ console.log(checkCount);                                dispatch(detectCheckActi
             console.log(arrayId);
             addStyles();
            console.log('logging turn of player from else');
-           console.log(turnOfPlayer[x]);
-        }
+           //console.log(turnOfPlayer[x]);
+        
+    }
         
        
-        addStyles();
         detectCheckmate();
         
         let xIndex = -1;
         let yIndex = -1;
-       for(let j = 0; j < 8; j++) {
+        btn.classList.add('colorSelect');
+        
+        let player2 = localStorage.getItem('player2')
+
+        for(let j = 0; j < 8; j++) {
             for(let k = 0; k < 8; k++) {
+
                 if(board[j][k] === id) {
                     let piece = [];
                     console.log('logging turn of player from j k ');
-                    console.log(turnOfPlayer[x]);
+                   // console.log(turnOfPlayer[x]);
+                
                     piece.push(id);
+                    piece.push(game[id].pieceValue);
+       
                     console.log('logging id + game');
                     console.log(game)
                     console.log(id);
-                    piece.push(game[id].pieceValue)
                     console.log('logging piece');
                     console.log(piece);
                     if(piece[1] === 0) {
 
                     }
                     else{
+                        if(turn === 2) {
                         xIndex = j;
                         yIndex = k;
-                        if(turnOfPlayer[x] === false) {
+                        console.log('from line 2353')
+                        console.log(player2)
+                        if(player2!== null && player2 === game[63].player2) {
+                            console.log('player2 from line 2355')
                         switch(piece[1]) {
 
                             case -5:
                                 let oneUp = id - 8;
+                            
                                 let oneDown = id + 8;
+                            
                                 let oneLeft = id - 1;
-                                let oneRight = id + 1;
+                            
+                                let oneRight = id+ 1;
+                                
                                 try{
                                     if(checkFlag === false) {
                                 let pieceUp = game[oneUp]?.pieceValue;
@@ -4052,7 +4203,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     else{
                                         if(piece1 > 0) {
                                             console.log('turn of player');
-                                            console.log(turnOfPlayer[x]);
+                                           // console.log(turnOfPlayer[x]);
                                             if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
@@ -4389,8 +4540,8 @@ console.log(checkCount);                                dispatch(detectCheckActi
                     break;
                         default: break;
                         }}
-                        
-                        else if(turnOfPlayer[x] === true){
+                    }
+                        else if(turn === 1){
                                 switch(piece[1]) {
                                     
                             case 5:
@@ -4400,6 +4551,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                 let oneRight = id + 1;
                                 try{
                                     if(checkFlag === false) {
+                                        console.log('check flag')
                                 let pieceUp = game[oneUp]?.pieceValue;
                                 xIndex--;
                             
@@ -4409,6 +4561,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         break;
                                     }
                                     let btn1 = document.getElementById(oneUp);
+                                    console.log('btn 1')
                                     if(pieceUp === 0) {
                                         btn1.classList.add('colorGreen');
                                     }
@@ -4677,6 +4830,8 @@ console.log(checkCount);                                dispatch(detectCheckActi
                             let twoUpLeft = id - 17;
                             let twoLeftDown = id + 15;
                             let twoRightDown = id + 17;
+                             xIndex = j;
+                             yIndex = k;
                              xIndex -= 2;
                              yIndex += 1;
                              if(xIndex >= 0 && yIndex <= 7) {   
@@ -4983,6 +5138,8 @@ console.log(checkCount);                                dispatch(detectCheckActi
 
                             try{
 
+                                xIndex = j;
+                                yIndex = k;
                             let diagLeftUp = id - 9;
                             
                                 if(checkFlag === false) {
@@ -7365,23 +7522,27 @@ function pieceBackedUp(id, x, y, color) {
 }
 }
 
-    function handle2PlayerGame() {
+    function handle2PlayerGame(networkFlag) {
+        connect();
+      
         for(let j = 0; j < 8; j++) {
             initGame[j] = [...initGame[j]];
         }
 
         let payload = [...initGame];
-        dispatch(getStateActionCreator(payload));
+        dispatch(getStateActionCreator(payload, undefined));
         let btn = document.getElementById('startGame');
         for(let j = 0; j < btn.classList.length; j++) {
             btn.classList.remove(btn.classList[j]);
         }
         btn.classList.add('hide');
         addPieces();
+        
+   
     }
 
     function checkmate(color) {
-        if(color === 0) {
+        if(color === 1) {
         let legalMoves = 0;
         for(let j = 0; j < 8; j++) {
             for(let k = 0; k < 8; k++) {
@@ -8958,6 +9119,7 @@ function pieceBackedUp(id, x, y, color) {
                     }
                 }
                 else {
+                    if(color === 2) {
                     switch(piece) {
                         case -1:
                             if(j === 6) {
@@ -9009,7 +9171,7 @@ function pieceBackedUp(id, x, y, color) {
                                 let oneUp = id - 8;
                                 let pieceOneUp = [];
                                 pieceOneUp.push(oneUp);
-                                pieceOneUp.push(game[oneUp].pieceValue);
+                                pieceOneUp.push(game[oneUp]?.pieceValue);
                                 if(pieceOneUp[1] === 0) {
                                     
                             
@@ -9022,8 +9184,8 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 let diagonalOneLeftUp = id - 9;
                                 let diagonalOneRightUp = id - 7;
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                                let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
+                                let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
                                 if(pieceDiagonalLeft > 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
@@ -10004,6 +10166,7 @@ function pieceBackedUp(id, x, y, color) {
                         default: break;
                     }
                 }
+            }
 
             }
         }
@@ -10017,7 +10180,49 @@ function pieceBackedUp(id, x, y, color) {
     }
 
     }
+
+
+  
+// On pressing Connect this method will be called 
+ function connect() { 
+  
+  setWs(new WebSocket("ws://192.168.1.12:8080/hello"));
+  
+  //This function will called everytime new message arrives 
+  document.getElementById("startGame").disabled = true; 
+  document.getElementById("startGame").value = "Connected"; 
+  
+
+} 
+
+    if(ws !== undefined) {
+    ws.onmessage = function (e) { 
+      console.log(e); 
+      printMessage(e.data);
+    }}
     
+
+
+function printMessage(data) {
+    console.log('logging print message');
+    console.log(data);
+    if(data === '2') {
+    dispatch(inrementActionCreator());
+        setTimeout(() =>{
+       
+        dispatch(retreiveStateActionCreator())
+        }, 1000);
+    }
+    else if(data === '1') {
+    dispatch(decrementActionCreator())
+      setTimeout(() =>{
+    
+    
+        dispatch(retreiveStateActionCreator())
+        }, 1000);
+    }
+}
+  
 
    
    
@@ -10039,6 +10244,12 @@ function pieceBackedUp(id, x, y, color) {
 
     <div id = 'game'>    <Button id = 'startGame' variant = 'contained' onClick = {handle2PlayerGame}>Play a 2 player game</Button>
     </div>
+    <div id = 'flexDiv'>
+            
+        </div>
+        <div>
+            <p id = 'player2'></p>
+        </div>
          <div className="container_div">
         <div className="eight_div">
         <div onClick={event=> handleGame(event)}>
@@ -10248,43 +10459,10 @@ function pieceBackedUp(id, x, y, color) {
         </div>
         </div>
     </div>
+    <div>
+            <p id = 'player1'></p>
+        </div>
   </>)
 }
 
 export default ChessGui;
-
-/*
-<img id = {`i:${i - 1}`}src = {chessImages[10]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[5]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[0]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[8]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[3]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[0]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[5]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[10]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[2]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[7]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[11]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[6]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[1]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[9]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[4]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[1]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[6]} alt = "pic of chess pieces" height = {80} width={80}></img>
-<img id = {`i:${i - 1}`}src = {chessImages[11]} alt = "pic of chess pieces" height = {80} width={80}></img>
-
-*/

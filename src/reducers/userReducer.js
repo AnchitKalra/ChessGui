@@ -1,35 +1,27 @@
 // import {loginWithToken, logoutApi, signupApi} from '../apis/apis';
 // import { loginApi } from '../apis/apis';
 
-import { signupApi } from "../apis/apis";
 
 
 const initialState =  {
-    full_name : "",
-    username: "",
-    password: "",
-    signupFlag : false,
-    loginFlag : false,
-    notLoginFlag : true,
+    turn : 1
 }
 
 const ACTION = {
-    SIGNUP: 'SIGNUP',
-    LOGIN:  'LOGIN',
-    LOGINWITHTOKEN: 'LOGINWITHTOKEN',
-    LOGOUT: 'LOGOUT'
+    INCREMENTTURN :'INCREMENTTURN',
+    DECREMENTTURN : 'DECREMENTTURN'
 }
 
 
- const   actionCreator = (type, fn = () => {}, payload)=> {
+ const   actionCreator = (type)=> {
 
     return async(dispatch) =>{
         try{
 
-        let data = await fn(payload);
+    
 
 
-        dispatch({type, data});
+        dispatch({type});
         }catch(err) {
             console.log(err);
         }
@@ -37,8 +29,14 @@ const ACTION = {
 }
 
 
-export const signupActionCreator = (payload) =>{
-    return actionCreator(ACTION.SIGNUP, signupApi, payload);
+export const inrementActionCreator = () =>{
+    return actionCreator(ACTION.INCREMENTTURN);
+
+}
+
+
+export const decrementActionCreator = () => {
+    return actionCreator(ACTION.DECREMENTTURN)
 }
 // export const loginActionCreator = (payload)=> {
 //     return actionCreator(ACTION.LOGIN , loginApi, payload);
@@ -56,15 +54,16 @@ export const signupActionCreator = (payload) =>{
 
 export const userReducer = (state = initialState, action) =>{
     try{
-    let {type, data} = action;
+    let {type} = action;
    
 switch(type) {
-    case ACTION.SIGNUP: 
-        if(data.status === 200) {
-            state = data.data;      
-        }
+    case ACTION.INCREMENTTURN:
+        state.turn = 2;
    
            return {...state};
+    case ACTION.DECREMENTTURN:
+        state.turn = 1;
+        return {...state};
            default: return{...state};
 }}catch(err) {
     console.log(err);

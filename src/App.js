@@ -7,6 +7,10 @@ import { getChessActionCreator } from './reducers/chessReducer';
 function App() {
   const dispatch = useDispatch();
 
+function clearLocalStorage() {
+  localStorage.clear()
+}
+clearLocalStorage()
   
   function handleGame() {
     dispatch(getChessActionCreator());

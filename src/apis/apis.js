@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-const instance = axios.create({ baseURL: 'http://localhost:8080/'})
+const instance = axios.create({ baseURL: 'http://192.168.1.12:8080/'})
 
 
    
@@ -9,7 +9,7 @@ const ENDPOINT = {
     SIGNUP:'user/signup',
     GETCHESS: 'chess/getChessPieces',
     SAVEANDGETSTATE: "chess/getState",
-    RETREIVESTATE: 'chess/retreiveState'
+    RETREIVESTATE: 'chess/retrieveState',
 }
 
 
@@ -35,8 +35,14 @@ export const getChessPiecesApi = async() => {
 }
 
 
-export const saveAndGetStateApi = async(payload, gameId) => {
+
+
+
+export const saveAndGetStateApi = async(payload, gameId, networkFlag) => {
     try{
+        if(payload === undefined) {
+            payload = "";
+        }
         console.log('logging payload');
         console.log(gameId);
         if(gameId === undefined){
@@ -58,7 +64,11 @@ export const saveAndGetStateApi = async(payload, gameId) => {
 
 export const getChessStateApi = async(payload) => {
     try{
+        console.log('get chess state api')
+        console.log(payload)
         let response = await instance.post(ENDPOINT.RETREIVESTATE, payload);
+        console.log('logging response');
+        console.log(response);
         return response;
     }
     catch(err) {

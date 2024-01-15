@@ -1,11 +1,11 @@
-import { getChessStateApi, getStateApi, saveAndGetStateApi } from "../apis/apis";
+import { getChessStateApi,  saveAndGetStateApi } from "../apis/apis";
 
 const ACTION = {
     SAVEANDGETSTATE : 'SAVEANDGETSTATE',
     RETREIVESTATE: 'RETREIVESTATE'
  }
  
- let initialState = [[]];
+ let initialState = [[{gameId : undefined}]];
  
 const   actionCreator = (type, fn = () => {}, payload, gameId)=> {
 
@@ -26,8 +26,8 @@ const   actionCreator = (type, fn = () => {}, payload, gameId)=> {
 
 
 
-export const getStateActionCreator = (payload, gameId) =>{
-    return actionCreator(ACTION.SAVEANDGETSTATE, saveAndGetStateApi, payload,gameId);
+export const getStateActionCreator = (payload, gameId, networkFlag) =>{
+    return actionCreator(ACTION.SAVEANDGETSTATE, saveAndGetStateApi, payload,gameId, networkFlag);
 }
 
 export const retreiveStateActionCreator = (payload) => {
@@ -49,7 +49,7 @@ switch(type) {
            return[...state];
 
     case ACTION.RETREIVESTATE:
-        if(data?.status === 200) {
+        if(data.status === 200) {
             state = data.data;
         }
         return[...state];
