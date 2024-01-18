@@ -7526,7 +7526,7 @@ function pieceBackedUp(id, x, y, color) {
         addPieces();
         setTimeout(() => {
             connect();
-        },50);
+        },30);
         
    
     }
