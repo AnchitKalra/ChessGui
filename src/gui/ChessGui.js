@@ -7542,7 +7542,7 @@ function pieceBackedUp(id, x, y, color) {
 }
 
     function handle2PlayerGame(networkFlag) {
-        connect();
+    
       
         for(let j = 0; j < 8; j++) {
             initGame[j] = [...initGame[j]];
@@ -7556,6 +7556,9 @@ function pieceBackedUp(id, x, y, color) {
         }
         btn.classList.add('hide');
         addPieces();
+        setTimeout(() => {
+            connect();
+        },50);
         
    
     }
@@ -10205,7 +10208,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.12:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.14:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
