@@ -316,6 +316,7 @@ function ChessGui() {
 
 
    function makeAMove(id) {
+ 
      
         let pieceValue = 0;
         let pieceValue2 = 0;
@@ -414,7 +415,7 @@ function ChessGui() {
         console.log('logging payload of move');
         console.log(payload);
 
-        dispatch(getStateActionCreator(payload, gameId, false));
+        dispatch(getStateActionCreator(payload, gameId));
         addStyles();
         addPieces(); 
         check = false;
@@ -422,22 +423,23 @@ function ChessGui() {
         let player1 = localStorage.getItem('player1');
         let player2 = localStorage.getItem('player2')
         
-        if(turn === 1)
-        {
-        dispatch(inrementActionCreator())
-        }
-    else{
-        dispatch(decrementActionCreator())
-       
-    }
+      
 
-        if(player1 !== null && player1 === game[63].player1) {
-            ws.send(2)
+      if(turn === 1) {
+            dispatch(inrementActionCreator());
+            setTimeout(()=> {
+            ws.send(player2);
+            },100);
+      }
+            
+        else if(turn === 2){
+            dispatch(decrementActionCreator());
+            setTimeout(() => {
+            ws.send(player1)
+            },100);
+           
         }
-        else {
-            if(player2 !== null && player2=== game[63].player2)
-            ws.send(1)
-    }
+        
 
         
 }
@@ -7526,7 +7528,7 @@ function pieceBackedUp(id, x, y, color) {
         addPieces();
         setTimeout(() => {
             connect();
-        },30);
+        },50);
         
    
     }
@@ -10176,7 +10178,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.14:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.17:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -10196,19 +10198,24 @@ function pieceBackedUp(id, x, y, color) {
 function printMessage(data) {
     console.log('logging print message');
     console.log(data);
-    if(data === '2') {
+    let gameId = game[63].gameId;
+    let player1 = localStorage.getItem('player1');
+    let player2 = localStorage.getItem('player2');
+
+    if( turn === 1 || data === player2) {
+
     dispatch(inrementActionCreator());
         setTimeout(() =>{
        
-        dispatch(retreiveStateActionCreator())
+        dispatch(retreiveStateActionCreator(gameId));
         }, 1000);
     }
-    else if(data === '1') {
-    dispatch(decrementActionCreator())
+    else if( turn === 2 || data === player1 ) {
+    dispatch(decrementActionCreator());
       setTimeout(() =>{
     
     
-        dispatch(retreiveStateActionCreator())
+        dispatch(retreiveStateActionCreator(gameId))
         }, 1000);
     }
 }

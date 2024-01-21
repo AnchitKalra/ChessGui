@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-const instance = axios.create({ baseURL: 'http://192.168.1.14:8080/'})
+const instance = axios.create({ baseURL: 'http://192.168.1.17:8080/'})
 
 
    
@@ -38,7 +38,7 @@ export const getChessPiecesApi = async() => {
 
 
 
-export const saveAndGetStateApi = async(payload, gameId, networkFlag) => {
+export const saveAndGetStateApi = async(payload, gameId) => {
     try{
         if(payload === undefined) {
             payload = "";

@@ -11,8 +11,14 @@ const   actionCreator = (type, fn = () => {}, payload, gameId)=> {
 
     return async(dispatch) =>{
         try{
+            let data = "";
+            if(type === ACTION.SAVEANDGETSTATE) {
 
-        let data = await fn(payload, gameId);
+         data = await fn(payload, gameId);
+            }
+            else if(type === ACTION.RETREIVESTATE) {
+                data = await fn(payload);
+            }
 
 
         dispatch({type, data});
@@ -26,8 +32,8 @@ const   actionCreator = (type, fn = () => {}, payload, gameId)=> {
 
 
 
-export const getStateActionCreator = (payload, gameId, networkFlag) =>{
-    return actionCreator(ACTION.SAVEANDGETSTATE, saveAndGetStateApi, payload,gameId, networkFlag);
+export const getStateActionCreator = (payload, gameId) =>{
+    return actionCreator(ACTION.SAVEANDGETSTATE, saveAndGetStateApi, payload,gameId);
 }
 
 export const retreiveStateActionCreator = (payload) => {
