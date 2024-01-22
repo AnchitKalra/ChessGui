@@ -418,24 +418,34 @@ function ChessGui() {
         dispatch(getStateActionCreator(payload, gameId));
         addStyles();
         addPieces(); 
+        let btn1 = document.getElementById(arrayId[1]);
+        let btn2 = document.getElementById(id);
+        btn1.classList.add('colorMove');
+        btn2.classList.add('colorMove');
         check = false;
         dispatch(checkCountDecrementActionCreator());
-        let player1 = localStorage.getItem('player1');
-        let player2 = localStorage.getItem('player2')
+       
+        let message = "";
+        message += arrayId[1] + ',';
+        message +=  id;
         
       
 
       if(turn === 1) {
             dispatch(inrementActionCreator());
             setTimeout(()=> {
-            ws.send(player2);
+            ws.send(message);
+                btn1.classList.remove('colorMove');
+                btn2.classList.remove('colorMove');
             },100);
       }
             
         else if(turn === 2){
             dispatch(decrementActionCreator());
             setTimeout(() => {
-            ws.send(player1)
+            ws.send(message)
+            btn1.classList.remove('colorMove');
+            btn2.classList.remove('colorMove');
             },100);
            
         }
@@ -3362,6 +3372,10 @@ catch(err) {
         
         let xIndex = -1;
         let yIndex = -1;
+        for(let j = 0; j <= 63; j++) {
+            let btn1 = document.getElementById(j);
+            btn1.classList.remove('colorMove');
+        }
         btn.classList.add('colorSelect');
         
 
@@ -7277,8 +7291,7 @@ catch(err) {
                                     id = board[j][k];
                                     if(checkFlag === false) {
                                         yIndex = k;
-                                        console.log('logging checkData castlingwhiteleft');
-                                        console.log(checkData.castlingWhiteLeft);
+                                      
                                     let oneLeft = id - 1;
                                     let twoLeft = id - 2;
                                     let z = yIndex;
@@ -8998,10 +9011,16 @@ function pieceBackedUp(id, x, y, color) {
                                 pieceTwoUp.push(game[twoUp].pieceValue);
                                 if(pieceOneUp[1] === 0) {
                                     let btn1 = document.getElementById(oneUp);
+                                    if(btn1.classList.contains('colorCheck')) {
+                                        legalMoves++;
+                                    }
                                     if(pieceTwoUp[1] === 0) {
     
                                        
                                         let btn2 = document.getElementById(twoUp);
+                                        if(btn2.classList.contains('colorCheck')) {
+                                            legalMoves++;
+                                        }
                                         console.log(btn1);
                                         console.log(btn2);
                                        
@@ -9035,7 +9054,10 @@ function pieceBackedUp(id, x, y, color) {
                                 pieceOneUp.push(oneUp);
                                 pieceOneUp.push(game[oneUp].pieceValue);
                                 if(pieceOneUp[1] === 0) {
-                                   // let btn1 = document.getElementById(oneUp);
+                                    let btn1 = document.getElementById(oneUp);
+                                    if(btn1.classList.contains('colorCheck')) {
+                                        legalMoves++;
+                                    }
                                   
                                 }
                                 let diagonalOneLeftUp = id - 9;
@@ -9274,6 +9296,7 @@ function pieceBackedUp(id, x, y, color) {
                                 let pieceLeftUp = game[diagLeftUp]?.pieceValue
                                 xIndex--;
                                 yIndex--;
+                                if(xIndex >= 0 && yIndex >= 0) {
                                 while(pieceLeftUp === 0 || pieceLeftUp < 0) {
                                         if(xIndex < 0 || yIndex < 0) {
                                             break;
@@ -9298,7 +9321,7 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceLeftUp = game[diagLeftUp].pieceValue
-                                }
+                                }}
 
 
                             }
@@ -9320,6 +9343,7 @@ function pieceBackedUp(id, x, y, color) {
                             let pieceRightUp = game[diagRightUp]?.pieceValue
                             xIndex--;
                             yIndex++;
+                            if(xIndex >= 0 && yIndex <= 7) {
                             while(pieceRightUp === 0 || pieceRightUp < 0) {
                                 
                                     if(xIndex <0 || yIndex > 7) {
@@ -9347,7 +9371,7 @@ function pieceBackedUp(id, x, y, color) {
                                     break;
                                 }
                                 pieceRightUp = game[diagRightUp].pieceValue
-                            }
+                            }}
 
 
                         }
@@ -9356,7 +9380,7 @@ function pieceBackedUp(id, x, y, color) {
                             catch(err) {
                                 console.log('error from RighttUp')
                                 console.log(err);
-                                break;
+                               
                             }
 
 
@@ -9368,6 +9392,7 @@ function pieceBackedUp(id, x, y, color) {
                               let  yIndex = k;
                                 xIndex++;
                                 yIndex++;
+                                if(xIndex <= 7 && yIndex <= 7) {
 
                                 if(xIndex <= 7 && yIndex <= 7) {
                                 let diagRightDown = id + 9;
@@ -9405,12 +9430,12 @@ function pieceBackedUp(id, x, y, color) {
 
 
                             }
-                            }}
+                            }}}
                         }
                             catch(err) {
                                 console.log('error from RightDown')
                                 console.log(err);
-                                break;
+                                
                             }
 
 
@@ -9426,6 +9451,7 @@ function pieceBackedUp(id, x, y, color) {
                                 let pieceLeftDown= game[diagLeftDown]?.pieceValue
                                 xIndex++;
                                 yIndex--;
+                                if(xIndex <= 7 && yIndex >= 0) {
                                 while(pieceLeftDown === 0 || pieceLeftDown < 0) {
                                 
                                         if(xIndex > 7 || yIndex < 0) {
@@ -9456,14 +9482,14 @@ function pieceBackedUp(id, x, y, color) {
     
     
     
-                                }}
+                                }}}
 
                             
                             }
                             catch(err) {
                                 console.log('error from leftDown')
                                 console.log(err);
-                                break;
+                              
                             }
 
                            
@@ -9477,6 +9503,7 @@ function pieceBackedUp(id, x, y, color) {
                              
                                 let pieceUp = game[oneUp]?.pieceValue;
                                 xIndex--;
+                                if(xIndex >= 0) {
                                 while(pieceUp === 0 || pieceUp < 0) {
                                     if(xIndex < 0) {
                                         break;
@@ -9501,13 +9528,13 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceUp = game[oneUp].pieceValue;
-                                }
+                                }}
                             }
 
 
                             }catch(err) {
                                 console.log(err);
-                                break;
+                              
                             }
                            
                             try{
@@ -9520,6 +9547,7 @@ function pieceBackedUp(id, x, y, color) {
                             
                                 let pieceDown = game[oneDown]?.pieceValue;
                                 xIndex++;
+                                if(xIndex <= 7) {
                                 while(pieceDown === 0 || pieceDown < 0) {
                                     if(xIndex > 7) {
                                         break;
@@ -9545,10 +9573,10 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                     pieceDown = game[oneDown].pieceValue;
                                 }
-                            }
+                            }}
                             }catch(err) {
                                 console.log(err);
-                                break;
+                               
                             }
                            
                             try{
@@ -9558,9 +9586,11 @@ function pieceBackedUp(id, x, y, color) {
                                 let   oneLeft = id - 1;
                             
                                 let yIndex = k;
+
                               
                                 let pieceLeft = game[oneLeft]?.pieceValue;
                                 yIndex--;
+                                if(yIndex >= 0) {
                                 while(pieceLeft === 0 || pieceLeft < 0) {
                                     if(yIndex < 0) {
                                         break;
@@ -9584,7 +9614,7 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceLeft = game[oneLeft].pieceValue;
-                                }
+                                }}
                             }
                             }catch(err) {
                                 console.log(err);
@@ -9636,7 +9666,6 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             catch(err) {
                                 console.log(err);
-                                break;
                             }              
 
                             break;
@@ -9654,6 +9683,7 @@ function pieceBackedUp(id, x, y, color) {
                                     let   pieceLeftUp = game[diagLeftUp].pieceValue
                                       xIndex--;
                                       yIndex--;
+                                      if(xIndex >= 0 && yIndex >= 0) {
                                       while(pieceLeftUp === 0 || pieceLeftUp < 0) {
                                               if(xIndex < 0 || yIndex < 0) {
                                                   break;
@@ -9683,12 +9713,12 @@ function pieceBackedUp(id, x, y, color) {
                                           }
                                           pieceLeftUp = game[diagLeftUp].pieceValue
                                         }      
-                                }
+                                }}
                                 }
                                 catch(err) {
                                     console.log('error from leftUp')
                                     console.log(err);
-                                    break;
+                                  
                                 }
     
                                 try{
@@ -9701,6 +9731,7 @@ function pieceBackedUp(id, x, y, color) {
                                let  pieceRightUp = game[diagRightUp].pieceValue
                                 xIndex--;
                                 yIndex++;
+                                if(xIndex >= 0 && yIndex <= 7) {
                                 while(pieceRightUp === 0 || pieceRightUp < 0) {
                                     
                                         if(xIndex <0 || yIndex > 7) {
@@ -9727,7 +9758,7 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceRightUp = game[diagRightUp].pieceValue
-                                }
+                                }}
                             }
                             
                             }
@@ -9735,7 +9766,7 @@ function pieceBackedUp(id, x, y, color) {
                                 catch(err) {
                                     console.log('error from RighttUp')
                                     console.log(err);
-                                    break;
+                                  
                                 }
     
                                 try{
@@ -9750,6 +9781,7 @@ function pieceBackedUp(id, x, y, color) {
                               let   pieceRightDown = game[diagRightDown]?.pieceValue
                                 xIndex++;
                                 yIndex++;
+                                if(xIndex <= 7 && yIndex <= 7) {
                                 while(pieceRightDown === 0 || pieceRightDown < 0) {
                                     
                                         if(xIndex > 7 || yIndex > 7) {
@@ -9778,13 +9810,13 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                     pieceRightDown = game[diagRightDown].pieceValue
                                 }
-    
+                            }
                                 }
                                 }
                                 catch(err) {
                                     console.log('error from RightDown')
                                     console.log(err);
-                                    break;
+                                   
                                 }
     
     
@@ -9801,6 +9833,7 @@ function pieceBackedUp(id, x, y, color) {
                                  let    pieceLeftDown= game[diagLeftDown]?.pieceValue
                                     xIndex++;
                                     yIndex--;
+                                    if(xIndex <= 7 && yIndex >= 0) {
                                     while(pieceLeftDown === 0 || pieceLeftDown < 0) {
                                             if(xIndex > 7 || yIndex < 0) {
                                                 break;
@@ -9830,12 +9863,12 @@ function pieceBackedUp(id, x, y, color) {
         
         
         
-                                    }
+                                    }}
                                 }}
                                 catch(err) {
                                     console.log('error from leftDown')
                                     console.log(err);
-                                    break;
+                                   
                                 }
     
     
@@ -9858,6 +9891,7 @@ function pieceBackedUp(id, x, y, color) {
                                 if(checkCount <= 1) {
                                 let pieceUp = game[oneUp]?.pieceValue;
                                 xIndex--;
+                                if(xIndex >= 0) {
                                 
                                 while(pieceUp === 0 || pieceUp < 0) {
                                     console.log('pieceUp');
@@ -9873,6 +9907,7 @@ function pieceBackedUp(id, x, y, color) {
                                         if(btn1.classList.contains('colorCheck')) {
                                            legalMoves++;
                                         }
+                                        break;
                                     }
                                         else if(pieceUp === 0) {
                                             if(btn1.classList.contains('colorCheck')) {
@@ -9890,11 +9925,11 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                     pieceUp = game[oneUp].pieceValue;
                                 
-                            }}
+                            }}}
                             
                             }catch(err) {
                                     console.log(err);
-                                    break;
+                                  
                                 }
 
                                 try{
@@ -9905,6 +9940,7 @@ function pieceBackedUp(id, x, y, color) {
                                 if(checkCount <= 1) {
                                 let pieceDown = game[oneDown]?.pieceValue;
                                 xIndex++;
+                                if(xIndex <= 7) {
                                 while(pieceDown === 0 || pieceDown < 0) {
                                     if(xIndex > 7) {
                                         break;
@@ -9916,6 +9952,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                        legalMoves++;
                                     }
+                                    break;
                                 }
                                 else if(pieceDown === 0) {
                                     if(btn1.classList.contains('colorCheck')) {
@@ -9930,12 +9967,11 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceDown = game[oneDown].pieceValue;
-                                
+                                }
                             }}
                             
                             }catch(err) {
                                     console.log(err);
-                                    break;
                                 }
 
                                 try{
@@ -9946,6 +9982,7 @@ function pieceBackedUp(id, x, y, color) {
                                 if(checkCount <= 1) {
                                 let pieceLeft = game[oneLeft]?.pieceValue;
                                 yIndex--;
+                                if(yIndex >= 0) {
                                 while(pieceLeft === 0 || pieceLeft < 0) {
                                     if(yIndex < 0) {
                                         break;
@@ -9957,6 +9994,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                        legalMoves++;
                                     }
+                                    break;
                                 }
                                 else if(pieceLeft === 0) {
                                     if(btn1.classList.contains('colorCheck')) {
@@ -9972,12 +10010,12 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                     pieceLeft = game[oneLeft].pieceValue;
                                 }
-                            }
+                            }}
                             
                             
                             }catch(err) {
                                     console.log(err);
-                                    break;
+                                   
                                 }
 
                                
@@ -9988,6 +10026,7 @@ function pieceBackedUp(id, x, y, color) {
                                         if(checkCount <= 1) {
                                         let pieceRight = game[oneRight].pieceValue;
                                         yIndex++;
+                                        if(yIndex <= 7) {
                                         while(pieceRight === 0 || pieceRight < 0) {
                                             if(yIndex > 7) {
                                                 break;
@@ -9999,6 +10038,7 @@ function pieceBackedUp(id, x, y, color) {
                                             if(btn1.classList.contains('colorCheck')) {
                                                legalMoves++;
                                             }
+                                            break;
                                         }
                                         else if(pieceRight === 0) {
                                             if(btn1.classList.contains('colorCheck')) {
@@ -10016,11 +10056,11 @@ function pieceBackedUp(id, x, y, color) {
                                         }
                                     
                                     
-                                    }}
+                                    }}}
                                     
                                 catch(err) {
                                     console.log(err);
-                                    break;
+                                   
                                 }
 
                             break;
@@ -10318,10 +10358,16 @@ function pieceBackedUp(id, x, y, color) {
                                 pieceTwoUp.push(game[twoUp].pieceValue);
                                 if(pieceOneUp[1] === 0) {
                                     let btn1 = document.getElementById(oneUp);
+                                    if(btn1.classList.contains('colorCheck')) {
+                                        legalMoves++;
+                                    }
                                     if(pieceTwoUp[1] === 0) {
     
                                        
                                         let btn2 = document.getElementById(twoUp);
+                                        if(btn2.classList.contains('colorCheck')) {
+                                            legalMoves++;
+                                        }
                                         console.log(btn1);
                                         console.log(btn2);
                                        
@@ -10358,6 +10404,7 @@ function pieceBackedUp(id, x, y, color) {
                                     
                             
                                     let  btn3 = document.getElementById(oneUp);
+                                    
                                     if(btn3.classList.contains('colorCheck')) {
                                         legalMoves++;
                                     }
@@ -10600,6 +10647,7 @@ function pieceBackedUp(id, x, y, color) {
                                 let pieceLeftUp = game[diagLeftUp]?.pieceValue
                                 xIndex--;
                                 yIndex--;
+                                if(xIndex >= 0 && yIndex >= 0) {
                                 while(pieceLeftUp === 0 || pieceLeftUp > 0) {
                                         if(xIndex < 0 || yIndex < 0) {
                                             break;
@@ -10610,6 +10658,7 @@ function pieceBackedUp(id, x, y, color) {
                                         if(btnLeftUp.classList.contains('colorCheck')) {
                                             legalMoves++;
                                         }
+                                        break;
                                        
                                     }
                                     else if(pieceLeftUp === 0) {
@@ -10625,7 +10674,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                     pieceLeftUp = game[diagLeftUp].pieceValue
                                 }
-
+                            }
 
                             }
                             }
@@ -10646,6 +10695,7 @@ function pieceBackedUp(id, x, y, color) {
                             let pieceRightUp = game[diagRightUp]?.pieceValue
                             xIndex--;
                             yIndex++;
+                            if(xIndex >= 0 && yIndex <= 7) {
                             while(pieceRightUp === 0 || pieceRightUp > 0) {
                                 
                                     if(xIndex <0 || yIndex > 7) {
@@ -10675,14 +10725,14 @@ function pieceBackedUp(id, x, y, color) {
                                 pieceRightUp = game[diagRightUp].pieceValue
                             }
 
-
+                        }
                         }
                         }
 
                             catch(err) {
                                 console.log('error from RighttUp')
                                 console.log(err);
-                                break;
+                              
                             }
 
 
@@ -10736,7 +10786,7 @@ function pieceBackedUp(id, x, y, color) {
                             catch(err) {
                                 console.log('error from RightDown')
                                 console.log(err);
-                                break;
+                               
                             }
 
 
@@ -10752,6 +10802,7 @@ function pieceBackedUp(id, x, y, color) {
                                 let pieceLeftDown= game[diagLeftDown]?.pieceValue
                                 xIndex++;
                                 yIndex--;
+                                if(xIndex <= 7 && yIndex >= 0) {
                                 while(pieceLeftDown === 0 || pieceLeftDown > 0) {
                                 
                                         if(xIndex > 7 || yIndex < 0) {
@@ -10782,14 +10833,14 @@ function pieceBackedUp(id, x, y, color) {
     
     
     
-                                }}
+                                }}}
 
                             
                             }
                             catch(err) {
                                 console.log('error from leftDown')
                                 console.log(err);
-                                break;
+                              
                             }
 
                            
@@ -10803,6 +10854,7 @@ function pieceBackedUp(id, x, y, color) {
                              
                                 let pieceUp = game[oneUp]?.pieceValue;
                                 xIndex--;
+                                if(xIndex >= 0) {
                                 while(pieceUp === 0 || pieceUp > 0) {
                                     if(xIndex < 0) {
                                         break;
@@ -10827,13 +10879,13 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceUp = game[oneUp].pieceValue;
-                                }
+                                }}
                             }
 
 
                             }catch(err) {
                                 console.log(err);
-                                break;
+                               
                             }
                            
                             try{
@@ -10846,6 +10898,7 @@ function pieceBackedUp(id, x, y, color) {
                             
                                 let pieceDown = game[oneDown]?.pieceValue;
                                 xIndex++;
+                                if(xIndex <= 7) {
                                 while(pieceDown === 0 || pieceDown > 0) {
                                     if(xIndex > 7) {
                                         break;
@@ -10870,11 +10923,11 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceDown = game[oneDown].pieceValue;
-                                }
+                                }}
                             }
                             }catch(err) {
                                 console.log(err);
-                                break;
+                               
                             }
                            
                             try{
@@ -10887,6 +10940,7 @@ function pieceBackedUp(id, x, y, color) {
                               
                                 let pieceLeft = game[oneLeft]?.pieceValue;
                                 yIndex--;
+                                if(yIndex >= 0) {
                                 while(pieceLeft === 0 || pieceLeft > 0) {
                                     if(yIndex < 0) {
                                         break;
@@ -10910,11 +10964,11 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceLeft = game[oneLeft].pieceValue;
-                                }
+                                }}
                             }
                             }catch(err) {
                                 console.log(err);
-                                break;
+                               
                             }
 
                          
@@ -10962,7 +11016,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             catch(err) {
                                 console.log(err);
-                                break;
+                               
                             }              
 
                             break;
@@ -10980,6 +11034,7 @@ function pieceBackedUp(id, x, y, color) {
                                     let   pieceLeftUp = game[diagLeftUp].pieceValue
                                       xIndex--;
                                       yIndex--;
+                                      if(xIndex >= 0 && yIndex >= 0) {
                                       while(pieceLeftUp === 0 || pieceLeftUp > 0) {
                                               if(xIndex < 0 || yIndex < 0) {
                                                   break;
@@ -11009,12 +11064,12 @@ function pieceBackedUp(id, x, y, color) {
                                           }
                                           pieceLeftUp = game[diagLeftUp].pieceValue
                                         }      
-                                }
+                                }}
                                 }
                                 catch(err) {
                                     console.log('error from leftUp')
                                     console.log(err);
-                                    break;
+                                  
                                 }
     
                                 try{
@@ -11027,6 +11082,7 @@ function pieceBackedUp(id, x, y, color) {
                                let  pieceRightUp = game[diagRightUp].pieceValue
                                 xIndex--;
                                 yIndex++;
+                                if(xIndex >= 0 && yIndex <= 7) {
                                 while(pieceRightUp === 0 || pieceRightUp > 0) {
                                     
                                         if(xIndex <0 || yIndex > 7) {
@@ -11053,7 +11109,7 @@ function pieceBackedUp(id, x, y, color) {
                                         break;
                                     }
                                     pieceRightUp = game[diagRightUp].pieceValue
-                                }
+                                }}
                             }
                             
                             }
@@ -11061,7 +11117,7 @@ function pieceBackedUp(id, x, y, color) {
                                 catch(err) {
                                     console.log('error from RighttUp')
                                     console.log(err);
-                                    break;
+                                   
                                 }
     
                                 try{
@@ -11076,6 +11132,7 @@ function pieceBackedUp(id, x, y, color) {
                               let   pieceRightDown = game[diagRightDown].pieceValue
                                 xIndex++;
                                 yIndex++;
+                                if(xIndex <= 7 && yIndex <= 7) {
                                 while(pieceRightDown === 0 || pieceRightDown > 0) {
                                     
                                         if(xIndex > 7 || yIndex > 7) {
@@ -11104,13 +11161,13 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                     pieceRightDown = game[diagRightDown].pieceValue
                                 }
-    
+                            }
                                 }
                                 }
                                 catch(err) {
                                     console.log('error from RightDown')
                                     console.log(err);
-                                    break;
+                                    
                                 }
     
     
@@ -11127,6 +11184,7 @@ function pieceBackedUp(id, x, y, color) {
                                  let    pieceLeftDown= game[diagLeftDown].pieceValue
                                     xIndex++;
                                     yIndex--;
+                                    if(xIndex <= 7 && yIndex >= 0) {
                                     while(pieceLeftDown === 0 || pieceLeftDown > 0) {
                                             if(xIndex > 7 || yIndex < 0) {
                                                 break;
@@ -11153,7 +11211,7 @@ function pieceBackedUp(id, x, y, color) {
                                         }
                                         pieceLeftDown= game[diagLeftDown].pieceValue
         
-        
+                                    }
         
         
                                     }
@@ -11161,7 +11219,7 @@ function pieceBackedUp(id, x, y, color) {
                                 catch(err) {
                                     console.log('error from leftDown')
                                     console.log(err);
-                                    break;
+                                
                                 }
     
     
@@ -11181,6 +11239,7 @@ function pieceBackedUp(id, x, y, color) {
                             if(checkCount <= 1) {
                             let pieceUp = game[oneUp]?.pieceValue;
                             xIndex--;
+                            if(xIndex >= 0) {
                             
                             while(pieceUp === 0 || pieceUp > 0) {
                                 console.log('pieceUp');
@@ -11209,12 +11268,12 @@ function pieceBackedUp(id, x, y, color) {
                                     break;
                                 }
                                 pieceUp = game[oneUp].pieceValue;
-                            }
+                            }}
                         }
                         
                         }catch(err) {
                                 console.log(err);
-                                break;
+                               
                             }
                         try{
                             let xIndex = j;
@@ -11222,6 +11281,7 @@ function pieceBackedUp(id, x, y, color) {
                             if(checkCount <= 1) {
                             let pieceDown = game[oneDown]?.pieceValue;
                             xIndex++;
+                            if(xIndex <= 7) {
                             while(pieceDown === 0 || pieceDown > 0) {
                                 if(xIndex > 7) {
                                     break;
@@ -11233,13 +11293,14 @@ function pieceBackedUp(id, x, y, color) {
                                 if(btn1.classList.contains('colorCheck')) {
                                    legalMoves++;
                                 }
+                                break;
                             }
                             else if(pieceDown === 0) {
                                 if(btn1.classList.contains('colorCheck')) {
                                   legalMoves++;
                                 }
                             }
-                                    break;
+                                   
                                 }
                                 oneDown += 8;
                                 xIndex++;
@@ -11248,11 +11309,11 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 pieceDown = game[oneDown].pieceValue;
                             }
-                        }
+                        }}
                         
                         }catch(err) {
                                 console.log(err);
-                                break;
+                                
                             }
 
                           
@@ -11263,6 +11324,7 @@ function pieceBackedUp(id, x, y, color) {
                             if(checkCount <= 1) {
                             let pieceLeft = game[oneLeft]?.pieceValue;
                             yIndex--;
+                            if(yIndex >= 0) {
                             while(pieceLeft === 0 || pieceLeft > 0) {
                                 if(yIndex < 0) {
                                     break;
@@ -11274,13 +11336,14 @@ function pieceBackedUp(id, x, y, color) {
                                 if(btn1.classList.contains('colorCheck')) {
                                    legalMoves++;
                                 }
+                                break;
                             }
                             else if(pieceLeft === 0) {
                                 if(btn1.classList.contains('colorCheck')) {
                                   legalMoves++;
                                 } 
                             }
-                                    break;
+                                  
                                 }
                                 oneLeft--;
                                 yIndex--;
@@ -11289,12 +11352,12 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 pieceLeft = game[oneLeft].pieceValue;
                             
-                        }}
+                        }}}
                         
                         
                         }catch(err) {
                                 console.log(err);
-                                break;
+                              
                             }
 
                           
@@ -11305,6 +11368,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(checkCount <= 1) {
                                     let pieceRight = game[oneRight].pieceValue;
                                     yIndex++;
+                                    if(yIndex <= 7) {
                                     while(pieceRight === 0 || pieceRight > 0) {
                                         if(yIndex > 7) {
                                             break;
@@ -11316,13 +11380,14 @@ function pieceBackedUp(id, x, y, color) {
                                         if(btn1.classList.contains('colorCheck')) {
                                            legalMoves++;
                                         }
+                                        break;
                                     }
                                     else if(pieceRight === 0) {
                                         if(btn1.classList.contains('colorCheck')) {
                                            legalMoves++;
                                         }
                                     }
-                                            break;
+                                          
                                         }
                                         oneRight++;
                                         yIndex++;
@@ -11333,11 +11398,11 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 
                                 
-                                }}
+                                }}}
                                 
                             catch(err) {
                                 console.log(err);
-                                break;
+                               
                             }
 
                         break;
@@ -11389,10 +11454,30 @@ function printMessage(data) {
     console.log('logging print message');
     console.log(data);
     let gameId = game[63].gameId;
-    let player1 = localStorage.getItem('player1');
-    let player2 = localStorage.getItem('player2');
+    let message = data.split(",");
+    message[0] = parseInt(message[0]);
+    message[1] = parseInt(message[1]);
+    let x = 0;
+    let flag1 = false;
+    let flag2 = false;
+    for(let j = 63; j >= 0; j--) {
+        if(x === message[0] && flag1 === false) {
+            message[0] = j;
+            flag1 = true;
+        }
+        if(x === message[1] && flag2 === false) {
+            message[1] = j;
+            flag2 = true;
+        }
+        x++;
+    }
+    let btn1 = document.getElementById(message[0]);
+    let btn2 = document.getElementById(message[1]);
+    btn1.classList.add('colorMove');
+    btn2.classList.add('colorMove');
 
-    if( turn === 1 || data === player2) {
+
+    if( turn === 1) {
 
     dispatch(inrementActionCreator());
         setTimeout(() =>{
@@ -11400,7 +11485,7 @@ function printMessage(data) {
         dispatch(retreiveStateActionCreator(gameId));
         }, 1000);
     }
-    else if( turn === 2 || data === player1 ) {
+    else if( turn === 2) {
     dispatch(decrementActionCreator());
       setTimeout(() =>{
     
