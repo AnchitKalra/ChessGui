@@ -7276,6 +7276,9 @@ catch(err) {
                                 try{
                                     id = board[j][k];
                                     if(checkFlag === false) {
+                                        yIndex = k;
+                                        console.log('logging checkData castlingwhiteleft');
+                                        console.log(checkData.castlingWhiteLeft);
                                     let oneLeft = id - 1;
                                     let twoLeft = id - 2;
                                     let z = yIndex;
