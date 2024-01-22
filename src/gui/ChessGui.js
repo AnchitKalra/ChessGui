@@ -3436,6 +3436,7 @@ catch(err) {
                                              btn1.classList.add('colorRed');
                                              btn1.classList.remove('colorCheck')
                                         }
+                                        break;
                                     }
                                         else if(pieceUp === 0) {
                                             if(btn1.classList.contains('colorCheck')) {
@@ -3502,6 +3503,7 @@ catch(err) {
                                         btn1.classList.add('colorRed');
                                         btn1.classList.remove('colorCheck');
                                     }
+                                    break;
                                 }
                                 else if(pieceDown === 0) {
                                     if(btn1.classList.contains('colorCheck')) {
@@ -3567,6 +3569,7 @@ catch(err) {
                                         btn1.classList.add('colorRed');
                                         btn1.classList.remove('colorCheck')
                                     }
+                                    break;
                                 }
                                 else if(pieceLeft === 0) {
                                     if(btn1.classList.contains('colorCheck')) {
@@ -3635,6 +3638,7 @@ catch(err) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
                                             }
+                                            break;
                                         }
                                         else if(pieceRight === 0) {
                                             if(btn1.classList.contains('colorCheck')) {
@@ -4986,6 +4990,7 @@ catch(err) {
 
 
                             try{
+                                id = board[j][k];
                                 let oneLeft = id - 1;
                                 let twoLeft = id - 2;
                                 let z = yIndex;
@@ -5003,10 +5008,13 @@ catch(err) {
                                     if(z === 0) {
                                         let rookpiece = game[idIndex].pieceValue
                                         if(rookpiece === -5) {
+                                            if(detectCheck(id, oneLeft) === false && detectCheck(id, twoLeft) === false) {
                                             let btn1 = document.getElementById(oneLeft);
                                             let btn2 = document.getElementById(twoLeft);
+                                            
                                             btn1.classList.add('colorBlue');
                                             btn2.classList.add('colorBlue');
+                                            }
                                             break;
                                         }
                                         else{
@@ -5025,6 +5033,7 @@ catch(err) {
                             }
 
                             try{
+                                id = board[j][k];
                                 yIndex = k;
                                 let oneRight = id + 1;
                                 let twoRight = id + 2;
@@ -5042,10 +5051,12 @@ catch(err) {
                                     if(z === 7) {
                                         let rookpiece = game[idIndex].pieceValue
                                         if(rookpiece === -5) {
+                                            if(detectCheck(id, oneRight) === false && detectCheck(id, twoRight) === false) {
                                             let btn1 = document.getElementById(oneRight);
                                             let btn2 = document.getElementById(twoRight);
                                             btn1.classList.add('colorBlue');
                                             btn2.classList.add('colorBlue');
+                                            }
                                             break;
                                         }
                                         else{
@@ -5451,6 +5462,7 @@ catch(err) {
                             try{
                                 xIndex = j;
                                 yIndex = k;
+                                id = board[j][k];
                         if(xIndex === 6) {
                             if(checkFlag === false) {
                             console.log('xIndex case pawn white')
@@ -5471,15 +5483,15 @@ catch(err) {
                                     let btn2 = document.getElementById(twoUp);
                                     console.log(btn1);
                                     console.log(btn2);
-                                    if(detectCheck(piece[0], oneUp) === false) {
+                                    if(detectCheck(id, oneUp) === false) {
                                     btn1.classList.add("colorGreen");
                                     }
-                                    if(detectCheck(piece[0], twoUp) === false) {
+                                    if(detectCheck(id, twoUp) === false) {
                                     btn2.classList.add("colorGreen");
                                     }
                                 }
                                 else{
-                                    if(detectCheck(piece[0], oneUp) === false) {
+                                    if(detectCheck(id, oneUp) === false) {
                                     btn1.classList.add("colorGreen");
                                     }
                                 }
@@ -5490,13 +5502,13 @@ catch(err) {
                             let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                             if(pieceDiagonalLeft > 0)  {
                                 let btn2 = document.getElementById(diagonalOneLeftUp);
-                                if(detectCheck(piece[0], diagonalOneLeftUp) === false) {
+                                if(detectCheck(id, diagonalOneLeftUp) === false) {
                                 btn2.classList.add('colorRed')
                                 }
                             }
                             if(pieceDiagonalRight > 0) {
                                 let btn3 = document.getElementById(diagonalOneRightUp);
-                                if(detectCheck(piece[0], diagonalOneRightUp) === false) {
+                                if(detectCheck(id, diagonalOneRightUp) === false) {
                                 btn3.classList.add('colorRed');
                                 }
                             }
@@ -5572,7 +5584,7 @@ catch(err) {
                             pieceOneUp.push(game[oneUp].pieceValue);
                             if(pieceOneUp[1] === 0) {
                                 let btn1 = document.getElementById(oneUp);
-                                if(detectCheck(piece[0], oneUp) === false) {
+                                if(detectCheck(id, oneUp) === false) {
                                 btn1.classList.add("colorGreen");
                                 }
                             }
@@ -5582,14 +5594,14 @@ catch(err) {
                             let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                             if(pieceDiagonalLeft > 0)  {
                                 let btn2 = document.getElementById(diagonalOneLeftUp);
-                                if(detectCheck(piece[0], diagonalOneLeftUp) === false) {
+                                if(detectCheck(id, diagonalOneLeftUp) === false) {
                                 btn2.classList.add('colorRed')
                                 }
                             }
                             if(pieceDiagonalRight > 0) {
 
                                 let btn3 = document.getElementById(diagonalOneRightUp);
-                                if(detectCheck(piece[0], diagonalOneRightUp) === false) {
+                                if(detectCheck(id, diagonalOneRightUp) === false) {
                                 btn3.classList.add('colorRed');
                                 }
                             }
@@ -5636,7 +5648,9 @@ catch(err) {
                         }}
                     }
                         else if(turn === 1){
+                           
                                 switch(piece[1]) {
+                                  
                                     
                             case 5:
                                 let oneUp = id - 8;
@@ -5656,7 +5670,7 @@ catch(err) {
                                     let btn1 = document.getElementById(oneUp);
                                   
                                     if(pieceUp === 0) {
-                                        if(detectCheck(piece[0]. oneUp) === false) {
+                                        if(detectCheck(piece[0], oneUp) === false) {
                                         btn1.classList.add('colorGreen');
                                         }
                                     }
@@ -5899,6 +5913,7 @@ catch(err) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
                                             }
+                                            break;
                                         }
                                         else if(pieceRight === 0) {
                                             if(btn1.classList.contains('colorCheck')) {
@@ -7259,6 +7274,7 @@ catch(err) {
 
                             case 6:
                                 try{
+                                    id = board[j][k];
                                     if(checkFlag === false) {
                                     let oneLeft = id - 1;
                                     let twoLeft = id - 2;
@@ -7276,10 +7292,12 @@ catch(err) {
                                         if(z === 0) {
                                             let rookpiece = game[idIndex].pieceValue
                                             if(rookpiece === 5) {
+                                                if(detectCheck(id, oneLeft) === false && detectCheck(id, twoLeft) === false) {
                                                 let btn1 = document.getElementById(oneLeft);
                                                 let btn2 = document.getElementById(twoLeft);
                                                 btn1.classList.add('colorBlue');
                                                 btn2.classList.add('colorBlue');
+                                                }
                                                 break;
                                             }
                                             else{
@@ -7301,8 +7319,9 @@ catch(err) {
                                 }
 
                                 try{
+                                    id = board[j][k];
                                     if(checkFlag === false) {
-                                    yIndex = k;
+                                   let yIndex = k;
                                     let oneRight = id + 1;
                                     let twoRight = id + 2;
                                     let z = yIndex;
@@ -7319,10 +7338,12 @@ catch(err) {
                                         if(z === 7) {
                                             let rookpiece = game[idIndex].pieceValue
                                             if(rookpiece === 5) {
+                                                if(detectCheck(id, oneRight) === false && detectCheck(id, twoRight) === false) {
                                                 let btn1 = document.getElementById(oneRight);
                                                 let btn2 = document.getElementById(twoRight);
                                                 btn1.classList.add('colorBlue');
                                                 btn2.classList.add('colorBlue');
+                                                }
                                                 break;
                                             }
                                             else{
@@ -7720,6 +7741,7 @@ catch(err) {
                                 try{
                                     xIndex = j;
                                     yIndex = k;
+                                    id = board[j][k];
                             if(xIndex === 6) {
                                 if(checkFlag === false) {
                                 console.log('xIndex case pawn white')
@@ -7727,10 +7749,10 @@ catch(err) {
                                 let twoUp = id - 16;
                                 let pieceOneUp = [];
                                 pieceOneUp.push(oneUp);
-                                pieceOneUp.push(game[oneUp].pieceValue);
+                                pieceOneUp.push(game[oneUp]?.pieceValue);
                                 let pieceTwoUp = [];
                                 pieceTwoUp.push(twoUp);
-                                pieceTwoUp.push(game[twoUp].pieceValue);
+                                pieceTwoUp.push(game[twoUp]?.pieceValue);
                                 if(pieceOneUp[1] === 0) {
                                     let btn1 = document.getElementById(oneUp);
                                     if(pieceTwoUp[1] === 0) {
@@ -7740,33 +7762,33 @@ catch(err) {
                                         let btn2 = document.getElementById(twoUp);
                                         console.log(btn1);
                                         console.log(btn2);
-                                        if(detectCheck(piece[0], oneUp) === false) {
+                                        if(detectCheck(id, oneUp) === false) {
                                         btn1.classList.add("colorGreen");
                                         }
-                                        if(detectCheck(piece[0], twoUp) === false) {
+                                        if(detectCheck(id, twoUp) === false) {
                                         btn2.classList.add("colorGreen");
                                         }
                                     }
                                     else{
-                                        if(detectCheck(piece[0], oneUp) === false) {
+                                        if(detectCheck(id, oneUp) === false) {
                                         btn1.classList.add("colorGreen");
                                         }
                                     }
                                 } 
                                 let diagonalOneLeftUp = id - 9;
                                 let diagonalOneRightUp = id - 7;
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                                let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
+                                let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
-                                    if(detectCheck(piece[0], diagonalOneLeftUp) === false) {
+                                    if(detectCheck(id, diagonalOneLeftUp) === false) {
                                     btn2.classList.add('colorRed')
                                     }
                                 }
                                 if(pieceDiagonalRight < 0) {
 
                                     let btn3 = document.getElementById(diagonalOneRightUp);
-                                    if(detectCheck(piece[0], diagonalOneRightUp) === false) {
+                                    if(detectCheck(id, diagonalOneRightUp) === false) {
                                     btn3.classList.add('colorRed');
                                     }
                                 }
@@ -7829,6 +7851,7 @@ catch(err) {
                         }
 
                             else{
+                                id = board[j][k];
                                 if(checkFlag === false) {
                                 let oneUp = id - 8;
                                 let pieceOneUp = [];
@@ -7836,7 +7859,7 @@ catch(err) {
                                 pieceOneUp.push(game[oneUp].pieceValue);
                                 if(pieceOneUp[1] === 0) {
                                     let btn1 = document.getElementById(oneUp);
-                                    if(detectCheck(piece[0], oneUp) === false) {
+                                    if(detectCheck(id, oneUp) === false) {
                                     btn1.classList.add("colorGreen");
                                     }
                                 }
@@ -7846,13 +7869,13 @@ catch(err) {
                                 let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
-                                    if(detectCheck(piece[0], diagonalOneLeftUp) === false) {
+                                    if(detectCheck(id, diagonalOneLeftUp) === false) {
                                     btn2.classList.add('colorRed')
                                     }
                                 }
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
-                                    if(detectCheck(piece[0], diagonalOneRightUp) === false) {
+                                    if(detectCheck(id, diagonalOneRightUp) === false) {
                                     btn3.classList.add('colorRed');
                                     }
                                 }
@@ -10278,6 +10301,7 @@ function pieceBackedUp(id, x, y, color) {
                     switch(piece) {
                         case -1:
                             if(j === 6) {
+                             
                             if(checkCount <= 1) {
 
                                 console.log('xIndex case pawn white')
