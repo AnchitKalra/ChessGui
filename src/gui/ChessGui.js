@@ -250,11 +250,11 @@ function ChessGui() {
                 if(j !== 0) {
                 let btn2 = document.getElementById(j - 8);
                 let className = btn2.classList[0];
-                if(className === 'colorBlack') {
-                    btn.classList.add('colorWhite');
+                if(className === 'colorWhite') {
+                    btn.classList.add('colorBlack');
                 }
                 else{
-                    btn.classList.add('colorBlack');
+                    btn.classList.add('colorWhite');
                 }
                 btn.classList.add('buttonStyle');
                 btn.classList.remove('colorGreen');
@@ -271,15 +271,15 @@ function ChessGui() {
             if(j - 1 >= 0) {
                 let btn2 = document.getElementById(j - 1);
                 let className = btn2.classList[0];
-                if(className === 'colorBlack') {
-                    btn.classList.add('colorWhite');
+                if(className === 'colorWhite') {
+                    btn.classList.add('colorBlack');
                 }
                 else{
-                    btn.classList.add('colorBlack');
+                    btn.classList.add('colorWhite');
                 }
             }
             else{
-                btn.classList.add('colorBlack');
+                btn.classList.add('colorWhite');
             }
             btn.classList.add('buttonStyle');
             btn.classList.remove('colorGreen');
