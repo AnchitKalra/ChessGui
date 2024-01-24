@@ -5,7 +5,10 @@ import { useDispatch } from 'react-redux';
 import { getStateActionCreator, retreiveStateActionCreator } from '../reducers/stateReducer';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { arrayDecrementActionCreator, arrayIdActionCreator, castlingBlackActionCreator, castlingBlackLeftActionCreator, castlingBlackRightActionCreator, castlingWhiteActionCreator, castlingWhiteLeftActionCreator, castlingWhiteRightActionCreator, checkCountDecrementActionCreator, checkCountIncrementActionCreator, checkFalseActionCreator, detectCheckActionCreator } from '../reducers/checkReducer';
-import { decrementActionCreator, inrementActionCreator } from '../reducers/userReducer';
+import { decrementActionCreator, inrementActionCreator, trueLoadingFlagActionCreator } from '../reducers/userReducer';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 
 
@@ -15,13 +18,17 @@ function ChessGui() {
     let [check, setCheck] = useState(false);
 
 
+
    
 
 
     let turn = useSelector(user => user.user);
     console.log('logging turn');
-    console.log(turn)
+    console.log(turn.turn)
     turn = turn.turn;
+    let loadingFlag = useSelector((user) => user.user);
+    loadingFlag = loadingFlag.loadingFlag;
+    
 
 
 
@@ -63,6 +70,13 @@ function ChessGui() {
    // let checkFlag = checkData?.checkFlag;
    let  checkCount = checkData?.checkCount;
    let checkFlag = checkData.checkFlag || false;
+   const [open, setOpen] = useState(false);
+
+   
+   
+   
+      
+    
 
    
 
@@ -220,6 +234,7 @@ function ChessGui() {
         else{
            check = false;
         }
+     
       
         return;    
 }
@@ -304,13 +319,29 @@ function ChessGui() {
             console.log('logging turn of player from else');
            
         }
+        try{
+            console.log('logging flag');
+            console.log(loadingFlag);
+            if(loadingFlag === false && game[63].player2 !== null) {
+                loadingFunc();
+            }
+            if(game[63].player2 === null) {
+                setOpen(true);
+            }
+           
+        }catch(err) {
+            console.log(err);
+        }
+      
+       
+      
         
        
         
     },[chessImages.length, game[0]])
   
 
-   
+  
 
 
 
@@ -3233,13 +3264,13 @@ catch(err) {
         
 
             
-        
-    
+
 
 
    
     function handleGame(e) {
         try{
+          
 
 
             let game1 = [];
@@ -3377,7 +3408,7 @@ catch(err) {
             btn1.classList.remove('colorMove');
         }
         btn.classList.add('colorSelect');
-        
+       
 
         for(let j = 0; j < 8; j++) {
             for(let k = 0; k < 8; k++) {
@@ -7288,7 +7319,7 @@ catch(err) {
 
                             case 6:
                                 try{
-                                    id = board[j][k];
+                                  id = board[j][k];
                                     if(checkFlag === false) {
                                         yIndex = k;
                                       
@@ -7655,7 +7686,7 @@ catch(err) {
                                         }
                                         else{
                                         
-                                             if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false){
+                                             if(piece1 === 0){
                                                 btn1.classList.add('colorGreen')
                                             }
                                         }
@@ -8730,7 +8761,9 @@ function pieceBackedUp(id, x, y, color) {
         addPieces();
         setTimeout(() => {
             connect();
-        },50);
+        },100);
+       
+       
         
    
     }
@@ -11433,7 +11466,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.17:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.4:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -11441,6 +11474,7 @@ function pieceBackedUp(id, x, y, color) {
   
 
 } 
+
 
     if(ws !== undefined) {
     ws.onmessage = function (e) { 
@@ -11451,8 +11485,14 @@ function pieceBackedUp(id, x, y, color) {
 
 
 function printMessage(data) {
+    try{
     console.log('logging print message');
     console.log(data);
+    if(data === "player2" && open === true) {
+        setOpen(false);
+        dispatch(trueLoadingFlagActionCreator());
+        return;
+    }
     let gameId = game[63].gameId;
     let message = data.split(",");
     message[0] = parseInt(message[0]);
@@ -11473,8 +11513,8 @@ function printMessage(data) {
     }
     let btn1 = document.getElementById(message[0]);
     let btn2 = document.getElementById(message[1]);
-    btn1.classList.add('colorMove');
-    btn2.classList.add('colorMove');
+    btn1?.classList.add('colorMove');
+    btn2?.classList.add('colorMove');
 
 
     if( turn === 1) {
@@ -11492,10 +11532,36 @@ function printMessage(data) {
     
         dispatch(retreiveStateActionCreator(gameId))
         }, 1000);
+    }}catch(err) {
+        console.log(err);
     }
 }
-  
+function loadingFunc() {
+try{
+    if(game[63].player2 !== null && loadingFlag === false) {
+    let message = "player2"
+    setTimeout(() => {
+    if(game[63]?.player2 !== null) {
+      
+        try{
+        dispatch(retreiveStateActionCreator());
+        }catch(err) {
 
+        }
+                if(ws !== undefined) {
+            
+    ws?.send(message);
+    console.log('sent');
+   dispatch(trueLoadingFlagActionCreator());
+    if(open === true) {
+        setOpen(false);
+    }
+        }
+       
+   }}, 2000); }}catch(err) {
+        console.log(err);
+    }
+}
    
    
 
@@ -11520,8 +11586,15 @@ function printMessage(data) {
             
         </div>
         <div>
-            <p id = 'player2'></p>
-        </div>
+     
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </div>
+  );
          <div className="container_div">
         <div className="eight_div">
         <div onClick={event=> handleGame(event)}>
