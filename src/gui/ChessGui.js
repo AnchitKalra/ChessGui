@@ -332,6 +332,7 @@ function ChessGui() {
         }catch(err) {
             console.log(err);
         }
+       
       
        
       
@@ -11562,7 +11563,7 @@ try{
         console.log(err);
     }
 }
-   
+
    
 
 
@@ -11594,8 +11595,7 @@ try{
         <CircularProgress color="inherit" />
       </Backdrop>
     </div>
-  );
-         <div className="container_div">
+          <div className="container_div">
         <div className="eight_div">
         <div onClick={event=> handleGame(event)}>
         <button id = {i++}></button>
@@ -11803,11 +11803,10 @@ try{
         <button id = {i++}></button>
         </div>
         </div>
-    </div>
-    <div>
-            <p id = 'player1'></p>
-        </div>
-  </>)
+    </div> 
+    </>)
+          
+ 
 }
 
 export default ChessGui;

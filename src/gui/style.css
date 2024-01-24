@@ -51,6 +51,25 @@
 .colorMove {
     background-color: yellow;
 }
+.turn1{
+    width:100%;
+    color: blueviolet;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    
+}
+.turn2{
+    width:100%;
+    color: blueviolet;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    
+}
+.hide{
+    display: none;
+}
 @media screen and (max-width :  1000px){
 
     .container_div{
