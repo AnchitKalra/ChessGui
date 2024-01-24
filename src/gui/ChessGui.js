@@ -6307,6 +6307,7 @@ catch(err) {
                             case 2:
 
                             try{
+                                id = board[j][k];
 
                             let twoUpRight = id - 15;
                             let twoUpLeft = id - 17;
@@ -6322,10 +6323,10 @@ catch(err) {
                                     if(xIndex >= 0 && yIndex <= 7) {   
                             let pieceUpRight = game[twoUpRight]?.pieceValue;
                             let btn1 = document.getElementById(twoUpRight);
-                            if(pieceUpRight === 0) {
+                            if(pieceUpRight === 0 && detectCheck(id, twoUpRight) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceUpRight < 0) {
+                            else if(pieceUpRight < 0&& detectCheck(id, twoUpRight) === false)  {
                                 btn1.classList.add('colorRed');
                             }
                         }}
@@ -6362,10 +6363,10 @@ catch(err) {
 
                             let pieceUpLeft = game[twoUpLeft].pieceValue;
                             let btn1 = document.getElementById(twoUpLeft);
-                            if(pieceUpLeft === 0) {
+                            if(pieceUpLeft === 0 && detectCheck(id, twoUpLeft) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceUpLeft < 0) {
+                            else if(pieceUpLeft < 0 && detectCheck(id, twoUpLeft) === false) {
                                 btn1.classList.add('colorRed');
                             }
                         }
@@ -6400,10 +6401,10 @@ catch(err) {
                             if(checkFlag === false) {
                             let pieceDownLeft = game[twoLeftDown]?.pieceValue;
                             let btn1 = document.getElementById(twoLeftDown);
-                            if(pieceDownLeft === 0) {
+                            if(pieceDownLeft === 0 && detectCheck(id, twoLeftDown) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceDownLeft < 0) {
+                            else if(pieceDownLeft < 0 && detectCheck(id, twoLeftDown) === false) {
                                 btn1.classList.add('colorRed');
                             }
                         }
@@ -6439,10 +6440,10 @@ catch(err) {
                             if(checkFlag === false) {
                             let pieceDownRight = game[twoRightDown]?.pieceValue;
                             let btn1 = document.getElementById(twoRightDown);
-                            if(pieceDownRight === 0) {
+                            if(pieceDownRight === 0 && detectCheck(id, twoRightDown) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceDownRight < 0) {
+                            else if(pieceDownRight < 0 && detectCheck(id, twoRightDown) === false) {
                                 btn1.classList.add('colorRed');
                             }
                         }
@@ -6479,10 +6480,10 @@ catch(err) {
                             if(checkFlag === false) {
                             let pieceLeftUp = game[leftUp]?.pieceValue;
                             let btn1 = document.getElementById(leftUp);
-                            if(pieceLeftUp === 0) {
+                            if(pieceLeftUp === 0 && detectCheck(id, leftUp) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceLeftUp < 0) {
+                            else if(pieceLeftUp < 0 && detectCheck(id, leftUp) === false) {
                                 btn1.classList.add('colorRed');
                             }
                         }
@@ -6514,10 +6515,10 @@ catch(err) {
                             if(checkFlag === false) {
                             let pieceRight = game[rightUp]?.pieceValue;
                             let btn1 = document.getElementById(rightUp);
-                            if(pieceRight === 0) {
+                            if(pieceRight === 0 && detectCheck(id, rightUp) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceRight < 0) {
+                            else if(pieceRight < 0 && detectCheck(id, rightUp) === false) {
                                 btn1.classList.add('colorRed');
                             }
                         }else {
@@ -6549,10 +6550,10 @@ catch(err) {
                             if(checkFlag === false) {
                             let pieceLeftTwoDown = game[leftTwoDown]?.pieceValue;
                             let btn1 = document.getElementById(leftTwoDown);
-                            if(pieceLeftTwoDown === 0) {
+                            if(pieceLeftTwoDown === 0 && detectCheck(id, leftTwoDown) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceLeftTwoDown < 0) {
+                            else if(pieceLeftTwoDown < 0 && detectCheck(id, leftTwoDown) === false) {
                                 btn1.classList.add('colorRed');
                             }
                         }
@@ -6586,10 +6587,10 @@ catch(err) {
                             if(checkFlag === false) { 
                             let pieceRightTwoDown = game[rightTwoDown]?.pieceValue;
                             let btn1 = document.getElementById(rightTwoDown);
-                            if(pieceRightTwoDown === 0) {
+                            if(pieceRightTwoDown === 0 && detectCheck(id, rightTwoDown) === false) {
                                 btn1.classList.add('colorGreen');
                             }
-                            else if(pieceRightTwoDown < 0) {
+                            else if(pieceRightTwoDown < 0 && detectCheck(id, rightTwoDown) === false) {
                                 btn1.classList.add('colorRed');
                             }
                         }
@@ -9090,7 +9091,7 @@ function pieceBackedUp(id, x, y, color) {
         addPieces();
         setTimeout(() => {
             connect();
-        },100);
+        },55);
        
        
         
