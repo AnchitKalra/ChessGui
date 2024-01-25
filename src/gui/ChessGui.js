@@ -3,7 +3,7 @@ import './style.css';
 import {useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getStateActionCreator, retreiveStateActionCreator } from '../reducers/stateReducer';
-import { Button, Snackbar, Alert, boxClasses } from '@mui/material';
+import { Button, Snackbar, Alert } from '@mui/material';
 import { arrayDecrementActionCreator, arrayIdActionCreator, castlingBlackActionCreator, castlingBlackLeftActionCreator, castlingBlackRightActionCreator, castlingWhiteActionCreator, castlingWhiteLeftActionCreator, castlingWhiteRightActionCreator, checkCountDecrementActionCreator, checkCountIncrementActionCreator, checkFalseActionCreator, detectCheckActionCreator } from '../reducers/checkReducer';
 import { decrementActionCreator, inrementActionCreator, trueLoadingFlagActionCreator } from '../reducers/userReducer';
 import Backdrop from '@mui/material/Backdrop';
@@ -3520,7 +3520,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                     let leftTwoDown = id + 6;
                     if(xIndex <= 7 && yIndex >= 0) {
                         let pieceLeftTwoDown = game1[leftTwoDown]?.pieceValue;
-                        if(pieceLeftTwoDown === 2) {    
+                        if(pieceLeftTwoDown === -2) {    
                             checkCount++;
                          
                         
@@ -3536,7 +3536,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                     if(xIndex <= 7 && yIndex <= 7) {
                         let pieceRightTwoDown = game1[rightTwoDown]?.pieceValue;
                        
-                         if(pieceRightTwoDown === 2) {
+                         if(pieceRightTwoDown === -2) {
                           
                             checkCount++;
                           
@@ -7962,7 +7962,7 @@ catch(err) {
                                             }
                                             else{
                                             
-                                                 if(piece1 === 0 && detectCheck(id, leftUpIndex, leftUpX, leftUpY, 1) === false){
+                                                 if(piece1 === 0 && detectCheck(id, leftUpIndex) === false){
                                                     btn1.classList.add('colorGreen')
                                                 }
                                             }
@@ -9074,7 +9074,7 @@ function pieceBackedUp(id, x, y, color) {
 }
 }
 
-    function handle2PlayerGame(networkFlag) {
+    function handle2PlayerGame() {
     
       
         for(let j = 0; j < 8; j++) {
@@ -9127,7 +9127,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && pieceBackedUp(leftIndex, leftX, leftY, 1) === false){
+                                    else if(piece1 === 0 && detectCheck(id,leftIndex, leftX, leftY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9153,7 +9153,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
+                                    else if(piece1 === 0  && detectCheck(id,rightIndex, rightX, rightY, 1) === false){
                                         legalMoves++;
                                     }
                                 }
@@ -9184,7 +9184,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && pieceBackedUp(upIndex, upX, upY, 1) === false){
+                                    else if(piece1 === 0 && detectCheck(id,upIndex, upX, upY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9217,7 +9217,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && pieceBackedUp(downIndex, downX, downY, 1) === false){
+                                    else if(piece1 === 0 && detectCheck(id,downIndex, downX, downY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9248,7 +9248,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0 && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false){
+                                     if(piece1 === 0 && detectCheck(id,leftUpIndex, leftUpX, leftUpY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9281,7 +9281,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false){
+                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 1) === false){
                                    legalMoves++;
                                 }
                             }
@@ -9314,7 +9314,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
+                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 1) === false) {
                                        legalMoves++;
                                     }
                                 }
@@ -9345,7 +9345,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1) === false) {
+                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 1) === false) {
                                       legalMoves++;
                                     }
                                 }
@@ -9670,6 +9670,7 @@ function pieceBackedUp(id, x, y, color) {
                                         if(btnLeftUp.classList.contains('colorCheck')) {
                                             legalMoves++;
                                         }
+                                        break;
                                        
                                     }
                                     else if(pieceLeftUp === 0) {
@@ -9715,18 +9716,17 @@ function pieceBackedUp(id, x, y, color) {
                                 let btnRightUp = document.getElementById(diagRightUp);
                                
                                 if(pieceRightUp < 0) {
-                                console.log('from right up color red')
+                                
                                 if(btnRightUp.classList.contains('colorCheck')) {
                                    legalMoves++;
 
-                                }
+                                }break;}
                                 else if(pieceRightUp === 0) {
                                     if(btnRightUp.classList.contains('colorCheck')) {
                                       legalMoves++;
                                     }
                                 }
-                                    break;
-                                }
+                                    
                                 diagRightUp -= 7;
                                 xIndex--;
                                 yIndex++;
@@ -10467,12 +10467,13 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
                                         legalMoves++;
                                     }
+                                
                                 }
                                 else{
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && pieceBackedUp(leftIndex, leftX, leftY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id , leftIndex, leftX, leftY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10498,7 +10499,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
+                                    else if(piece1 === 0  && detectCheck(id, rightIndex, rightX, rightY, 0) === false){
                                         legalMoves++;
                                     }
                                 }
@@ -10529,7 +10530,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && pieceBackedUp(upIndex, upX, upY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id, upIndex, upX, upY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10562,7 +10563,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && pieceBackedUp(downIndex, downX, downY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id, downIndex, downX, downY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10593,7 +10594,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0 && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false){
+                                     if(piece1 === 0 && detectCheck(id, leftUpIndex, leftUpX, leftUpY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10626,7 +10627,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false){
+                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 0) === false){
                                    legalMoves++;
                                 }
                             }
@@ -10659,7 +10660,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
+                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                        legalMoves++;
                                     }
                                 }
@@ -10690,7 +10691,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 0) === false) {
                                       legalMoves++;
                                     }
                                 }
@@ -11071,14 +11072,14 @@ function pieceBackedUp(id, x, y, color) {
                                 if(btnRightUp.classList.contains('colorCheck')) {
                                    legalMoves++;
 
-                                }
+                                }break;}
                                 else if(pieceRightUp === 0) {
                                     if(btnRightUp.classList.contains('colorCheck')) {
                                       legalMoves++;
                                     }
                                 }
-                                    break;
-                                }
+                            
+                                
                                 diagRightUp -= 7;
                                 xIndex--;
                                 yIndex++;
@@ -11616,15 +11617,14 @@ function pieceBackedUp(id, x, y, color) {
                                     if(pieceUp > 0) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         legalMoves++;
-                                    }
+                                    }break;}
                                     else if(pieceUp === 0) {
                                         if(btn1.classList.contains('colorCheck')) {
                                            legalMoves++;
                                         }
                                     }
                                 }
-                                    break;
-                                }
+                                    
                                 oneUp -= 8;
                                 xIndex--;
                                 if(xIndex < 0) {
@@ -11796,7 +11796,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.10:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.11:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -11843,8 +11843,12 @@ function printMessage(data) {
     }
     let btn1 = document.getElementById(message[0]);
     let btn2 = document.getElementById(message[1]);
+    if(!btn1.classList.contains('colorCheck')) {
     btn1?.classList.add('colorMove');
+    }
+    if(!btn2.classList.contains('colorCheck')) {
     btn2?.classList.add('colorMove');
+    }
 
 
     if( turn === 1) {
