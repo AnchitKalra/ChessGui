@@ -3,22 +3,28 @@
 
 
 
+
+
 const initialState =  {
     turn : 1,
-    loadingFlag : false
+    loadingFlag : false,
+ 
 }
 
 const ACTION = {
     INCREMENTTURN :'INCREMENTTURN',
     DECREMENTTURN : 'DECREMENTTURN',
-    LOADINGFLAG : false
+    LOADINGFLAG : false,
+  
 }
 
 
  const   actionCreator = (type)=> {
+   
 
     return async(dispatch) =>{
         try{
+          
 
     
 
@@ -29,6 +35,7 @@ const ACTION = {
         }
     }
 }
+
 
 
 export const inrementActionCreator = () =>{
@@ -72,9 +79,10 @@ switch(type) {
         return {...state};
     case ACTION.LOADINGFLAG:
         state.loadingFlag = true;
-        return{...state}
+        return{...state};
         default: return{...state};
-}}catch(err) {
-    console.log(err);
 }
+    }catch(err) {
+        console.log(err);
     }
+}

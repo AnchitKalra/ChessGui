@@ -5,9 +5,10 @@ import { useDispatch } from 'react-redux';
 import { getStateActionCreator, retreiveStateActionCreator } from '../reducers/stateReducer';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { arrayDecrementActionCreator, arrayIdActionCreator, castlingBlackActionCreator, castlingBlackLeftActionCreator, castlingBlackRightActionCreator, castlingWhiteActionCreator, castlingWhiteLeftActionCreator, castlingWhiteRightActionCreator, checkCountDecrementActionCreator, checkCountIncrementActionCreator, checkFalseActionCreator, detectCheckActionCreator } from '../reducers/checkReducer';
-import { decrementActionCreator, inrementActionCreator, trueLoadingFlagActionCreator } from '../reducers/userReducer';
+import { decrementActionCreator,  inrementActionCreator,  trueLoadingFlagActionCreator } from '../reducers/userReducer';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { forwardActionCreator, previousActionCreator } from '../reducers/previousReducer';
 
 
 
@@ -26,6 +27,7 @@ function ChessGui() {
     console.log('logging turn');
     console.log(turn.turn)
     turn = turn.turn;
+   
     let loadingFlag = useSelector((user) => user.user);
     loadingFlag = loadingFlag.loadingFlag;
     
@@ -64,6 +66,15 @@ function ChessGui() {
     console.log(ws)
 
     let game = useSelector(chessState => chessState.chessState);
+    
+    let prev = useSelector((prev) => prev.prev);
+    if(Array.isArray(prev)) {
+        if(prev.length > 60) {
+        game = prev;
+        }
+    }
+
+
 
    let checkData = useSelector(check => check.check)
    let  arrayId = checkData.arrayId;
@@ -11796,7 +11807,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.11:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.2:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -11893,6 +11904,68 @@ try{
         }
        
    }}, 2000); }}catch(err) {
+        console.log(err);
+    }
+}
+
+function getPrevious() {
+    try{
+    let payload = [];
+    console.log(prev[64]);
+    payload.push(game[63].gameId);
+   
+ if(prev[64] === undefined) {
+   payload.push(-1);
+ }
+ else{
+    payload.push(prev[64]);
+ }
+   
+    let move = localStorage.getItem('player1');
+    if(move === undefined) {
+        move = localStorage.getItem('player2');
+        payload.push(2);
+    }
+    else{
+        payload.push(1);
+    }
+   
+    console.log('logging payload')
+    console.log(payload)
+    dispatch(previousActionCreator(payload));
+
+    }catch(err) {
+        console.log(err);
+    }
+}
+
+function getForward() {
+    try{
+        let payload = [];
+        console.log(prev);
+        payload.push(game[63].gameId);
+      if(prev[64] !== undefined) {
+       
+        payload.push(prev[64]);
+       
+      }
+      else{
+        payload.push(0);
+      }
+        let move = localStorage.getItem('player1');
+        if(move === undefined) {
+            move = localStorage.getItem('player2');
+            payload.push(2);
+        }
+        else{
+            payload.push(1);
+        }
+       
+        console.log('logging payload')
+        console.log(payload)
+        dispatch(forwardActionCreator(payload));
+        
+    }catch(err) {
         console.log(err);
     }
 }
@@ -12137,6 +12210,10 @@ try{
         </div>
         </div>
     </div> 
+    <div className='prevfwd'>
+        <button id = 'back' onClick={getPrevious}>{'<<'}</button>
+        <button id = 'fwd' onClick={getForward}>{'>>'}</button>
+    </div>
     </>)
           
  

@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-const instance = axios.create({ baseURL: 'http://192.168.1.11:8080/'})
+const instance = axios.create({ baseURL: 'http://192.168.1.2:8080/'})
 
 
    
@@ -10,6 +10,18 @@ const ENDPOINT = {
     GETCHESS: 'chess/getChessPieces',
     SAVEANDGETSTATE: "chess/getState",
     RETREIVESTATE: 'chess/retrieveState',
+    GETPREVIOUS: 'chess/previous',
+    GETFORWARD: 'chess/forward'
+}
+
+export const getPreviousApi = async(payload) => {
+    try{
+        let response = await instance.post(ENDPOINT.GETPREVIOUS, payload);
+        return response;
+    }
+    catch(err) {
+        console.log(err);
+    }
 }
 
 

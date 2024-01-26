@@ -70,6 +70,25 @@
 .hide{
     display: none;
 }
+.prevfwd {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+#back {
+    height: 50px;
+    width: 30px;
+    margin-right: 5%;
+    background-color: red;
+}
+#fwd {
+    height: 50px;
+    width: 30px;
+    margin-left: 5%;
+    background-color: green;
+}
 @media screen and (max-width :  1000px){
 
     .container_div{
