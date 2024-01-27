@@ -53,6 +53,9 @@ switch(type) {
 case ACTION.PREVIOUS:
     let previous;
    if(data.status === 200) {
+    if(state[64] >= 0) {
+        state[64] = -1
+    }
     if(state[64] !== undefined) {
         previous = state[64] - 1;
         state = data.data
@@ -72,7 +75,10 @@ case ACTION.FORWARD:
    
         let forward;
         if(data.status === 200) {
-         if(state[64] !== undefined) {
+            if(state[64] > 0) {
+                state[64] = 0;
+            }
+     else    if(state[64] !== undefined) {
              forward = state[64] + 1;
              state = data.data
              state.push(forward);

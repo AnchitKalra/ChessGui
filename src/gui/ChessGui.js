@@ -17,6 +17,7 @@ function ChessGui() {
 
     const dispatch = useDispatch();
     let [check, setCheck] = useState(false);
+    let [prevFlag, setPrevFlag] = useState(false);
 
 
 
@@ -70,14 +71,16 @@ function ChessGui() {
     let prev = useSelector((prev) => prev.prev);
     if(Array.isArray(prev)) {
         if(prev.length > 60) {
+        game = prev;
+        game[63].player2 = 'player2';
+        if(game[64] >= 0) {
             for(let j = 0; j < 64; j++) {
                 game[j] = prev[j];
             }
         }
+        }
     }
-    if(game.length === 65) {
-        game.pop();
-    }
+
 
 
 
@@ -96,14 +99,7 @@ function ChessGui() {
 
    
 
-     console.log('logging checkData');
-    // console.log(checkData);
-     console.log(checkFlag);
-    // console.log(checkCount);
 
-
-    console.log('logging game');
-    console.log(game);
     addPieces()
    
 
@@ -112,9 +108,7 @@ function ChessGui() {
 
     function addPieces() {
         try{
-            console.log('inside add pieces');
-            console.log('logging game pieces');
-            console.log(game);
+            
              
     let game1 = [];
     for(let j = 0; j < 64; j++) {
@@ -133,6 +127,9 @@ function ChessGui() {
     for(let j = 0; j < 64; j++) {
         game[j] = game1[j];
     }
+
+   
+
 
 
 
@@ -155,6 +152,22 @@ function ChessGui() {
                     }
             }
         }
+    }
+    let storage1 = localStorage.getItem('player2');
+    let storage2 = localStorage.getItem('player1');
+    if((storage1 !== undefined && storage2 === undefined)) {
+        
+            game1 = [];
+            for(let j = 0; j < 63; j++) {
+                for(let k = 0; k < 63; k++) {
+                    if(game[k].id < game[k + 1].id) {
+                        game1 = game[k];
+                        game[k] = game[k + 1];
+                        game[k + 1] = game1;
+                }
+            }
+        }
+    
     }
    
       
@@ -179,8 +192,7 @@ function ChessGui() {
                     switch(piece) {
                         case -5:
                             btn.innerHTML = `<img id = i:${j} src = ${chessImages[10]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
-                            console.log('logging btn');
-                            console.log(btn);
+                            
                             break;
 
                         case -2:
@@ -321,23 +333,13 @@ function ChessGui() {
         addPieces();
         detectCheckmate();
         if(checkFlag === true) {
-            console.log('logging turn of player from else');
             if(checkmate(turn) === true) {
                 console.log('CHECKMATE');
                 setCheck(false);
                 setCheckmate(true);
-            }
-            else if(checkmate(turn) === true) {
-                console.log('CHECKMATE');
-                setCheck(false);
-                setCheckmate(true);
-            }
-            console.log('logging turn of player from else');
-           
+            }         
         }
         try{
-            console.log('logging flag');
-            console.log(loadingFlag);
             if(loadingFlag === false && game[63].player2 !== null) {
                 loadingFunc();
             }
@@ -396,8 +398,7 @@ function ChessGui() {
             game[arrayId[arrayId.length - 1]].pieceValue = 0;
             boardValue2 = game[arrayId[arrayId.length - 1]].boardValue;
         }
-        console.log('arrayid')
-        console.log(arrayId);
+        
         for(let j = 0; j < 64; j++) {
           
         let boardId = game[j].boardValue;
@@ -405,8 +406,7 @@ function ChessGui() {
            
                 if(boardId === arrayId[1]) {
                     pieceValue = game[j].pieceValue;
-                    console.log('logging boardId');
-                    console.log(boardId);
+                
 
                     game[j].pieceValue = 0;
                 }
@@ -3651,7 +3651,20 @@ catch(err) {
    
     function handleGame(e) {
         try{
+           
+          if(game.length === 65) {
+            console.log(game[64])
+            if(game[64] >= 0){
+                game.splice(64, 1);
+            }
+            console.log('logging game.length');
+            console.log(game.length);
+            
           
+            if(game.length === 65) {
+                  return;
+            }
+          }
 
 
             let game1 = [];
@@ -3659,13 +3672,11 @@ catch(err) {
                 let id = game[j].boardValue;
                 if(id !== j) {
                     game1[id] = game[j];
-                    console.log('id, j');
-                    console.log(game1[id]);
+                
                 }
                 else{
                     game1[j] = game[j];
-                    console.log('j, id from else');
-                    console.log(game1[j])
+                
                 }
             }
 
@@ -3676,7 +3687,7 @@ catch(err) {
 
       
           
-           console.log('logging from handleGame');
+        
           // console.log(turnOfPlayer[x]);
            
         let imgId = e.target.id;
@@ -3793,6 +3804,12 @@ catch(err) {
 
         for(let j = 0; j < 8; j++) {
             for(let k = 0; k < 8; k++) {
+                let player1 = localStorage.getItem('player1');
+                let player2 = localStorage.getItem('player2');
+                console.log('logging player1');
+                console.log(player1);
+                console.log('player2');
+                console.log(player2);
 
                 if(board[j][k] === id) {
                     let piece = [];
@@ -3802,7 +3819,7 @@ catch(err) {
                     console.log('logging piece');
                     console.log(piece);
                  if(piece[1] !== 0) {
-                        if(turn === 2) {
+                        if(turn === 2 && player2 !== null) {
                         xIndex = j;
                         yIndex = k;
                        
@@ -6073,7 +6090,7 @@ catch(err) {
                         default: break;
                         }}
                     }
-                        else if(turn === 1){
+                        else if(turn === 1 && player1 !== null){
                            
                                 switch(piece[1]) {
                                   
@@ -9186,7 +9203,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id,leftIndex, leftX, leftY, 1) === false){
+                                    else if(piece1 === 0 && detectCheck(id,leftIndex, leftX, leftY, 1) === false && pieceBackedUp(leftIndex, leftX, leftY, 1)===false){
                                        legalMoves++;
                                     }
                                 }
@@ -9212,7 +9229,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && detectCheck(id,rightIndex, rightX, rightY, 1) === false){
+                                    else if(piece1 === 0  && detectCheck(id,rightIndex, rightX, rightY, 1) === false && pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
                                         legalMoves++;
                                     }
                                 }
@@ -9243,7 +9260,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id,upIndex, upX, upY, 1) === false){
+                                    else if(piece1 === 0 && detectCheck(id,upIndex, upX, upY, 1) === false && pieceBackedUp(upIndex, upX, upY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9276,7 +9293,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id,downIndex, downX, downY, 1) === false){
+                                    else if(piece1 === 0 && detectCheck(id,downIndex, downX, downY, 1) === false && pieceBackedUp(downIndex, downX, downY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9307,7 +9324,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0 && detectCheck(id,leftUpIndex, leftUpX, leftUpY, 1) === false){
+                                     if(piece1 === 0 && detectCheck(id,leftUpIndex, leftUpX, leftUpY, 1) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9340,7 +9357,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 1) === false){
+                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 1) === false && pieceBackedUp(rightIndex, rightUpX, rightUpY, 1) === false){
                                    legalMoves++;
                                 }
                             }
@@ -9373,7 +9390,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 1) === false) {
+                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 1) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
                                        legalMoves++;
                                     }
                                 }
@@ -9404,7 +9421,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 1) === false) {
+                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 1) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
                                       legalMoves++;
                                     }
                                 }
@@ -10532,7 +10549,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id , leftIndex, leftX, leftY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id , leftIndex, leftX, leftY, 0) === false && pieceBackedUp(leftIndex, leftX, leftY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10558,7 +10575,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && detectCheck(id, rightIndex, rightX, rightY, 0) === false){
+                                    else if(piece1 === 0  && detectCheck(id, rightIndex, rightX, rightY, 0) === false && pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
                                         legalMoves++;
                                     }
                                 }
@@ -10589,7 +10606,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id, upIndex, upX, upY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id, upIndex, upX, upY, 0) === false && pieceBackedUp(upIndex, upX, upY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10622,7 +10639,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id, downIndex, downX, downY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id, downIndex, downX, downY, 0) === false && pieceBackedUp(downIndex, downX, downY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10653,7 +10670,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0 && detectCheck(id, leftUpIndex, leftUpX, leftUpY, 0) === false){
+                                     if(piece1 === 0 && detectCheck(id, leftUpIndex, leftUpX, leftUpY, 0) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10686,7 +10703,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 0) === false){
+                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 0) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false){
                                    legalMoves++;
                                 }
                             }
@@ -10719,7 +10736,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 0) === false) {
+                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 0) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                        legalMoves++;
                                     }
                                 }
@@ -10750,7 +10767,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 0) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
                                       legalMoves++;
                                     }
                                 }
@@ -11981,6 +11998,7 @@ function getPrevious() {
     console.log('logging payload')
     console.log(payload)
     dispatch(previousActionCreator(payload));
+    setPrevFlag(true);
 
     }catch(err) {
         console.log(err);
@@ -11993,8 +12011,14 @@ function getForward() {
         console.log(prev);
         payload.push(game[63].gameId);
       if(prev[64] !== undefined) {
+        if(prevFlag === true) {
+            payload.push(prev[64] + 1);
+        }
+        else{
+            payload.push(prev[64])
+        }
        
-        payload.push(prev[64]);
+        setPrevFlag(false);
        
       }
       else{
