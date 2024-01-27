@@ -90,6 +90,7 @@ function ChessGui() {
    let  checkCount = checkData?.checkCount;
    let checkFlag = checkData.checkFlag || false;
    const [open, setOpen] = useState(false);
+   let [forwardFlag, setForwardFlag] = useState(false);
 
    
    
@@ -155,7 +156,7 @@ function ChessGui() {
     }
     let storage1 = localStorage.getItem('player2');
     let storage2 = localStorage.getItem('player1');
-    if((storage1 !== undefined && storage2 === undefined)) {
+    if(storage1 !== null && forwardFlag === true) {
         
             game1 = [];
             for(let j = 0; j < 63; j++) {
@@ -167,6 +168,8 @@ function ChessGui() {
                 }
             }
         }
+        forwardFlag = false;
+        
     
     }
    
@@ -12036,6 +12039,9 @@ function getForward() {
         console.log('logging payload')
         console.log(payload)
         dispatch(forwardActionCreator(payload));
+        if(forwardFlag === false) {
+            setForwardFlag(true);
+        }
         
     }catch(err) {
         console.log(err);
