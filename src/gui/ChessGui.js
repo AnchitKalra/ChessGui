@@ -18,12 +18,7 @@ function ChessGui() {
     const dispatch = useDispatch();
     let [check, setCheck] = useState(false);
     let [prevFlag, setPrevFlag] = useState(false);
-
-
-
    
-
-
     let turn = useSelector(user => user.user);
     console.log('logging turn');
     console.log(turn.turn)
@@ -68,6 +63,7 @@ function ChessGui() {
 
     let game = useSelector(chessState => chessState.chessState);
     
+    
     let prev = useSelector((prev) => prev.prev);
     if(Array.isArray(prev)) {
         if(prev.length > 60) {
@@ -78,6 +74,7 @@ function ChessGui() {
                 game[j] = prev[j];
             }
         }
+        sort();
         }
     }
 
@@ -92,100 +89,144 @@ function ChessGui() {
    const [open, setOpen] = useState(false);
    let [forwardFlag, setForwardFlag] = useState(false);
 
+   let storage1 = localStorage.getItem('player2');
+
+   if(storage1 !== null && forwardFlag === true) {
+       
+     let  game1 = [];
+       for(let j = 0; j < 63; j++) {
+           for(let k = 0; k < 63; k++) {
+               if(game[k].id < game[k + 1].id) {
+                   game1 = game[k];
+                   game[k] = game[k + 1];
+                   game[k + 1] = game1;
+           }
+       }
+   }
+
+   forwardFlag = false;
    
-   
-   
-      
+
+}
+
+function addStorage() {
+    let player1 = localStorage.getItem('player1');
+    let player2 = localStorage.getItem('player2');
     
+    try{console.log('logging game');
+    console.log(game[63].player2);
+    
+           
+        if(game[63].player2!== 'player2' && player1 === null && player2 === null) {
+            localStorage.setItem('player1', game[63].player1);
+    
+            console.log('******************PLAYER1*******************************')
+            console.log(game[63].player2)
+        
+        }
+        else{
+            let player1 = localStorage.getItem('player1');
+         if(game[63].player2 === 'player2' && player1 === null) {
+         console.log('*****************PLAYER2*******************');
+           
+            localStorage.setItem('player2', game[63].player2);
+            if(localStorage.getItem('player2') !== null) {
+                if(localStorage.getItem('player2') !== game[63].player2) {
+                    localStorage.setItem('player2', game[63].player2);
+    
+                } }
+        
+    }
+    }}catch(err) {
 
-   
+}}
 
 
-    addPieces()
-   
+
+
 
   
 
 
-    function addPieces() {
-        try{
-            
-             
-    let game1 = [];
-    for(let j = 0; j < 64; j++) {
-        let id = game[j].boardValue;
-        if(id !== j) {
-            game1[id] = game[j];
-        
 
-        }
-        else{
-            game1[j] = game[j];
+   
+   
+   
+      
     
-        }
-    }
-
-    for(let j = 0; j < 64; j++) {
-        game[j] = game1[j];
-    }
 
    
 
 
 
 
-            
-          
- 
-           
-
-           
-            if(game[63].player2 === null || game[63].player2 === undefined) {
-                localStorage.setItem('player1', game[63].player1);
-            }
-            else{
-             if(localStorage.getItem('player1') === undefined || localStorage.getItem('player1') === null) {
-                localStorage.setItem('player2', game[63].player2);
-                if(localStorage.getItem('player2') !== null && localStorage.getItem('player2') !== undefined) {
-                    if(localStorage.getItem('player2') !== game[63].player2) {
-                        localStorage.setItem('player2', game[63].player2);
-
-                    }
-            }
-        }
-    }
-    let storage1 = localStorage.getItem('player2');
-    let storage2 = localStorage.getItem('player1');
-    if(storage1 !== null && forwardFlag === true) {
+    function sort() {
         
-            game1 = [];
-            for(let j = 0; j < 63; j++) {
+        let player1 = localStorage.getItem('player1');
+        let player2 = localStorage.getItem('player2');
+        
+    
+        try{
+
+            if(player1 !== null) {
+                  
+            let game1 = [];
+           
+           for(let j = 0; j < 64; j++) {
                 for(let k = 0; k < 63; k++) {
+                    game1 = [];
+                if(game[k].id > game[k + 1].id) {
+                    game1 = game[k];
+                    game[k] = game[k + 1];
+                    game[k + 1] = game1;
+                }
+                   
+                }
+            }
+            console.log('logging sorted game player1');
+            console.log(game);
+          
+            }}catch(err) {
+                console.log(err);
+            }
+        try{
+        if(player2!==null) {
+           
+            let game1 = [];
+           for(let j = 0; j < 64; j++) {
+                for(let k = 0; k < 63; k++) {
+                    game1 = [];
                     if(game[k].id < game[k + 1].id) {
                         game1 = game[k];
                         game[k] = game[k + 1];
                         game[k + 1] = game1;
+                    }
+                    }
                 }
-            }
+                console.log('logging sorted game player2');
+                console.log(game);
+                
+            
+        }}catch(err) {
+            console.log(err);
         }
-        forwardFlag = false;
-        
-    
+        return true;
     }
-   
-      
+  
+
+    if(sort() === true) {
+        addPieces();
+    }
     
-           
 
-        for(let j = 0; j < 64; j++) {
-          // console.log('player 1');
 
-          let piece;
-        
-           piece = game[j]?.pieceValue;
-        
 
-           //onsole.log(game[j])
+
+ function addPieces() {
+        try{
+if(sort() === true) {
+    for(let j = 0; j < 64; j++) {  
+          let piece = game[j]?.pieceValue;
        
 
                 if(piece !== 0) {
@@ -246,7 +287,7 @@ function ChessGui() {
                 else {
                     let btn = document.getElementById(j);
                     btn.innerHTML = "";
-                }
+                }}
               
 
                 
@@ -330,23 +371,41 @@ function ChessGui() {
   
 
     useEffect(() => {
+        try{
         if(chessImages?.length > 2) {
        addStyles();
+       if(game?.length === 64) {
+        sort();
+       }
         }
-        addPieces();
+        if(sort() === true) {
+            addStorage()
+            addPieces();
+        }
         detectCheckmate();
         if(checkFlag === true) {
             if(checkmate(turn) === true) {
                 console.log('CHECKMATE');
                 setCheck(false);
                 setCheckmate(true);
-            }         
+            }    
+        }}catch(err) {
+            console.log(err)
+        }  
+        if(turn === 1 && checkMate === true) {
+            let checkmate = true;
+            ws.send(checkmate)
         }
+        else if(turn === 2 && checkMate === true) {
+            ws.send(true);
+        }
+        
         try{
             if(loadingFlag === false && game[63].player2 !== null) {
                 loadingFunc();
             }
-            if(game[63].player2 === null) {
+            let player2 = localStorage.getItem('player2');
+            if(game[63].player2 === null && player2 === null) {
                 setOpen(true);
             }
            
@@ -374,25 +433,9 @@ function ChessGui() {
         let pieceValue = 0;
         let pieceValue2 = 0;
         let boardValue2 = 0;
-        let game1 = [];
-        for(let j = 0; j < 64; j++) {
-            let id = game[j].boardValue;
-            if(id !== j) {
-                game1[id] = game[j];
-            
     
-            }
-            else{
-                game1[j] = game[j];
-        
-            }
-        }
     
-        for(let j = 0; j < 64; j++) {
-            game[j] = game1[j];
-        }
-    
-       
+       sort();
 
         let y = 0;
 
@@ -403,17 +446,16 @@ function ChessGui() {
         }
         
         for(let j = 0; j < 64; j++) {
-          
-        let boardId = game[j].boardValue;
+        
 
            
-                if(boardId === arrayId[1]) {
+                if(j === arrayId[1]) {
                     pieceValue = game[j].pieceValue;
                 
 
                     game[j].pieceValue = 0;
                 }
-                if(game[j].boardValue === id) {
+                if(j === id) {
                   y = j;
                 }
           
@@ -456,10 +498,23 @@ function ChessGui() {
        
 
         let payload = [];
+        if(turn === 2) {
+            let game1 = [];
+            for(let j = 0; j < 63; j++) {
+                for(let k = 0; k < 63; k++) {
+                    game1 = [];
+                    if(game[k].id > game[k + 1].id) {
+                        game1 = game[k];
+                        game[k] = game[k + 1];
+                        game[k + 1] = game1;
+                    }
+                }
+            }
+        }
        
             
             for(let j = 0; j < 64; j++) {
-                payload[j] = [game[j].boardValue, game[j].pieceValue];
+                payload[j] = [j, game[j].pieceValue];
             }
         let gameId = {};
          gameId = game[0].gameId;
@@ -513,28 +568,10 @@ function ChessGui() {
 
     function detectCheckmate() {
 
-        try{
+       
         
-        let game1 = [];
-        for(let j = 0; j < 64; j++) {
-            let id = game[j].boardValue;
-            if(id !== j) {
-                game1[id] = game[j];
-                console.log('id, j');
-                console.log(game1[id]);
-            }
-            else{
-                game1[j] = game[j];
-                console.log('j, id from else');
-                console.log(game1[j])
-            }
-        }
-
-        for(let j = 0; j < 64; j++) {
-            game[j] = game1[j];
-        }}catch(err){
-            console.log(err);
-        }
+   
+      
 
         if(turn === 2) {
             console.log('detecting check for black king')
@@ -2142,8 +2179,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                      if(pieceUpLeft === -2) {
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+                    
                         dispatch(detectCheckActionCreator());
                        // setCheck(true);
                                             //   setCheck(true);
@@ -2163,8 +2199,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                    if(pieceDownLeft === -2) {
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+                    
                         dispatch(detectCheckActionCreator());
                       //  setCheck(true);
                                            //   setCheck(true);
@@ -2184,8 +2219,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                      if(pieceDownRight === -2) {
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+                
                         dispatch(detectCheckActionCreator());
                       //  setCheck(true);
                                            //   setCheck(true);
@@ -2207,8 +2241,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                      if(pieceLeftUp === -2) {
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+                    
                         dispatch(detectCheckActionCreator());
                       //  setCheck(true);
                                            //   setCheck(true);
@@ -2226,14 +2259,12 @@ console.log(checkCount);                                dispatch(detectCheckActi
                 let rightUp = id - 6;
                 if(xIndex >= 0 && yIndex <= 7) {
                     let pieceRight = game[rightUp]?.pieceValue;
-                    console.log('logging pieceValue');
-                    console.log(pieceRight);
+                
                     let btn1 = document.getElementById(rightUp);
                     if(pieceRight === -2) {
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+                    
                         dispatch(detectCheckActionCreator());
                       //  setCheck(true);
                                            //   setCheck(true);
@@ -2256,8 +2287,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                     if(pieceLeftTwoDown === -2) {
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+                    
                         dispatch(detectCheckActionCreator());
                      //   setCheck(true);
                     
@@ -2277,8 +2307,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                      if(pieceRightTwoDown === -2) {
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+                
                         dispatch(detectCheckActionCreator());
                       //  setCheck(true);
                      
@@ -3021,9 +3050,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                              }
                              
                          }
-                         if(checkCount >= 1) {
-                            console.log('from left side rook or queen')
-                         }
+                         
                      }catch(err) {
                          console.log(err);
                      }
@@ -3073,9 +3100,6 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                  }
                              }
                              
-                         }
-                         if(checkCount >= 1) {
-                            console.log('from right side rook or queen')
                          }
                         
                      }
@@ -3130,9 +3154,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                              }
                              
                          }
-                         if(checkCount >= 1) {
-                            console.log('from up');
-                         }
+                        
  
                      }
                      catch(err) {
@@ -3186,9 +3208,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                      default:break;
                          }
                      }
-                     if(checkCount >= 1) {
-                        console.log('from down');
-                     }
+                    
                      }}catch(err) {
                          console.log(err);
                      }
@@ -3249,9 +3269,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                      break;
                              }
                          }
-                         if(checkCount >= 1) {
-                            console.log('from left up');
-                         }
+                        
                          
                      }}catch(err) {
                          console.log(err);
@@ -3302,9 +3320,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                              }
                          }
                          
-                         if(checkCount >= 1) {
-                            console.log('from right up');
-                         }
+                        
                      }
                      }catch(err) {
                          console.log(err);
@@ -3357,10 +3373,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                  }
                              }
                          }
-                         if(checkCount >= 1) {
-                            console.log('from left down');
-                         }
-                         
+                        
                      }}catch(err) {
                          console.log(err);
                      }
@@ -3416,9 +3429,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                          }
                    
                      }
-                     if(checkCount >= 1) {
-                        console.log('from right down');
-                     }
+                    
  
  
                      }catch(err) {
@@ -3436,14 +3447,14 @@ console.log(checkCount);                                dispatch(detectCheckActi
                         //for two--up--right
                         try{
 
-                            console.log('two up right');
+                        
                          let xIndex = indexIdX - 2;
                         let  yIndex = indexIdY + 1;
                          if(xIndex >= 0 && yIndex <= 7) {   
                         let pieceUpRight = game1[twoUpRight]?.pieceValue;
                         
                          if(pieceUpRight === -2) {
-                            console.log('????????????')
+                        
                            
                             checkCount++;
                            
@@ -3463,20 +3474,14 @@ console.log(checkCount);                                dispatch(detectCheckActi
                  let   yIndex = indexIdY;
                     xIndex -= 2;
                     yIndex--;
-                    console.log("TWO UP LEFT");
-                    console.log(xIndex);
-                    console.log(yIndex);
+            
 
                     if(xIndex >= 0 && yIndex >= 0) {
                         let pieceUpLeft = game1[twoUpLeft]?.pieceValue;
-                        console.log("TWO UP LEFT")
-                        console.log('logging piece for twoUpLeft KNIGHT');
-                        console.log(pieceUpLeft)
-                        console.log('logging checkcount');
-                        console.log(checkCount);
+                    
                       
                          if(pieceUpLeft === -2) {
-                            console.log('<><><><><><><><>')
+                            
                            
                             checkCount++;
                         
@@ -3506,19 +3511,16 @@ console.log(checkCount);                                dispatch(detectCheckActi
                     }
     //for two---right---down
     try{
-        console.log('logging game1')
-        console.log(game1);
+        
                 let    xIndex = indexIdX;
                 let    yIndex = indexIdY;
                     xIndex += 2;
                     yIndex++;
-                    console.log('logging xIndex');
-                    console.log(xIndex);
-                    console.log(yIndex);
+                    
                     if(xIndex <= 7 && yIndex <= 7) {
                         let pieceDownRight = game1[twoRightDown]?.pieceValue;
                          if(pieceDownRight === -2) {
-                            console.log('??????????????????????????????????????????????????????????????????????')
+                            
                            
                             checkCount++;
                          
@@ -3608,9 +3610,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                     }}catch(err) {
                         console.log(err);
                     }
-                    if(checkCount >= 1) {
-                        console.log('from knight');
-                     }
+                
                   
                 }catch(err) {
                     console.log(err);
@@ -3654,14 +3654,19 @@ catch(err) {
    
     function handleGame(e) {
         try{
+            
+        if(checkMate === true) {
+            return;
+        }
            
           if(game.length === 65) {
-            console.log(game[64])
+            console.log('ogging game');
+            console.log(game.length);
+            
             if(game[64] >= 0){
                 game.splice(64, 1);
             }
-            console.log('logging game.length');
-            console.log(game.length);
+    
             
           
             if(game.length === 65) {
@@ -3670,47 +3675,27 @@ catch(err) {
           }
 
 
-            let game1 = [];
-            for(let j = 0; j < 64; j++) {
-                let id = game[j].boardValue;
-                if(id !== j) {
-                    game1[id] = game[j];
-                
-                }
-                else{
-                    game1[j] = game[j];
-                
-                }
-            }
-
-            for(let j = 0; j < 64; j++) {
-                game[j] = game1[j];
-            }
-            
-
-      
           
         
-          // console.log(turnOfPlayer[x]);
+        
            
         let imgId = e.target.id;
         let id = (imgId.split(":")[1] === undefined ? imgId : imgId.split(":")[1]);
         id = parseInt(id);
         let btn = document.getElementById(id);
-        console.log('logging turn of player from id');
-       // console.log(turnOfPlayer[x]);
+        console.log('logging id');
+        console.log(id);
+        
         if(btn.classList.contains('colorBlue')) {
-            console.log('logging turn of player from else');
-           // console.log(turnOfPlayer[x]);
+            
             let piece = game[id - 2].pieceValue
             if(piece === 5) {
                 arrayId.push(id - 2);
             }
             else{
-                console.log('RIGHT CASTLING');
+                
                 piece = game[id + 1].pieceValue;
-                console.log('logging piece value');
-                console.log(piece);
+            
                 if(piece === 5) {
                     arrayId.push(id + 1);
                 }
@@ -3728,56 +3713,24 @@ catch(err) {
                 }
             }
             makeAMove(id);
-          
-         
-           // detectCheckmate()
-           //addPieces()
             return;
         }
         if(btn.classList.contains('colorGreen') || btn.classList.contains('colorRed')) {
-            console.log('logging turn of player from else');
-          //  console.log(turnOfPlayer[x]);
             makeAMove(id);
 
-            /*
-              let board = [[0, 1, 2, 3, 4, 5, 6, 7],
-    [8, 9, 10, 11, 12, 13, 14, 15],
-    [16, 17, 18, 19, 20, 21, 22, 23],
-    [24, 25, 26, 27, 28, 29, 30, 31],
-    [32, 33, 34, 35, 36, 37, 38, 39],
-    [40, 41, 42, 43, 44, 45, 46, 47],
-    [48, 49, 50, 51, 52, 53, 54, 55],
-    [56, 57, 58, 59, 60, 61, 62, 63]];
-
-   let initGame =  [[[0 , -5], [1 , -2], [2 , -3], [3 , -10], [4 , -6], [5 , -3], [6 , -2], [7 , -5]],
- [[8 , -1], [9 , -1], [10 , -1], [11 , -1], [12 , -1], [13 , -1], [14 , -1], [15 , -1]],
- [[16 , 0], [17 , 0], [18 , 0], [19 , 0], [20 , 0], [21 , 0], [22 , 0], [23 , 0]],
- [[24 , 0], [25 , 0], [26 , 0], [27 , 0], [28 , 0], [29 , 0], [30 , 0], [31 , 0]],
- [[32 , 0],[33 , 0],[34 , 0],[35 , 0],[36 , 0],[37 , 0],[38 , 0],[39 , 0]],
- [[40 , 0],[41 , 0],[42 , 0],[43 , 0],[44 , 0],[45 , 0],[46 , 0],[47 , 0]],
- [[48 , 1],[49 , 1],[50 , 1],[51 , 1],[52 , 1],[53 , 1],[54 , 1],[55 , 1]],
- [[56 , 5],[57 , 2],[58 , 3],[59 , 10],[60 , 6],[61 , 3],[62 , 2],[63 , 5]]];
-
- */
-        
-           
-           //addPieces()
+ 
            dispatch(arrayDecrementActionCreator());
             return;
         }
         else{
             if(checkFlag === true) {
-                console.log('logging turn of player from else');
+            
                 if(checkmate(turn) === true) {
-                    console.log('CHECKMATE');
                     setCheck(false);
                     setCheckmate(true);
                 }
-                console.log('logging turn of player from else');
-               // console.log(turnOfPlayer[x]);
             }
-            console.log('logging turn of player from else');
-          //  console.log(turnOfPlayer[x]);
+        
         
             arrayId = [];
             arrayId.push(imgId);
@@ -3785,11 +3738,8 @@ catch(err) {
              let payload = {};
              payload = {arrayId : arrayId}
             dispatch(arrayIdActionCreator(payload))
-            console.log('logging arrayId:');
-            console.log(arrayId);
             addStyles();
-           console.log('logging turn of player from else');
-           //console.log(turnOfPlayer[x]);
+        
         
     }
         
@@ -3809,10 +3759,6 @@ catch(err) {
             for(let k = 0; k < 8; k++) {
                 let player1 = localStorage.getItem('player1');
                 let player2 = localStorage.getItem('player2');
-                console.log('logging player1');
-                console.log(player1);
-                console.log('player2');
-                console.log(player2);
 
                 if(board[j][k] === id) {
                     let piece = [];
@@ -3821,13 +3767,15 @@ catch(err) {
                     piece.push(game[id]?.pieceValue);
                     console.log('logging piece');
                     console.log(piece);
+                    if(turn === 2 && player2 !== null) {
+                
                  if(piece[1] !== 0) {
-                        if(turn === 2 && player2 !== null) {
+                       
                         xIndex = j;
                         yIndex = k;
                        
-                        if(turn === 2) {
-                            console.log('player2 from line 2355')
+                      
+                            
                         switch(piece[1]) {
 
                             case -5:
@@ -3875,7 +3823,7 @@ catch(err) {
                                     let pieceUp = game[oneUp]?.pieceValue;
                                 
                                 while(pieceUp === 0 || pieceUp > 0) {
-                                    console.log('pieceUp');
+                                    
                                     let btn1 = document.getElementById(oneUp);
                                         if(pieceUp > 0) {
                                         if(btn1.classList.contains('colorCheck')) {
@@ -5803,7 +5751,7 @@ catch(err) {
                                     }
                                     else{
                                     
-                                         if(piece1 === 0 &&detectCheck(id, rightUpIndex) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false){
+                                         if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false){
                                             btn1.classList.add('colorGreen')
                                         }
                                     }
@@ -5943,21 +5891,27 @@ catch(err) {
                                 }
                             } 
                             let diagonalOneLeftUp = id - 9;
+                            let diagOneLeftX = j - 1;
+                            let diagOneLeftY = k - 1;
                             let diagonalOneRightUp = id - 7;
+                            let diagOneRightX = j - 1;
+                            let diagOneRightY = k + 1;
                             let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                             let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                            if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
                             if(pieceDiagonalLeft > 0)  {
                                 let btn2 = document.getElementById(diagonalOneLeftUp);
                                 if(detectCheck(id, diagonalOneLeftUp) === false) {
                                 btn2.classList.add('colorRed')
                                 }
-                            }
+                            }}
+                            if(diagOneRightX >= 0 && diagOneRightY <= 7) {
                             if(pieceDiagonalRight > 0) {
                                 let btn3 = document.getElementById(diagonalOneRightUp);
                                 if(detectCheck(id, diagonalOneRightUp) === false) {
                                 btn3.classList.add('colorRed');
                                 }
-                            }
+                            }}
                         }
                     else{
 
@@ -6035,22 +5989,28 @@ catch(err) {
                                 }
                             }
                             let diagonalOneLeftUp = id - 9;
+                            let diagOneLeftX = j - 1;
+                            let diagOneLeftY = k - 1;
                             let diagonalOneRightUp = id - 7;
+                            let diagOneRightX = j - 1;
+                            let diagOneRightY = k + 1;
                             let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                             let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                            if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
                             if(pieceDiagonalLeft > 0)  {
                                 let btn2 = document.getElementById(diagonalOneLeftUp);
                                 if(detectCheck(id, diagonalOneLeftUp) === false) {
                                 btn2.classList.add('colorRed')
                                 }
-                            }
+                            }}
+                            if(diagOneRightX >= 0 && diagOneRightY <= 7) {
                             if(pieceDiagonalRight > 0) {
 
                                 let btn3 = document.getElementById(diagonalOneRightUp);
                                 if(detectCheck(id, diagonalOneRightUp) === false) {
                                 btn3.classList.add('colorRed');
                                 }
-                            }
+                            }}
                         }
                         else{
                             if(checkCount <= 1) {
@@ -6094,8 +6054,12 @@ catch(err) {
                         }}
                     }
                         else if(turn === 1 && player1 !== null){
+                            console.log('player1')
+                            id = board[j][k];
+                            console.log(piece[1]);
                            
                                 switch(piece[1]) {
+                                   
                                   
                                     
                             case 5:
@@ -8195,6 +8159,7 @@ catch(err) {
 
                             case 1:
                                 try{
+                                    console.log('it is in piece 1');
                                     xIndex = j;
                                     yIndex = k;
                                     id = board[j][k];
@@ -8209,6 +8174,10 @@ catch(err) {
                                 let pieceTwoUp = [];
                                 pieceTwoUp.push(twoUp);
                                 pieceTwoUp.push(game[twoUp]?.pieceValue);
+                                console.log('logging one up');
+                                console.log(pieceOneUp);
+                                console.log('logging piece teo up');
+                                console.log(pieceTwoUp);
                                 if(pieceOneUp[1] === 0) {
                                     let btn1 = document.getElementById(oneUp);
                                     if(pieceTwoUp[1] === 0) {
@@ -8218,6 +8187,8 @@ catch(err) {
                                         let btn2 = document.getElementById(twoUp);
                                         console.log(btn1);
                                         console.log(btn2);
+                                        console.log(detectCheck(id, oneUp));
+                                        console.log(detectCheck(id, twoUp));
                                         if(detectCheck(id, oneUp) === false) {
                                         btn1.classList.add("colorGreen");
                                         }
@@ -8233,20 +8204,27 @@ catch(err) {
                                 } 
                                 let diagonalOneLeftUp = id - 9;
                                 let diagonalOneRightUp = id - 7;
+                                let diagOneLeftX = j - 1;
+                                let diagOneLeftY = k - 1;
+
                                 let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
                                 let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
+                                if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(detectCheck(id, diagonalOneLeftUp) === false) {
                                     btn2.classList.add('colorRed')
                                     }
-                                }
+                                }}
+                                let diagOneRightX = j - 1;
+                                let diagOneRightY = k + 1;
+                                if(diagOneRightX >= 0 && diagOneRightY <= 7) {
                                 if(pieceDiagonalRight < 0) {
 
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(detectCheck(id, diagonalOneRightUp) === false) {
                                     btn3.classList.add('colorRed');
-                                    }
+                                    }}
                                 }
                             }
                         else{
@@ -8319,22 +8297,28 @@ catch(err) {
                                     btn1.classList.add("colorGreen");
                                     }
                                 }
+                                let diagonalLeftUpX = j - 1;
+                                let diagLeftUpY = k - 1;
                                 let diagonalOneLeftUp = id - 9;
                                 let diagonalOneRightUp = id - 7;
+                                let diagRightUpX = j - 1; 
+                                let diagRightUpY = k + 1;
                                 let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                                if(diagonalLeftUpX >= 0 && diagLeftUpY >= 0) {   
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(detectCheck(id, diagonalOneLeftUp) === false) {
                                     btn2.classList.add('colorRed')
-                                    }
+                                    }}
                                 }
+                                if(diagRightUpX >= 0 && diagRightUpY <= 7) {
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(detectCheck(id, diagonalOneRightUp) === false) {
                                     btn3.classList.add('colorRed');
                                     }
-                                }
+                                }}
                             }
                             else{
                                 if(checkCount <= 1) {
@@ -8380,7 +8364,7 @@ catch(err) {
 
                     
        }}}
-    }}}}catch(err) {console.log(err);}
+    }}}catch(err) {console.log(err);}
 }
 
 
@@ -8400,7 +8384,7 @@ function pieceBackedUp(id, x, y, color) {
         j -= 1;
         if(j >= 0) {
             let piece = game[upAxis].pieceValue;
-            if(piece === 5 || piece === 10) {
+            if(piece === 5 || piece === 10 || piece === 6) {
                 return true;
             }
             if(piece === 0 || piece === -6) {
@@ -8425,7 +8409,7 @@ function pieceBackedUp(id, x, y, color) {
             j++;
             if(j <= 7) {
                 let piece = game[downAxis].pieceValue;
-                if(piece === 5 || piece === 10) {
+                if(piece === 5 || piece === 10 || piece === 6) {
                     return true;
                 }
                 if(piece === 0 || piece === -6) {
@@ -8452,7 +8436,7 @@ function pieceBackedUp(id, x, y, color) {
         if(k >= 0) {
         let leftAxis = id - 1;
         let piece = game[leftAxis].pieceValue;
-        if(piece === 5 || piece === 10) {
+        if(piece === 5 || piece === 10 || piece === 6) {
             return true;
         }
         if(piece === 0 || piece === -6) {
@@ -8477,7 +8461,7 @@ function pieceBackedUp(id, x, y, color) {
         if(k <= 7) {
             let rightAxis = id + 1;
             let piece = game[rightAxis].pieceValue;
-            if(piece === 5 || piece === 10) {
+            if(piece === 5 || piece === 10 || piece === 6) {
                 return true;
             }
             if(piece === 0 || piece === -6) {
@@ -8505,7 +8489,7 @@ function pieceBackedUp(id, x, y, color) {
             if(j >= 0 && k >= 0) {
                 let leftUpDiagon = id - 9;
                 let piece = game[leftUpDiagon].pieceValue;
-                if(piece === 1 || piece === 3 || piece === 10) {
+                if(piece === 1 || piece === 3 || piece === 10 || piece === 6) {
                     return true;
                 }
                 if(piece === 0 || piece === -6) {
@@ -8538,7 +8522,7 @@ function pieceBackedUp(id, x, y, color) {
             if(j >= 0 && k <= 7) {
             let rightUpDiag = id - 7;
             let piece = game[rightUpDiag].pieceValue;
-            if(piece === 1 || piece === 3 || piece === 10) {
+            if(piece === 1 || piece === 3 || piece === 10 || piece === 6) {
                 return true;
             }
             if((piece === 0 || piece === -6)) {
@@ -8566,7 +8550,7 @@ function pieceBackedUp(id, x, y, color) {
             if(j <= 7 && k >= 0) {
                 let leftDownDiag = id + 7;
                 let piece = game[leftDownDiag].pieceValue;
-                if(piece === 3 || piece === 10) {
+                if(piece === 3 || piece === 10 || piece === 6) {
                     return true;
                 }
 
@@ -8597,14 +8581,14 @@ function pieceBackedUp(id, x, y, color) {
         if(j <= 7 && k <= 7) {
             let rightDownDiag = id + 9;
             let piece = game[rightDownDiag].pieceValue;
-            if(piece === 3 || piece === 10) {
+            if(piece === 3 || piece === 10 || piece === 6) {
                 return true;
             }
             if(piece === 0 || piece === -6) {
                 while((piece === 0 || piece === -6) && j < 7 && k < 7) {
                     j++;
                     k++;
-                    rightDownDiag += 7;
+                    rightDownDiag += 9;
                     piece = game[rightDownDiag].pieceValue;
                 }
                 if(piece === 3 || piece === 10) {
@@ -8620,8 +8604,9 @@ function pieceBackedUp(id, x, y, color) {
     j = x;
     k = y;
     try{
+        j -= 2;
         k--;
-        if(k >= 0) {
+        if(k >= 0 && j >= 0) {
             let upLeft = id - 17;
             let piece = game[upLeft].pieceValue;
             if(piece === 2) {
@@ -8656,7 +8641,7 @@ function pieceBackedUp(id, x, y, color) {
         j++;
         k -= 2;
         if(j <= 7 && k >= 0) {
-            let leftDown = id + 10;
+            let leftDown = id + 6;
             let piece = game[leftDown].pieceValue;
             if(piece === 2) {
                 return true;
@@ -8773,7 +8758,7 @@ function pieceBackedUp(id, x, y, color) {
         j -= 1;
         if(j >= 0) {
             let piece = game[upAxis].pieceValue;
-            if(piece === -5 || piece === -10) {
+            if(piece === -5 || piece === -10 || piece === -6) {
                 return true;
             }
             if(piece === 0 || piece === 6) {
@@ -8798,7 +8783,7 @@ function pieceBackedUp(id, x, y, color) {
             j++;
             if(j <= 7) {
                 let piece = game[downAxis].pieceValue;
-                if(piece === -5 || piece === -10) {
+                if(piece === -5 || piece === -10 || piece === -6) {
                     return true;
                 }
                 if(piece === 0 || piece === 6) {
@@ -8825,7 +8810,7 @@ function pieceBackedUp(id, x, y, color) {
         if(k >= 0) {
         let leftAxis = id - 1;
         let piece = game[leftAxis].pieceValue;
-        if(piece === -5 || piece === -10) {
+        if(piece === -5 || piece === -10 || piece === -6) {
             return true;
         }
         if(piece === 0 || piece === 6) {
@@ -8858,7 +8843,7 @@ function pieceBackedUp(id, x, y, color) {
         if(k <= 7) {
             let rightAxis = id + 1;
             let piece = game[rightAxis].pieceValue;
-            if(piece === -5 || piece === -10) {
+            if(piece === -5 || piece === -10 || piece === -6) {
                 console.log('logging right side inside while');
                 console.log(piece);
                 console.log(rightAxis);
@@ -8898,7 +8883,7 @@ function pieceBackedUp(id, x, y, color) {
             if(j >= 0 && k >= 0) {
                 let leftUpDiagon = id - 9;
                 let piece = game[leftUpDiagon].pieceValue;
-                if(piece === -1 || piece === -3 || piece === -10) {
+                if(piece === -1 || piece === -3 || piece === -10 || piece === -6) {
                     return true;
                 }
                 if(piece === 0 || piece === 6) {
@@ -8931,7 +8916,7 @@ function pieceBackedUp(id, x, y, color) {
             if(j >= 0 && k <= 7) {
             let rightUpDiag = id - 7;
             let piece = game[rightUpDiag].pieceValue;
-            if(piece === -1 || piece === -3 || piece === -10) {
+            if(piece === -1 || piece === -3 || piece === -10 || piece === -6) {
                 return true;
             }
             if((piece === 0 || piece === 6)) {
@@ -8959,7 +8944,7 @@ function pieceBackedUp(id, x, y, color) {
             if(j <= 7 && k >= 0) {
                 let leftDownDiag = id + 7;
                 let piece = game[leftDownDiag].pieceValue;
-                if(piece === -3 || piece === -10) {
+                if(piece === -3 || piece === -10 || piece === -6) {
                     return true;
                 }
 
@@ -8990,14 +8975,14 @@ function pieceBackedUp(id, x, y, color) {
         if(j <= 7 && k <= 7) {
             let rightDownDiag = id + 9;
             let piece = game[rightDownDiag].pieceValue;
-            if(piece === -3 || piece === -10) {
+            if(piece === -3 || piece === -10 || piece === -6) {
                 return true;
             }
             if(piece === 0 || piece === 6) {
                 while((piece === 0 || piece === 6) && j < 7 && k < 7) {
                     j++;
                     k++;
-                    rightDownDiag += 7;
+                    rightDownDiag += 9;
                     piece = game[rightDownDiag].pieceValue;
                 }
                 if(piece === -3 || piece === -10) {
@@ -9014,7 +8999,8 @@ function pieceBackedUp(id, x, y, color) {
     k = y;
     try{
         k--;
-        if(k >= 0) {
+        j -= 2;
+        if(k >= 0 && j >= 0) {
             let upLeft = id - 17;
             let piece = game[upLeft].pieceValue;
             if(piece === -2) {
@@ -9360,7 +9346,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 1) === false && pieceBackedUp(rightIndex, rightUpX, rightUpY, 1) === false){
+                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 1) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false){
                                    legalMoves++;
                                 }
                             }
@@ -9472,20 +9458,26 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 } 
                                 let diagonalOneLeftUp = id - 9;
+                                let diagOneLeftX = j - 1;
+                                let diagOneLeftY = k - 1;
                                 let diagonalOneRightUp = id - 7;
+                                let diagOneRightX = j - 1;
+                                let diagOneRightY = k + 1;
                                 let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                                if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
                                         legalMoves++;
                                     }
-                                }
+                                }}
+                                if(diagOneRightX >= 0 && diagOneRightY <= 7) {
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
                                         legalMoves++;
-                                    }
+                                    }}
                                 }
     
                             }}
@@ -9503,20 +9495,26 @@ function pieceBackedUp(id, x, y, color) {
                                   
                                 }
                                 let diagonalOneLeftUp = id - 9;
+                                let diagOneLeftX = j - 1;
+                                let diagOneLeftY = k - 1;
                                 let diagonalOneRightUp = id - 7;
+                                let diagOneRightX = j - 1;
+                                let diagOneRightY = k + 1;
                                 let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                                if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
                                         legalMoves++;
-                                    }
+                                    }}
                                 }
+                                if(diagOneRightX >= 0 && diagOneRightY <= 7) {
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
                                    legalMoves++;
-                                    }
+                                    }}
                                 }
                             }
                         }
@@ -10820,20 +10818,26 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 } 
                                 let diagonalOneLeftUp = id - 9;
+                                let diagOneLeftX = j - 1;
+                                let diagOneLeftY = k - 1;
                                 let diagonalOneRightUp = id - 7;
+                                let diagOneRightX = j - 1;
+                                let diagOneRightY = k + 1;
                                 let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                                if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
                                 if(pieceDiagonalLeft > 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
                                         legalMoves++;
-                                    }
+                                    }}
                                 }
+                                if(diagOneRightX >= 0 && diagOneRightY <= 7) {
                                 if(pieceDiagonalRight > 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
                                         legalMoves++;
-                                    }
+                                    }}
                                 }
     
                             }}
@@ -10855,21 +10859,27 @@ function pieceBackedUp(id, x, y, color) {
                                   
                                 }
                                 let diagonalOneLeftUp = id - 9;
+                                let diagOneLeftX = j - 1;
+                                let diagOneLeftY = k - 1;
                                 let diagonalOneRightUp = id - 7;
+                                let diagOneRightX = j - 1;
+                                let diagOneRightY = k + 1;
                                 let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
                                 let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
+                                if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
                                 if(pieceDiagonalLeft > 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
                                         legalMoves++;
-                                    }
+                                    }}
                                 }
+                                if(diagOneRightX >= 0 && diagOneRightY <= 7 ) {
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
                                    legalMoves++;
                                     }
-                                }
+                                }}
                             }
                         }
                         break;
@@ -11875,7 +11885,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.2:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.8:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -11895,6 +11905,10 @@ function pieceBackedUp(id, x, y, color) {
 
 function printMessage(data) {
     try{
+        if(data === true) {
+            setCheckmate(true);
+            return;
+        }
     console.log('logging print message');
     console.log(data);
     if(data === "player2" && open === true) {

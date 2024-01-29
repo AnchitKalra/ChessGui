@@ -115,4 +115,18 @@
    
 }
 
+
+#back {
+    height: 50px;
+    width: 30px;
+    background-color: red;
+    margin-left: 15%
+}
+#fwd {
+    height: 50px;
+    width: 30px;
+    background-color: green;
+    margin-left: 1%
+}
+
 }
