@@ -68,13 +68,7 @@ function ChessGui() {
     if(Array.isArray(prev)) {
         if(prev.length > 60) {
         game = prev;
-        game[63].player2 = 'player2';
-        if(game[64] >= 0) {
-            for(let j = 0; j < 64; j++) {
-                game[j] = prev[j];
-            }
-        }
-        sort();
+        
         }
     }
 
@@ -91,23 +85,6 @@ function ChessGui() {
 
    let storage1 = localStorage.getItem('player2');
 
-   if(storage1 !== null && forwardFlag === true) {
-       
-     let  game1 = [];
-       for(let j = 0; j < 63; j++) {
-           for(let k = 0; k < 63; k++) {
-               if(game[k].id < game[k + 1].id) {
-                   game1 = game[k];
-                   game[k] = game[k + 1];
-                   game[k + 1] = game1;
-           }
-       }
-   }
-
-   forwardFlag = false;
-   
-
-}
 
 function addStorage() {
     let player1 = localStorage.getItem('player1');
@@ -164,68 +141,76 @@ function addStorage() {
         
         let player1 = localStorage.getItem('player1');
         let player2 = localStorage.getItem('player2');
+        if(player1 !== null) {
+            game.sort((a, b)=> a.id - b.id)
+        }
+        if(player2 !== null) {
+            game.sort((a, b) => b.id - a.id)
+        }
         
     
-        try{
-
-            if(player1 !== null) {
-                  
-            let game1 = [];
-           
-           for(let j = 0; j < 64; j++) {
-                for(let k = 0; k < 63; k++) {
-                    game1 = [];
-                if(game[k].id > game[k + 1].id) {
-                    game1 = game[k];
-                    game[k] = game[k + 1];
-                    game[k + 1] = game1;
-                }
-                   
-                }
-            }
-            console.log('logging sorted game player1');
-            console.log(game);
-          
-            }}catch(err) {
-                console.log(err);
-            }
-        try{
-        if(player2!==null) {
-           
-            let game1 = [];
-           for(let j = 0; j < 64; j++) {
-                for(let k = 0; k < 63; k++) {
-                    game1 = [];
-                    if(game[k].id < game[k + 1].id) {
-                        game1 = game[k];
-                        game[k] = game[k + 1];
-                        game[k + 1] = game1;
-                    }
-                    }
-                }
-                console.log('logging sorted game player2');
-                console.log(game);
-                
-            
-        }}catch(err) {
-            console.log(err);
-        }
+    
+        
         return true;
     }
   
-
-    if(sort() === true) {
+        if(sort() === true) {
         addPieces();
-    }
-    
+        }
 
+    
+let player1 = localStorage.getItem('player1');
+let player2 = localStorage.getItem('player2');
 
 
 
  function addPieces() {
         try{
 if(sort() === true) {
-    for(let j = 0; j < 64; j++) {  
+    if(player1 !== null) {
+    let game1 = [];
+    for(let j = 0; j < 64; j++) {
+        if(game[j].boardValue !== (j)) {
+            game1[game[j].boardValue] = game[j];
+        }
+        else{
+            game1[j] = game[j];
+        }
+    }
+    game = game1;
+
+
+
+}
+if(player2 !== null) {
+    console.log('logging game from add pieces')
+    console.log(game);
+    console.log('logging game after boardvalue')
+    console.log(game);
+    let game1 = [];
+    let x = 63;
+    for(let j = 0; j < 64; j++) {
+        let board = game[j].boardValue;
+        if(board !== (x)) {
+            game1[x - board] = game[j];
+        }
+        else{
+            game1[j] = game[j];
+        }
+        x--;
+    }
+    game = game1;
+
+
+
+
+
+}
+
+for(let j = 0; j < 64; j++) {  
+
+
+    
           let piece = game[j]?.pieceValue;
        
 
@@ -374,14 +359,13 @@ if(sort() === true) {
         try{
         if(chessImages?.length > 2) {
        addStyles();
-       if(game?.length === 64) {
-        sort();
-       }
+
         }
         if(sort() === true) {
             addStorage()
             addPieces();
         }
+        
         detectCheckmate();
         if(checkFlag === true) {
             if(checkmate(turn) === true) {
@@ -428,6 +412,7 @@ if(sort() === true) {
 
 
    function makeAMove(id) {
+    sort()
  
      
         let pieceValue = 0;
@@ -435,7 +420,6 @@ if(sort() === true) {
         let boardValue2 = 0;
     
     
-       sort();
 
         let y = 0;
 
@@ -11885,7 +11869,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.8:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.13:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 

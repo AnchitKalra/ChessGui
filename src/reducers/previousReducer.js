@@ -75,7 +75,7 @@ case ACTION.FORWARD:
    
         let forward;
         if(data.status === 200) {
-            if(state[64] > 0) {
+            if(state[64] > 1) {
                 state[64] = 0;
             }
      else    if(state[64] !== undefined) {
