@@ -159,6 +159,72 @@ let player2 = localStorage.getItem('player2');
 
  function addPieces() {
         try{
+
+            if(player1 !== null) {
+                let id1 = game[0].id;
+                let id2 = game[1].id;
+                if(id2 > id1) {
+                    let game1 = [];
+                    for(let j = 0; j < 64; j++) {
+                        let board = game[j].boardValue;
+                        if(board !== j) {
+                            game1[board] = game[j];
+                        }
+                        else{
+                            game1[j] = game[j];
+                        }
+                    }
+                    game = game1;
+                }
+                else{
+                    let game1 = [];
+                    let x = 63;
+                    for(let j = 0; j < 64; j++) {
+                        let board = game[j].boardValue;
+                        if(board !== x) {
+                            game1[x - board] = game[j];
+                        }
+                        else{
+                            game1[j] = game[j];
+                        }
+                        x--;
+                    }
+                    game = game1;
+                }
+            }
+
+            if(player2 !== null) {
+                let id1 = game[0].id;
+                let id2 = game[1].id;
+                if(id2 > id1) {
+                    let game1 = [];
+                    for(let j = 0; j < 64; j++) {
+                        let board = game[j].boardValue;
+                        if(board !== j) {
+                            game1[board] = game[j];
+                        }
+                        else{
+                            game1[j] = game[j];
+                        }
+                    }
+                    game = game1;
+            }
+            else{
+                let game1 = [];
+                let x = 63;
+                for(let j = 0; j < 64; j++) {
+                    let board = game[j].boardValue;
+                    if(board !== x) {
+                        game1[x - board] = game[j];
+                    }
+                    else{
+                        game1[j] = game[j];
+                    }
+                    x--;
+                }
+                game = game1;
+            }
+            }
          
            
 
