@@ -32,8 +32,8 @@ const   actionCreator = (type, fn = () => {}, payload, gameId)=> {
 
 
 
-export const getStateActionCreator = (payload, gameId) =>{
-    return actionCreator(ACTION.SAVEANDGETSTATE, saveAndGetStateApi, payload,gameId);
+export const getStateActionCreator = (payload) =>{
+    return actionCreator(ACTION.SAVEANDGETSTATE, saveAndGetStateApi, payload);
 }
 
 export const retreiveStateActionCreator = (payload) => {

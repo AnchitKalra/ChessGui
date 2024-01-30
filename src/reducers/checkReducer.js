@@ -120,7 +120,7 @@ const ACTION = {
  }
 
  export const castlingWhiteRightActionCreator = () => {
-    return actionCreator(ACTION.castlingWhiteRight);
+    return actionCreator(ACTION.CASTLINGWHITERIGHT);
  }
 
  export const castlingWhiteActionCreator = () => {
@@ -176,6 +176,7 @@ const ACTION = {
             state.castlingWhiteLeft = false;
             return {...state};
         case ACTION.CASTLINGWHITERIGHT:
+            console.log('check data cannot castle')
             state.castlingWhiteRight = false;
             return {...state};
 

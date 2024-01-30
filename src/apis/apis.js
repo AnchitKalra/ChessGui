@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-const instance = axios.create({ baseURL: 'http://192.168.1.13:8080/'})
+const instance = axios.create({ baseURL: 'http://192.168.1.16:8080/'})
 
 
    
@@ -50,22 +50,9 @@ export const getChessPiecesApi = async() => {
 
 
 
-export const saveAndGetStateApi = async(payload, gameId) => {
+export const saveAndGetStateApi = async(payload) => {
     try{
-        if(payload === undefined) {
-            payload = "";
-        }
-        console.log('logging payload');
-        console.log(gameId);
-        if(gameId === undefined){
-            gameId = "null";
-        }
-        else{
-            let id = gameId;
-            gameId = "null";
-            gameId += id;
-        }
-        let response = await instance.post(ENDPOINT.SAVEANDGETSTATE, [  ...payload, gameId]);
+        let response = await instance.post(ENDPOINT.SAVEANDGETSTATE, payload);
         return response;
     }
     catch(err) {

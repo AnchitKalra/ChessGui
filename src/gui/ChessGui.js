@@ -47,14 +47,7 @@ function ChessGui() {
     [48, 49, 50, 51, 52, 53, 54, 55],
     [56, 57, 58, 59, 60, 61, 62, 63]];
 
-   let initGame =  [[[0 , -5], [1 , -2], [2 , -3], [3 , -10], [4 , -6], [5 , -3], [6 , -2], [7 , -5]],
- [[8 , -1], [9 , -1], [10 , -1], [11 , -1], [12 , -1], [13 , -1], [14 , -1], [15 , -1]],
- [[16 , 0], [17 , 0], [18 , 0], [19 , 0], [20 , 0], [21 , 0], [22 , 0], [23 , 0]],
- [[24 , 0], [25 , 0], [26 , 0], [27 , 0], [28 , 0], [29 , 0], [30 , 0], [31 , 0]],
- [[32 , 0],[33 , 0],[34 , 0],[35 , 0],[36 , 0],[37 , 0],[38 , 0],[39 , 0]],
- [[40 , 0],[41 , 0],[42 , 0],[43 , 0],[44 , 0],[45 , 0],[46 , 0],[47 , 0]],
- [[48 , 1],[49 , 1],[50 , 1],[51 , 1],[52 , 1],[53 , 1],[54 , 1],[55 , 1]],
- [[56 , 5],[57 , 2],[58 , 3],[59 , 10],[60 , 6],[61 , 3],[62 , 2],[63 , 5]]];
+   let initGame =  [-5,  -2, -3,  -10,  -6,  -3, -2, -5,-1,  -1,  -1, -1, -1,  -1, -1, -1, 0 , 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 5 , 2 , 3 , 10 , 6 , 3 , 2 , 5];
 
     let [checkMate, setCheckmate] = useState(false);
     var [ws, setWs] = useState(undefined);
@@ -137,26 +130,26 @@ function addStorage() {
 
 
 
-    function sort() {
+    // function sort() {
         
-        let player1 = localStorage.getItem('player1');
-        let player2 = localStorage.getItem('player2');
-        if(player1 !== null) {
-            game.sort((a, b)=> a.id - b.id)
-        }
-        if(player2 !== null) {
-            game.sort((a, b) => b.id - a.id)
-        }
+    //     let player1 = localStorage.getItem('player1');
+    //     let player2 = localStorage.getItem('player2');
+    //     if(player1 !== null) {
+    //         game.sort((a, b)=> a.id - b.id)
+    //     }
+    //     if(player2 !== null) {
+    //         game.sort((a, b) => b.id - a.id)
+    //     }
         
     
     
         
-        return true;
-    }
+    //     return true;
+    // }
   
-        if(sort() === true) {
+      
         addPieces();
-        }
+      
 
     
 let player1 = localStorage.getItem('player1');
@@ -166,46 +159,8 @@ let player2 = localStorage.getItem('player2');
 
  function addPieces() {
         try{
-if(sort() === true) {
-    if(player1 !== null) {
-    let game1 = [];
-    for(let j = 0; j < 64; j++) {
-        if(game[j].boardValue !== (j)) {
-            game1[game[j].boardValue] = game[j];
-        }
-        else{
-            game1[j] = game[j];
-        }
-    }
-    game = game1;
-
-
-
-}
-if(player2 !== null) {
-    console.log('logging game from add pieces')
-    console.log(game);
-    console.log('logging game after boardvalue')
-    console.log(game);
-    let game1 = [];
-    let x = 63;
-    for(let j = 0; j < 64; j++) {
-        let board = game[j].boardValue;
-        if(board !== (x)) {
-            game1[x - board] = game[j];
-        }
-        else{
-            game1[j] = game[j];
-        }
-        x--;
-    }
-    game = game1;
-
-
-
-
-
-}
+         
+           
 
 for(let j = 0; j < 64; j++) {  
 
@@ -279,7 +234,7 @@ for(let j = 0; j < 64; j++) {
     
 
 
-}
+
   
     
         }catch(err) {
@@ -361,10 +316,10 @@ for(let j = 0; j < 64; j++) {
        addStyles();
 
         }
-        if(sort() === true) {
+
             addStorage()
             addPieces();
-        }
+        
         
         detectCheckmate();
         if(checkFlag === true) {
@@ -385,7 +340,7 @@ for(let j = 0; j < 64; j++) {
         }
         
         try{
-            if(loadingFlag === false && game[63].player2 !== null) {
+            if(game[63].player2 === 'player2') {
                 loadingFunc();
             }
             let player2 = localStorage.getItem('player2');
@@ -412,7 +367,8 @@ for(let j = 0; j < 64; j++) {
 
 
    function makeAMove(id) {
-    sort()
+
+
  
      
         let pieceValue = 0;
@@ -426,7 +382,7 @@ for(let j = 0; j < 64; j++) {
         if(arrayId.length === 3) {
             pieceValue2 = game[arrayId[arrayId.length - 1]].pieceValue;
             game[arrayId[arrayId.length - 1]].pieceValue = 0;
-            boardValue2 = game[arrayId[arrayId.length - 1]].boardValue;
+            boardValue2 = arrayId[arrayId.length - 1];
         }
         
         for(let j = 0; j < 64; j++) {
@@ -450,11 +406,12 @@ for(let j = 0; j < 64; j++) {
             if(pieceValue === -6 && arrayId.length < 3) {
                 dispatch(castlingBlackActionCreator());
             }
-            if(pieceValue === 5 && arrayId[1] === 56) {
+            if(arrayId.length === 2 && pieceValue === 5 && arrayId[1] === 56)  {
                 dispatch(castlingWhiteLeftActionCreator());
             }
-            if(pieceValue === 5 && arrayId[1] === 63) {
-                dispatch(castlingWhiteRightActionCreator())
+            if(arrayId.length === 2 && pieceValue === 5 && arrayId[1] === 63) {
+                console.log('cannot castle');
+                dispatch(castlingWhiteRightActionCreator());
             }
             if(pieceValue === -5 && arrayId[1] === 56) {
                 dispatch(castlingBlackLeftActionCreator());
@@ -482,30 +439,22 @@ for(let j = 0; j < 64; j++) {
        
 
         let payload = [];
-        if(turn === 2) {
-            let game1 = [];
-            for(let j = 0; j < 63; j++) {
-                for(let k = 0; k < 63; k++) {
-                    game1 = [];
-                    if(game[k].id > game[k + 1].id) {
-                        game1 = game[k];
-                        game[k] = game[k + 1];
-                        game[k + 1] = game1;
-                    }
-                }
-            }
-        }
+      
        
             
             for(let j = 0; j < 64; j++) {
-                payload[j] = [j, game[j].pieceValue];
+                payload.push(game[j].pieceValue);
             }
-        let gameId = {};
-         gameId = game[0].gameId;
-        console.log('logging payload of move');
-        console.log(payload);
+            if(turn === 1) {
+            payload.push(1);
+            }
+            else{
+                payload.push(2);
+            }
+      
+        payload.push(game[0].gameId);
 
-        dispatch(getStateActionCreator(payload, gameId));
+        dispatch(getStateActionCreator(payload));
         addStyles();
         addPieces(); 
         let btn1 = document.getElementById(arrayId[1]);
@@ -7725,6 +7674,8 @@ catch(err) {
                                     let z = yIndex;
                                     let idIndex = id;
                                     if(checkData.castlingWhiteRight === true) {
+                                        console.log('logging castlingwhiteright');
+                                        console.log(checkData.castlingWhiteRight);
                                     while(z <= 7) {
                                         z++;
                                         idIndex++;
@@ -9125,13 +9076,16 @@ function pieceBackedUp(id, x, y, color) {
 
     function handle2PlayerGame() {
     
-      
-        for(let j = 0; j < 8; j++) {
-            initGame[j] = [...initGame[j]];
+      let payload = []
+        for(let j = 0; j < 64; j++) {
+            payload.push(initGame[j]);
         }
+       
+        payload.push(1);
+        let gameId = "";
+        payload.push(gameId);
 
-        let payload = [...initGame];
-        dispatch(getStateActionCreator(payload, undefined));
+        dispatch(getStateActionCreator(payload));
         let btn = document.getElementById('startGame');
         for(let j = 0; j < btn.classList.length; j++) {
             btn.classList.remove(btn.classList[j]);
@@ -11869,7 +11823,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.13:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.16:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -11930,18 +11884,25 @@ function printMessage(data) {
 
     if( turn === 1) {
 
+        let payload = [];
+        payload.push(game[0].gameId);
+        payload.push(2);
+
     dispatch(inrementActionCreator());
         setTimeout(() =>{
        
-        dispatch(retreiveStateActionCreator(gameId));
+        dispatch(retreiveStateActionCreator(payload));
         }, 1000);
     }
     else if( turn === 2) {
+        let payload = [];
+        payload.push(game[0].gameId);
+        payload.push(1);
     dispatch(decrementActionCreator());
       setTimeout(() =>{
     
     
-        dispatch(retreiveStateActionCreator(gameId))
+        dispatch(retreiveStateActionCreator(payload));
         }, 1000);
     }}catch(err) {
         console.log(err);
@@ -11951,11 +11912,17 @@ function loadingFunc() {
 try{
     if(game[63].player2 !== null && loadingFlag === false) {
     let message = "player2"
+    let payload = [];
+            payload.push(game[0].gameId);
+            payload.push(2);
     setTimeout(() => {
-    if(game[63]?.player2 !== null) {
+    if(game[63].player2 === 'player2') {
       
         try{
-        dispatch(retreiveStateActionCreator());
+            console.log(payload);
+            
+            
+        dispatch(retreiveStateActionCreator(payload));
         }catch(err) {
 
         }
