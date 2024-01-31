@@ -508,6 +508,17 @@ for(let j = 0; j < 64; j++) {
             }
             if(pieceValue === -5 && arrayId[1] === 63) {
                 dispatch(castlingBlackRightActionCreator());
+
+            }
+            if(pieceValue === 1) {
+                if(id >= 0 && id <= 7) {
+                    pieceValue = 10;       
+                }
+            }
+            if(pieceValue === -1) {
+                if(id >= 0 && id <= 7) {
+                    pieceValue = -10;
+                }
             }
 
 
@@ -525,6 +536,8 @@ for(let j = 0; j < 64; j++) {
             game[y - 1].pieceValue = pieceValue2;
         }
        }
+
+      
 
        
 
@@ -578,6 +591,8 @@ for(let j = 0; j < 64; j++) {
             },100);
            
         }
+
+      
         
 
         
@@ -5917,9 +5932,10 @@ catch(err) {
                             let diagonalOneRightUp = id - 7;
                             let diagOneRightX = j - 1;
                             let diagOneRightY = k + 1;
-                            let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                            let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                         
+                         
                             if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                             if(pieceDiagonalLeft > 0)  {
                                 let btn2 = document.getElementById(diagonalOneLeftUp);
                                 if(detectCheck(id, diagonalOneLeftUp) === false) {
@@ -5927,7 +5943,9 @@ catch(err) {
                                 }
                             }}
                             if(diagOneRightX >= 0 && diagOneRightY <= 7) {
+                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                             if(pieceDiagonalRight > 0) {
+
                                 let btn3 = document.getElementById(diagonalOneRightUp);
                                 if(detectCheck(id, diagonalOneRightUp) === false) {
                                 btn3.classList.add('colorRed');
@@ -5999,6 +6017,7 @@ catch(err) {
 
                         else{
                             if(checkFlag === false) {
+                                id = board[j][k];
                             let oneUp = id - 8;
                             let pieceOneUp = [];
                             pieceOneUp.push(oneUp);
@@ -6015,9 +6034,10 @@ catch(err) {
                             let diagonalOneRightUp = id - 7;
                             let diagOneRightX = j - 1;
                             let diagOneRightY = k + 1;
-                            let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                            let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                         
+                           
                             if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                             if(pieceDiagonalLeft > 0)  {
                                 let btn2 = document.getElementById(diagonalOneLeftUp);
                                 if(detectCheck(id, diagonalOneLeftUp) === false) {
@@ -6025,10 +6045,12 @@ catch(err) {
                                 }
                             }}
                             if(diagOneRightX >= 0 && diagOneRightY <= 7) {
+                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                             if(pieceDiagonalRight > 0) {
 
                                 let btn3 = document.getElementById(diagonalOneRightUp);
                                 if(detectCheck(id, diagonalOneRightUp) === false) {
+                                    console.log('here?????????????????????????????????')
                                 btn3.classList.add('colorRed');
                                 }
                             }}
@@ -8230,9 +8252,10 @@ catch(err) {
                                 let diagOneLeftX = j - 1;
                                 let diagOneLeftY = k - 1;
 
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
+                              
+                               
                                 if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                    let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(detectCheck(id, diagonalOneLeftUp) === false) {
@@ -8242,8 +8265,9 @@ catch(err) {
                                 let diagOneRightX = j - 1;
                                 let diagOneRightY = k + 1;
                                 if(diagOneRightX >= 0 && diagOneRightY <= 7) {
+                                    let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
                                 if(pieceDiagonalRight < 0) {
-
+                                    
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(detectCheck(id, diagonalOneRightUp) === false) {
                                     btn3.classList.add('colorRed');
@@ -8285,24 +8309,40 @@ catch(err) {
                                   
                                 }
                             } 
-                            let diagonalOneLeftUp = id - 9;
-                            let diagonalOneRightUp = id - 7;
+                          
+                         
+                            let diagOneLeftX = j - 1;
+                            let diagOneLeftY = k - 1;
+
+                            let diagOneRightX = j - 1;
+                            let diagOneRightY = k + 1;
+                            if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                let diagonalOneLeftUp = id - 9;
+
                             let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                            let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                        
                             if(pieceDiagonalLeft < 0)  {
                                 let btn2 = document.getElementById(diagonalOneLeftUp);
                                 if(btn2.classList.contains('colorCheck')) {
                                 btn2.classList.add('colorRed')
                                 btn2.classList.remove('colorCheck');
-                                }
+                                }}
                             }
+                            if(diagOneRightX >= 0 && diagOneRightY <= 7) {
+                                let diagonalOneRightUp = id - 7;
+
+
+                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+
+                             
+
                             if(pieceDiagonalRight < 0) {
                                 let btn3 = document.getElementById(diagonalOneRightUp);
                                 if(btn3.classList.contains('colorCheck')) {
                                 btn3.classList.add('colorRed');
                                 btn3.classList.remove('colorCheck');
                                 }
-                            }
+                            }}
 
                         }}
                         }
@@ -10849,9 +10889,10 @@ function pieceBackedUp(id, x, y, color) {
                                 let diagonalOneRightUp = id - 7;
                                 let diagOneRightX = j - 1;
                                 let diagOneRightY = k + 1;
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                              
+                              
                                 if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                    let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 if(pieceDiagonalLeft > 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
@@ -10859,6 +10900,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }}
                                 }
                                 if(diagOneRightX >= 0 && diagOneRightY <= 7) {
+                                    let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                                 if(pieceDiagonalRight > 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
@@ -10890,9 +10932,10 @@ function pieceBackedUp(id, x, y, color) {
                                 let diagonalOneRightUp = id - 7;
                                 let diagOneRightX = j - 1;
                                 let diagOneRightY = k + 1;
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
+                              
+                             
                                 if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                    let pieceDiagonalLeft = game[diagonalOneLeftUp]?.pieceValue;
                                 if(pieceDiagonalLeft > 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
@@ -10900,6 +10943,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }}
                                 }
                                 if(diagOneRightX >= 0 && diagOneRightY <= 7 ) {
+                                    let pieceDiagonalRight = game[diagonalOneRightUp]?.pieceValue;
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
@@ -12124,6 +12168,9 @@ function getForward() {
 
 
     <div id = 'game'>    <Button id = 'startGame' variant = 'contained' onClick = {handle2PlayerGame}>Play a 2 player game</Button>
+    </div>
+    <div className='white_pieces'>
+
     </div>
     <div id = 'flexDiv'>
             
