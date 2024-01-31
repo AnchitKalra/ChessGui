@@ -78,14 +78,10 @@ case ACTION.FORWARD:
             if(state[64] >= 0) {
                 state = [0];
             }
-     else    if(state[64] !== undefined) {
+     else    {
              forward = state[64] + 1;
              state = data.data
              state.push(forward);
-         }
-         else{
-             state = data.data;
-             state.push(0);
          }
        
     }

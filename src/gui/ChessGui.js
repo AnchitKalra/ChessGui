@@ -433,7 +433,7 @@ for(let j = 0; j < 64; j++) {
             if(game[63].player2 === 'player2') {
                 loadingFunc();
             }
-            let player2 = localStorage.getItem('player2');
+         
             if(game[63].player2 === null && game.length === 64) {
                 setOpen(true);
             }
@@ -12116,20 +12116,16 @@ function getForward() {
         let payload = [];
         console.log(prev);
         payload.push(game[63].gameId);
-      if(prev[64] !== undefined) {
         if(prevFlag === true) {
+            payload.push(prev[64] + 2);
+            prev[64] = prev[64] + 1;
+        }
+        else {
             payload.push(prev[64] + 1);
         }
-        else{
-            payload.push(prev[64])
-        }
+      
        
         setPrevFlag(false);
-       
-      }
-      else{
-        payload.push(0);
-      }
         let move = localStorage.getItem('player1');
         if(move === null || move === undefined) {
             move = localStorage.getItem('player2');
