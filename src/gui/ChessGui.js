@@ -58,6 +58,10 @@ function ChessGui() {
     
     
     let prev = useSelector((prev) => prev.prev);
+    if(prev[64] >= 0) {
+        prev = "";
+        prev = [-1];
+    }
     if(Array.isArray(prev)) {
         if(prev.length > 60) {
         game = prev;
@@ -75,8 +79,6 @@ function ChessGui() {
    let checkFlag = checkData.checkFlag || false;
    const [open, setOpen] = useState(false);
    let [forwardFlag, setForwardFlag] = useState(false);
-
-   let storage1 = localStorage.getItem('player2');
 
 
 function addStorage() {
@@ -152,13 +154,23 @@ function addStorage() {
       
 
     
-let player1 = localStorage.getItem('player1');
-let player2 = localStorage.getItem('player2');
 
 
 
  function addPieces() {
         try{
+            try{
+                if(game.length === 65) {
+                
+            if(game[64] >= 0) {
+                game.splice(64, 1);
+            }}
+        }catch(err) {
+
+        }
+            let player1 = localStorage.getItem('player1');
+let player2 = localStorage.getItem('player2');
+
 
             if(player1 !== null) {
                 let id1 = game[0].id;
@@ -174,6 +186,9 @@ let player2 = localStorage.getItem('player2');
                             game1[j] = game[j];
                         }
                     }
+                    if(game.length === 65) {
+                        game1.push(game[64]);
+                    }
                     game = game1;
                 }
                 else{
@@ -188,6 +203,9 @@ let player2 = localStorage.getItem('player2');
                             game1[j] = game[j];
                         }
                         x--;
+                    }
+                    if(game.length === 65) {
+                        game1.push(game[64])
                     }
                     game = game1;
                 }
@@ -207,6 +225,9 @@ let player2 = localStorage.getItem('player2');
                             game1[j] = game[j];
                         }
                     }
+                    if(game.length === 65) {
+                        game1.push(game[64])
+                    }
                     game = game1;
             }
             else{
@@ -221,6 +242,9 @@ let player2 = localStorage.getItem('player2');
                         game1[j] = game[j];
                     }
                     x--;
+                }
+                if(game.length === 65) {
+                    game1.push(game[64]);
                 }
                 game = game1;
             }
@@ -410,7 +434,7 @@ for(let j = 0; j < 64; j++) {
                 loadingFunc();
             }
             let player2 = localStorage.getItem('player2');
-            if(game[63].player2 === null && player2 === null) {
+            if(game[63].player2 === null && game.length === 64) {
                 setOpen(true);
             }
            
@@ -466,16 +490,16 @@ for(let j = 0; j < 64; j++) {
                 }
           
         }
-            if(pieceValue === 6 && arrayId.length < 3) {
+            if(pieceValue === 6) {
                dispatch(castlingWhiteActionCreator());
             }
-            if(pieceValue === -6 && arrayId.length < 3) {
+            if(pieceValue === -6) {
                 dispatch(castlingBlackActionCreator());
             }
-            if(arrayId.length === 2 && pieceValue === 5 && arrayId[1] === 56)  {
+            if(pieceValue === 5 && arrayId[1] === 56)  {
                 dispatch(castlingWhiteLeftActionCreator());
             }
-            if(arrayId.length === 2 && pieceValue === 5 && arrayId[1] === 63) {
+            if( pieceValue === 5 && arrayId[1] === 63) {
                 console.log('cannot castle');
                 dispatch(castlingWhiteRightActionCreator());
             }
@@ -3657,21 +3681,19 @@ catch(err) {
         if(checkMate === true) {
             return;
         }
-           
-          if(game.length === 65) {
-            console.log('ogging game');
-            console.log(game.length);
-            
-            if(game[64] >= 0){
+        console.log('logging game');
+        console.log(game);
+
+        if(game.length === 65) {
+            if(game[64] >= 0) {
                 game.splice(64, 1);
             }
-    
-            
-          
             if(game.length === 65) {
-                  return;
+                return;
             }
-          }
+        }
+           
+        
 
 
           
@@ -11920,7 +11942,6 @@ function printMessage(data) {
         dispatch(trueLoadingFlagActionCreator());
         return;
     }
-    let gameId = game[63].gameId;
     let message = data.split(",");
     message[0] = parseInt(message[0]);
     message[1] = parseInt(message[1]);
@@ -11953,6 +11974,7 @@ function printMessage(data) {
         let payload = [];
         payload.push(game[0].gameId);
         payload.push(2);
+        prev = [-1];
 
     dispatch(inrementActionCreator());
         setTimeout(() =>{
@@ -11962,6 +11984,7 @@ function printMessage(data) {
     }
     else if( turn === 2) {
         let payload = [];
+        prev = [-1];
         payload.push(game[0].gameId);
         payload.push(1);
     dispatch(decrementActionCreator());
@@ -12059,13 +12082,17 @@ function getForward() {
         payload.push(0);
       }
         let move = localStorage.getItem('player1');
-        if(move === undefined) {
+        if(move === null || move === undefined) {
             move = localStorage.getItem('player2');
             payload.push(2);
+            payload.push(turn)
+        
         }
         else{
             payload.push(1);
+            payload.push(turn);
         }
+      
        
         console.log('logging payload')
         console.log(payload)
