@@ -9529,9 +9529,10 @@ function pieceBackedUp(id, x, y, color) {
                                 let diagonalOneRightUp = id - 7;
                                 let diagOneRightX = j - 1;
                                 let diagOneRightY = k + 1;
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                              
+                             
                                 if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                    let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
@@ -9539,6 +9540,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }}
                                 if(diagOneRightX >= 0 && diagOneRightY <= 7) {
+                                    let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
@@ -9566,16 +9568,19 @@ function pieceBackedUp(id, x, y, color) {
                                 let diagonalOneRightUp = id - 7;
                                 let diagOneRightX = j - 1;
                                 let diagOneRightY = k + 1;
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                             
+                             
                                 if(diagOneLeftX >= 0 && diagOneLeftY >= 0) {
+                                    let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 if(pieceDiagonalLeft < 0)  {
+
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(btn2.classList.contains('colorCheck')) {
                                         legalMoves++;
                                     }}
                                 }
                                 if(diagOneRightX >= 0 && diagOneRightY <= 7) {
+                                    let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(btn3.classList.contains('colorCheck')) {
