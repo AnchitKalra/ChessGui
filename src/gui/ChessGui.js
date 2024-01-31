@@ -1154,7 +1154,7 @@ for(let j = 0; j < 64; j++) {
     console.log(checkCount);                                    dispatch(detectCheckActionCreator());
                                         break;
                                     default:break;
-                                }
+                                }}
     
                                 while(piece1 === 0 && leftDownDiagIndexX < 7 && leftDownDiagIndexY > 0) {
                                     leftDownDiagIndexX++;
@@ -1195,7 +1195,7 @@ for(let j = 0; j < 64; j++) {
                                             default:break;
                                             
                                     }
-                                }
+                                
                             }
                             
                         }}catch(err) {
@@ -1241,7 +1241,7 @@ for(let j = 0; j < 64; j++) {
                                     dispatch(detectCheckActionCreator());
                                     break;
                                         default:break;
-                                }
+                                }}
     
                                 while(piece1 === 0 && rightDownDiagIndexX < 7 && rightDownDiagIndexY < 7) {
                                     rightDownDiagIndexX++;
@@ -1285,7 +1285,7 @@ for(let j = 0; j < 64; j++) {
     
                                     }
                                 }
-                            }
+                            
                         }
     
                         
@@ -2008,7 +2008,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                     let indexId = id + 7;
                   
                         let piece1 = game[indexId]?.pieceValue;
-                        if(piece1 < 0) {
+                        if(piece1 < 0 || piece1 === 0) {
                             let btn1 = document.getElementById(indexId);
                             switch(piece1) {
                                 case -1:
@@ -2094,7 +2094,7 @@ console.log(checkCount);                                        dispatch(detectC
                     let indexId = id + 9;
                   
                         let piece1 = game[indexId]?.pieceValue;
-                        if(piece1 < 0) {
+                        if(piece1 < 0 || piece1 === 0) {
                             let btn1 = document.getElementById(indexId);
                             switch(piece1) {
                                 case -1:
