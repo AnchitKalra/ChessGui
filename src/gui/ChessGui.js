@@ -1166,7 +1166,7 @@ for(let j = 0; j < 64; j++) {
                                     let btn1 = document.getElementById(indexId);
                                     switch(piece1) {
 
-                                        case -3:
+                                        case 3:
                                             for(indexId; indexId > id; indexId -= 7) {
                                                 let btn2 = document.getElementById(indexId);
                                                 btn2.classList.add('colorCheck');
@@ -8366,9 +8366,10 @@ catch(err) {
                                 let diagonalOneRightUp = id - 7;
                                 let diagRightUpX = j - 1; 
                                 let diagRightUpY = k + 1;
-                                let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
-                                let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
+                              
+                              
                                 if(diagonalLeftUpX >= 0 && diagLeftUpY >= 0) {   
+                                    let pieceDiagonalLeft = game[diagonalOneLeftUp].pieceValue;
                                 if(pieceDiagonalLeft < 0)  {
                                     let btn2 = document.getElementById(diagonalOneLeftUp);
                                     if(detectCheck(id, diagonalOneLeftUp) === false) {
@@ -8376,6 +8377,7 @@ catch(err) {
                                     }}
                                 }
                                 if(diagRightUpX >= 0 && diagRightUpY <= 7) {
+                                    let pieceDiagonalRight = game[diagonalOneRightUp].pieceValue;
                                 if(pieceDiagonalRight < 0) {
                                     let btn3 = document.getElementById(diagonalOneRightUp);
                                     if(detectCheck(id, diagonalOneRightUp) === false) {
