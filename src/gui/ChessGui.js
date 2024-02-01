@@ -3729,7 +3729,7 @@ catch(err) {
             try{
                 if(checkMate === true) {
                   gameWin();
-                  return;
+                  
                 }
             }catch(err) {
                 console.log(err);
@@ -4901,7 +4901,7 @@ catch(err) {
 
                             }catch(err) {
                                 console.log(err);
-                                break;
+                                
                             }
                             xIndex = j;
                             yIndex = k;
@@ -4969,7 +4969,7 @@ catch(err) {
                             }}}
                             }catch(err) {
                                 console.log(err);
-                                break;
+                                
                             }
                             xIndex = j;
                             yIndex = k;
@@ -4982,7 +4982,7 @@ catch(err) {
                                 let   oneLeft = id - 1;
                               
                             let pieceLeft = game[oneLeft]?.pieceValue;
-                            yIndex--;
+                            
                             while(pieceLeft === 0 || pieceLeft > 0) {
                                
                                 let btn1 = document.getElementById(oneLeft);
@@ -5040,7 +5040,7 @@ catch(err) {
                             }
                             }catch(err) {
                                 console.log(err);
-                                break;
+                            
                             }
 
                             xIndex = j;
@@ -11461,7 +11461,7 @@ function pieceBackedUp(id, x, y, color) {
 
                         }catch(err) {
                             console.log(err);
-                            break;
+                            
                         }
                      
                         try{
@@ -11502,7 +11502,7 @@ function pieceBackedUp(id, x, y, color) {
                         }}
                         }catch(err) {
                             console.log(err);
-                            break;
+                            
                         }
                      
                         try{
@@ -11514,7 +11514,7 @@ function pieceBackedUp(id, x, y, color) {
                             let   oneLeft = id - 1;
                           
                             let pieceLeft = game[oneLeft]?.pieceValue;
-                            yIndex--;
+                        
                             while(pieceLeft === 0 || pieceLeft > 0) {
                                 
                                 let btn1 = document.getElementById(oneLeft);
@@ -11540,7 +11540,7 @@ function pieceBackedUp(id, x, y, color) {
                         }
                         }catch(err) {
                             console.log(err);
-                            break;
+                            
                         }
 
                      
