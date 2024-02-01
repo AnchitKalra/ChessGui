@@ -9,6 +9,11 @@ import { decrementActionCreator,  inrementActionCreator,  trueLoadingFlagActionC
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { forwardActionCreator, previousActionCreator } from '../reducers/previousReducer';
+import useSound from 'use-sound';
+import checkDone from './check.wav';
+import moveDone from './move.wav';
+import gameDone from './gameOver.wav';
+
 
 
 
@@ -18,6 +23,8 @@ function ChessGui() {
     const dispatch = useDispatch();
     let [check, setCheck] = useState(false);
     let [prevFlag, setPrevFlag] = useState(false);
+
+    
    
     let turn = useSelector(user => user.user);
     console.log('logging turn');
@@ -55,6 +62,28 @@ function ChessGui() {
     console.log(ws)
 
     let game = useSelector(chessState => chessState.chessState);
+    let [move] = useSound(moveDone);
+    let [check1] = useSound(checkDone);
+    let [gameOver] = useSound(gameDone);
+
+
+    let moveMade = () => {
+        try{
+            move();
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
+
+    let chechDetected = () => {
+        check1();
+    }
+
+    let gameWin = () =>{
+        gameOver();
+    }
     
     
     let prev = useSelector((prev) => prev.prev);
@@ -556,6 +585,11 @@ for(let j = 0; j < 64; j++) {
             }
       
         payload.push(game[0].gameId);
+       try{
+        moveMade();
+       }catch(err) {
+        console.log(err);
+       }
 
         dispatch(getStateActionCreator(payload));
         addStyles();
@@ -3693,9 +3727,7 @@ catch(err) {
     function handleGame(e) {
         try{
             
-        if(checkMate === true) {
-            return;
-        }
+        
         console.log('logging game');
         console.log(game);
 
@@ -3781,7 +3813,20 @@ catch(err) {
         
        
         detectCheckmate(game);
-        
+        try{
+        if(checkFlag === true) {
+           chechDetected();
+        }
+    }catch(err) {
+        console.log(err);
+    }
+    try{
+        if(checkMate === true) {
+          gameWin();
+        }
+    }catch(err) {
+        console.log(err);
+    }
         let xIndex = -1;
         let yIndex = -1;
         for(let j = 0; j <= 63; j++) {
@@ -9806,10 +9851,11 @@ function pieceBackedUp(id, x, y, color) {
                                   let  xIndex = j;
                                  let   yIndex = k;
 
-                                let pieceLeftUp = game[diagLeftUp]?.pieceValue
+                             
                                 xIndex--;
                                 yIndex--;
                                 if(xIndex >= 0 && yIndex >= 0) {
+                                    let pieceLeftUp = game[diagLeftUp]?.pieceValue
                                 while(pieceLeftUp === 0 || pieceLeftUp < 0) {
                                         if(xIndex < 0 || yIndex < 0) {
                                             break;
@@ -9854,10 +9900,11 @@ function pieceBackedUp(id, x, y, color) {
                            let      yIndex = k;
                             let diagRightUp = id - 7;
                            
-                            let pieceRightUp = game[diagRightUp]?.pieceValue
+                          
                             xIndex--;
                             yIndex++;
                             if(xIndex >= 0 && yIndex <= 7) {
+                                let pieceRightUp = game[diagRightUp]?.pieceValue
                             while(pieceRightUp === 0 || pieceRightUp < 0) {
                                 
                                     if(xIndex <0 || yIndex > 7) {
@@ -9961,10 +10008,11 @@ function pieceBackedUp(id, x, y, color) {
     
                                 let diagLeftDown = id + 7;
     
-                                let pieceLeftDown= game[diagLeftDown]?.pieceValue
+                             
                                 xIndex++;
                                 yIndex--;
                                 if(xIndex <= 7 && yIndex >= 0) {
+                                    let pieceLeftDown= game[diagLeftDown]?.pieceValue
                                 while(pieceLeftDown === 0 || pieceLeftDown < 0) {
                                 
                                         if(xIndex > 7 || yIndex < 0) {
@@ -10193,10 +10241,11 @@ function pieceBackedUp(id, x, y, color) {
                                         let yIndex = k;
                                     let diagLeftUp = id - 9;
                             
-                                    let   pieceLeftUp = game[diagLeftUp].pieceValue
+                                
                                       xIndex--;
                                       yIndex--;
                                       if(xIndex >= 0 && yIndex >= 0) {
+                                        let   pieceLeftUp = game[diagLeftUp].pieceValue
                                       while(pieceLeftUp === 0 || pieceLeftUp < 0) {
                                               if(xIndex < 0 || yIndex < 0) {
                                                   break;
@@ -10204,9 +10253,7 @@ function pieceBackedUp(id, x, y, color) {
                                           let btnLeftUp = document.getElementById(diagLeftUp);
                                          
                                           if(pieceLeftUp < 0) {
-                                          console.log('from left up color red')
-                                          console.log(pieceLeftUp);
-                                          console.log(diagLeftUp);
+                                        
                                           if(btnLeftUp.classList.contains('colorCheck')) {
                                              legalMoves++;
                                           }
@@ -10241,10 +10288,11 @@ function pieceBackedUp(id, x, y, color) {
                                    
                                let xIndex = j;
                                let yIndex = k;
-                               let  pieceRightUp = game[diagRightUp].pieceValue
+                             
                                 xIndex--;
                                 yIndex++;
                                 if(xIndex >= 0 && yIndex <= 7) {
+                                    let  pieceRightUp = game[diagRightUp].pieceValue
                                 while(pieceRightUp === 0 || pieceRightUp < 0) {
                                     
                                         if(xIndex <0 || yIndex > 7) {
@@ -10291,10 +10339,11 @@ function pieceBackedUp(id, x, y, color) {
                               let  yIndex = k;
     
     
-                              let   pieceRightDown = game[diagRightDown]?.pieceValue
+                            
                                 xIndex++;
                                 yIndex++;
                                 if(xIndex <= 7 && yIndex <= 7) {
+                                    let   pieceRightDown = game[diagRightDown]?.pieceValue
                                 while(pieceRightDown === 0 || pieceRightDown < 0) {
                                     
                                         if(xIndex > 7 || yIndex > 7) {
@@ -10343,10 +10392,11 @@ function pieceBackedUp(id, x, y, color) {
         
         
         
-                                 let    pieceLeftDown= game[diagLeftDown]?.pieceValue
+                                
                                     xIndex++;
                                     yIndex--;
                                     if(xIndex <= 7 && yIndex >= 0) {
+                                         let    pieceLeftDown= game[diagLeftDown]?.pieceValue
                                     while(pieceLeftDown === 0 || pieceLeftDown < 0) {
                                             if(xIndex > 7 || yIndex < 0) {
                                                 break;
@@ -10354,7 +10404,7 @@ function pieceBackedUp(id, x, y, color) {
                                         let btnLeftDown = document.getElementById(diagLeftDown);
                                        
                                         if(pieceLeftDown < 0) {
-                                        console.log('from left down color red')
+                                        
                                         if(btnLeftDown.classList.contains('colorCheck')) {
                                            legalMoves++;
                                         }
@@ -10371,7 +10421,7 @@ function pieceBackedUp(id, x, y, color) {
                                         if(xIndex > 7 || yIndex < 0) {
                                             break;
                                         }
-                                        pieceLeftDown= game[diagLeftDown].pieceValue
+                                        pieceLeftDown = game[diagLeftDown].pieceValue
         
         
         
@@ -11962,7 +12012,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.16:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.8:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
