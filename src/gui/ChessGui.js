@@ -450,13 +450,11 @@ for(let j = 0; j < 64; j++) {
         }}catch(err) {
             console.log(err)
         }  
-        if(turn === 1 && checkMate === true) {
-            let checkmate = true;
-            ws.send(checkmate)
-        }
-        else if(turn === 2 && checkMate === true) {
+        if( checkMate === true) {
+            
             ws.send(true);
         }
+        
         
         try{
             if(game[63].player2 === 'player2') {
