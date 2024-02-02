@@ -2807,7 +2807,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     break;
                              
                                 default:break;
-                            }
+                            }}
 
                             while(piece1 === 0 && leftDownDiagIndexX < 7 && leftDownDiagIndexY > 0) {
                                 leftDownDiagIndexX++;
@@ -2835,7 +2835,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         default:break;
                                         
                                 }
-                            }
+                            
                         }
                         
                     }}catch(err) {
@@ -2865,7 +2865,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                         
                                     default:break;
                             }
-
+                        }
                             while(piece1 === 0 && rightDownDiagIndexX < 7 && rightDownDiagIndexY < 7) {
                                 rightDownDiagIndexX++;
                                 rightDownDiagIndexY++;
@@ -2893,7 +2893,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         default:break;
 
                                 }
-                            }
+                            
                         }
                     }
 
@@ -3418,7 +3418,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                      
                                  default:break;
                              }
- 
+                            }
                              while(piece1 === 0 && leftDownDiagIndexX < 7 && leftDownDiagIndexY > 0) {
                                  leftDownDiagIndexX++;
                                  leftDownDiagIndexY--;
@@ -3441,7 +3441,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                          default:break;
                                          
                                  }
-                             }
+                             
                          }
                         
                      }}catch(err) {
@@ -3470,7 +3470,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                  break;
                       
                                      default:break;
-                             }
+                             }}
  
                              while(piece1 === 0 && rightDownDiagIndexX < 7 && rightDownDiagIndexY < 7) {
                                  rightDownDiagIndexX++;
@@ -3496,8 +3496,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
  
                                  }
                              }
-                         }
-                   
+                         
                      }
                     
  
