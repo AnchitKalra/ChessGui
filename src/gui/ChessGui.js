@@ -125,9 +125,12 @@ function addStorage() {
             console.log(game[63].player2)
         
         }
+        else if(localStorage.getItem('player1') === 'player1') {
+            localStorage.setItem('player1', game[63].player1)
+        }
         else{
             let player1 = localStorage.getItem('player1');
-         if(game[63].player2 === 'player2' && player1 === null) {
+         if( player1 === null) {
          console.log('*****************PLAYER2*******************');
            
             localStorage.setItem('player2', game[63].player2);
@@ -3726,6 +3729,7 @@ catch(err) {
             try{
                 if(checkMate === true) {
                   gameWin();
+                  return;
                   
                 }
             }catch(err) {
@@ -9727,6 +9731,7 @@ function pieceBackedUp(id, x, y, color) {
                             yIndex = k;
                             xIndex += 2;
                             yIndex++;
+                            if(xIndex <= 7 && yIndex <= 7) {
                                 if(checkCount <= 1) {
                                 let pieceDownRight = game[twoRightDown].pieceValue;
                                 let btn1 = document.getElementById(twoRightDown);
@@ -9741,7 +9746,7 @@ function pieceBackedUp(id, x, y, color) {
                                        legalMoves++;
                                     }
                                 }
-                            }
+                            }}
                         
     
                             
@@ -11095,6 +11100,7 @@ function pieceBackedUp(id, x, y, color) {
                             yIndex = k;
                             xIndex += 2;
                             yIndex++;
+                            if(xIndex <= 7 && yIndex <= 7) {
                                 if(checkCount <= 1) {
                                 let pieceDownRight = game[twoRightDown].pieceValue;
                                 let btn1 = document.getElementById(twoRightDown);
@@ -11109,7 +11115,7 @@ function pieceBackedUp(id, x, y, color) {
                                        legalMoves++;
                                     }
                                 }
-                            }
+                            }}
                         
     
                             
