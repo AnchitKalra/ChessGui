@@ -77,9 +77,11 @@ function ChessGui() {
     }
 
 
+   
     let chechDetected = () => {
+        if(checkMate === false) {
         check1();
-    }
+    }}
 
     let gameWin = () =>{
         gameOver();
@@ -191,149 +193,65 @@ function addStorage() {
 
  function addPieces() {
         try{
-            try{
-                if(game.length === 65) {
-                
-            if(game[64] >= 0) {
-                game.splice(64, 1);
-            }}
-        }catch(err) {
-
-        }
-            let player1 = localStorage.getItem('player1');
-let player2 = localStorage.getItem('player2');
+     
+            console.log('logging from addPieces');
+            console.log(game);
 
 
-            if(player1 !== null) {
-                let id1 = game[0].id;
-                let id2 = game[1].id;
-                if(id2 > id1) {
-                    let game1 = [];
-                    for(let j = 0; j < 64; j++) {
-                        let board = game[j].boardValue;
-                        if(board !== j) {
-                            game1[board] = game[j];
-                        }
-                        else{
-                            game1[j] = game[j];
-                        }
-                    }
-                    if(game.length === 65) {
-                        game1.push(game[64]);
-                    }
-                    game = game1;
-                }
-                else{
-                    let game1 = [];
-                    let x = 63;
-                    for(let j = 0; j < 64; j++) {
-                        let board = game[j].boardValue;
-                        if(board !== x) {
-                            game1[x - board] = game[j];
-                        }
-                        else{
-                            game1[j] = game[j];
-                        }
-                        x--;
-                    }
-                    if(game.length === 65) {
-                        game1.push(game[64])
-                    }
-                    game = game1;
-                }
-            }
-
-            if(player2 !== null) {
-                let id1 = game[0].id;
-                let id2 = game[1].id;
-                if(id2 > id1) {
-                    let game1 = [];
-                    for(let j = 0; j < 64; j++) {
-                        let board = game[j].boardValue;
-                        if(board !== j) {
-                            game1[board] = game[j];
-                        }
-                        else{
-                            game1[j] = game[j];
-                        }
-                    }
-                    if(game.length === 65) {
-                        game1.push(game[64])
-                    }
-                    game = game1;
-            }
-            else{
-                let game1 = [];
-                let x = 63;
-                for(let j = 0; j < 64; j++) {
-                    let board = game[j].boardValue;
-                    if(board !== x) {
-                        game1[x - board] = game[j];
-                    }
-                    else{
-                        game1[j] = game[j];
-                    }
-                    x--;
-                }
-                if(game.length === 65) {
-                    game1.push(game[64]);
-                }
-                game = game1;
-            }
-            }
-         
            
 
 for(let j = 0; j < 64; j++) {  
 
+    let boardValue = game[j].boardValue;
+
 
     
-          let piece = game[j]?.pieceValue;
+          let piece = game[boardValue]?.pieceValue;
        
 
                 if(piece !== 0) {
                     
-                    let btn = document.getElementById(j);
+                    let btn = document.getElementById(boardValue);
                    
                     switch(piece) {
                         case -5:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[10]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[10]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             
                             break;
 
                         case -2:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[5]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[5]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -3:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[0]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[0]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -10:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[8]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[8]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -6:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[3]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[3]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case -1:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[2]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[2]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
 
                         case 5:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[11]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[11]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 2:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[6]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[6]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 3:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[1]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[1]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 10:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[9]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[9]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 1:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[7]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[7]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
                         case 6:
-                            btn.innerHTML = `<img id = i:${j} src = ${chessImages[4]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
+                            btn.innerHTML = `<img id = i:${boardValue} src = ${chessImages[4]?.image} alt = "pic of chess pieces" height = ${50} width= ${50} ></img>`
                             break;
 
 
@@ -347,7 +265,7 @@ for(let j = 0; j < 64; j++) {
                     }
                 }
                 else {
-                    let btn = document.getElementById(j);
+                    let btn = document.getElementById(boardValue);
                     btn.innerHTML = "";
                 }}
               
@@ -506,17 +424,18 @@ for(let j = 0; j < 64; j++) {
         }
         
         for(let j = 0; j < 64; j++) {
+            let boardValue = game[j].boardValue
         
 
            
-                if(j === arrayId[1]) {
-                    pieceValue = game[j].pieceValue;
+                if(boardValue === arrayId[1]) {
+                    pieceValue = game[boardValue].pieceValue;
                 
 
-                    game[j].pieceValue = 0;
+                    game[boardValue].pieceValue = 0;
                 }
-                if(j === id) {
-                  y = j;
+                if(boardValue === id) {
+                  y = boardValue;
                 }
           
         }
@@ -630,7 +549,7 @@ for(let j = 0; j < 64; j++) {
       
         
 
-        
+
 }
           
     
@@ -3740,12 +3659,7 @@ catch(err) {
         console.log(game);
 
         if(game.length === 65) {
-            if(game[64] >= 0) {
-                game.splice(64, 1);
-            }
-            if(game.length === 65) {
                 return;
-            }
         }
            
         
@@ -11811,7 +11725,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.8:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.13:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
