@@ -495,6 +495,7 @@ for(let j = 0; j < 64; j++) {
        
             
             for(let j = 0; j < 64; j++) {
+                payload.push(game[j].boardValue)
                 payload.push(game[j].pieceValue);
             }
             if(turn === 1) {
@@ -9168,7 +9169,7 @@ function pieceBackedUp(id, x, y, color) {
     function handle2PlayerGame() {
     
       let payload = []
-        for(let j = 0; j < 64; j++) {
+        for(let j = 0; j < 64; j++) {payload.push(j);
             payload.push(initGame[j]);
         }
        
@@ -11725,7 +11726,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.13:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.14:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
