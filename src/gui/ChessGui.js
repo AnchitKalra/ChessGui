@@ -182,7 +182,8 @@ function addStorage() {
         
     //     return true;
     // }
-  
+    
+    
       
         addPieces();
       
@@ -193,10 +194,9 @@ function addStorage() {
 
  function addPieces() {
         try{
-     
             console.log('logging from addPieces');
             console.log(game);
-
+            
 
            
 
@@ -356,6 +356,7 @@ for(let j = 0; j < 64; j++) {
        addStyles();
 
         }
+        
 
             addStorage()
             addPieces();
@@ -367,6 +368,7 @@ for(let j = 0; j < 64; j++) {
                 console.log('CHECKMATE');
                 setCheck(false);
                 setCheckmate(true);
+                gameWin();
             }    
         }}catch(err) {
             console.log(err)
@@ -3719,6 +3721,7 @@ catch(err) {
                 if(checkmate(turn) === true) {
                     setCheck(false);
                     setCheckmate(true);
+                    gameWin();
                 }
             }
         
@@ -3738,7 +3741,12 @@ catch(err) {
         detectCheckmate(game);
         try{
         if(checkFlag === true) {
+            if(checkmate(turn) === true) {
+                gameWin()
+            }
+            else {
            chechDetected();
+            }
         }
     }catch(err) {
         console.log(err);
@@ -11726,7 +11734,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.14:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.15:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -11748,6 +11756,7 @@ function printMessage(data) {
     try{
         if(data === true) {
             setCheckmate(true);
+            gameWin()
             return;
         }
     console.log('logging print message');
@@ -11936,12 +11945,14 @@ function getForward() {
     
               <Snackbar open={check}
             autoHideDuration={3000}
-            onClose={()=> setCheck(false)}><Alert severity ="error"> Your king is on Check!</Alert></Snackbar>
+            anchorOrigin={{ vertical:'top', horizontal : 'center' }}
+            onClose={()=> setCheck(false) }><Alert severity ="error" variant='filled'> Your king is on Check!</Alert></Snackbar>
 
 
 <Snackbar open={checkMate}
             autoHideDuration={3000}
-            ><Alert severity ="success"> CheckMate! Game Over!</Alert></Snackbar>
+            anchorOrigin={{ vertical:'top', horizontal : 'center' }}
+            ><Alert severity ="success" variant='filled'> CheckMate! Game Over!</Alert></Snackbar>
 
 
     <div id = 'game'>    <Button id = 'startGame' variant = 'contained' onClick = {handle2PlayerGame}>Play a 2 player game</Button>
