@@ -7,14 +7,14 @@
 
 const initialState =  {
     turn : 1,
-    loadingFlag : false,
+    count : 0,
  
 }
 
 const ACTION = {
     INCREMENTTURN :'INCREMENTTURN',
     DECREMENTTURN : 'DECREMENTTURN',
-    LOADINGFLAG : false,
+    COUNT : 'COUNT',
   
 }
 
@@ -49,7 +49,7 @@ export const decrementActionCreator = () => {
 }
 
 export const trueLoadingFlagActionCreator = () => {
-    return actionCreator(ACTION.LOADINGFLAG);
+    return actionCreator(ACTION.COUNT);
 }
 // export const loginActionCreator = (payload)=> {
 //     return actionCreator(ACTION.LOGIN , loginApi, payload);
@@ -77,8 +77,10 @@ switch(type) {
     case ACTION.DECREMENTTURN:
         state.turn = 1;
         return {...state};
-    case ACTION.LOADINGFLAG:
-        state.loadingFlag = true;
+    case ACTION.COUNT:
+       
+       
+        state.count++;
         return{...state};
         default: return{...state};
 }

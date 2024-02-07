@@ -31,8 +31,8 @@ function ChessGui() {
     console.log(turn.turn)
     turn = turn.turn;
    
-    let loadingFlag = useSelector((user) => user.user);
-    loadingFlag = loadingFlag.loadingFlag;
+    let count = useSelector((user) => user.user);
+    count =count.count;
     
 
 
@@ -11757,10 +11757,10 @@ function printMessage(data) {
         if(data === true) {
             setCheckmate(true);
             gameWin()
-            return;
         }
-    console.log('logging print message');
+    console.log('logging from print message');
     console.log(data);
+   
     if(data === "player2" && open === true) {
         setOpen(false);
         dispatch(trueLoadingFlagActionCreator());
@@ -11831,15 +11831,21 @@ function printMessage(data) {
         console.log(err);
     }
 }
+
+
+
 function loadingFunc() {
 try{
-    if(game[63].player2 !== null && loadingFlag === false) {
+    if(game[63].player2 !== null) {
     let message = "player2"
     let payload = [];
             payload.push(game[0].gameId);
             payload.push(2);
+          
     setTimeout(() => {
-    if(game[63].player2 === 'player2') {
+    if(game[63].player2 === 'player2' && count < 2) {
+        console.log('logging count');
+        console.log(count)
       
         try{
             console.log(payload);
@@ -11847,17 +11853,19 @@ try{
             
         dispatch(retreiveStateActionCreator(payload));
         }catch(err) {
-
+            console.log(err)
         }
-                if(ws !== undefined) {
             
-    ws?.send(message);
+            
+    ws.send(message);
     console.log('sent');
-   dispatch(trueLoadingFlagActionCreator());
+   
     if(open === true) {
         setOpen(false);
     }
-        }
+
+    dispatch(trueLoadingFlagActionCreator());
+        
        
    }}, 2000); }}catch(err) {
         console.log(err);
