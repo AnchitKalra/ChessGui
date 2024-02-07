@@ -27,8 +27,7 @@ function ChessGui() {
     
    
     let turn = useSelector(user => user.user);
-    console.log('logging turn');
-    console.log(turn.turn)
+    
     turn = turn.turn;
    
     let count = useSelector((user) => user.user);
@@ -58,8 +57,6 @@ function ChessGui() {
 
     let [checkMate, setCheckmate] = useState(false);
     var [ws, setWs] = useState(undefined);
-    console.log('logging ws')
-    console.log(ws)
 
     let game = useSelector(chessState => chessState.chessState);
     let [move] = useSound(moveDone);
@@ -68,12 +65,10 @@ function ChessGui() {
 
 
     let moveMade = () => {
-        try{
+        
             move();
-        }
-        catch(err) {
-            console.log(err);
-        }
+        
+        
     }
 
 
@@ -116,15 +111,15 @@ function addStorage() {
     let player1 = localStorage.getItem('player1');
     let player2 = localStorage.getItem('player2');
     
-    try{console.log('logging game');
-    console.log(game[63].player2);
+
+
+    try{
     
            
         if(game[63].player2!== 'player2' && player1 === null && player2 === null) {
             localStorage.setItem('player1', game[63].player1);
     
-            console.log('******************PLAYER1*******************************')
-            console.log(game[63].player2)
+         
         
         }
         else if(localStorage.getItem('player1') === 'player1') {
@@ -133,7 +128,7 @@ function addStorage() {
         else{
             let player1 = localStorage.getItem('player1');
          if( player1 === null) {
-         console.log('*****************PLAYER2*******************');
+
            
             localStorage.setItem('player2', game[63].player2);
             if(localStorage.getItem('player2') !== null) {
@@ -194,8 +189,7 @@ function addStorage() {
 
  function addPieces() {
         try{
-            console.log('logging from addPieces');
-            console.log(game);
+          
             
 
            
@@ -365,7 +359,7 @@ for(let j = 0; j < 64; j++) {
         detectCheckmate();
         if(checkFlag === true) {
             if(checkmate(turn) === true) {
-                console.log('CHECKMATE');
+           
                 setCheck(false);
                 setCheckmate(true);
                 gameWin();
@@ -451,7 +445,6 @@ for(let j = 0; j < 64; j++) {
                 dispatch(castlingWhiteLeftActionCreator());
             }
             if( pieceValue === 5 && arrayId[1] === 63) {
-                console.log('cannot castle');
                 dispatch(castlingWhiteRightActionCreator());
             }
             if(pieceValue === -5 && arrayId[1] === 56) {
@@ -475,10 +468,7 @@ for(let j = 0; j < 64; j++) {
 
        game[y].pieceValue = pieceValue;
 
-       console.log('logging gamex')
-       console.log(game[y].pieceValue);
-       console.log(y);
-       console.log(pieceValue)
+
        if(pieceValue2 !== 0) {
         if(boardValue2 < y) {
         game[y + 1].pieceValue = pieceValue2;
@@ -569,7 +559,6 @@ for(let j = 0; j < 64; j++) {
       
 
         if(turn === 2) {
-            console.log('detecting check for black king')
             try{
                 
                 checkCount = 0;
@@ -593,8 +582,7 @@ for(let j = 0; j < 64; j++) {
                                     let btn2 = document.getElementById(indexId);
                                     btn2.classList.add('colorCheck');
                                    
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                                 
                                     dispatch(detectCheckActionCreator());
                                 }
                                 while(piece1 === 0 && leftIndexY > 0) {
@@ -616,8 +604,7 @@ for(let j = 0; j < 64; j++) {
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                                    
                                         dispatch(detectCheckActionCreator());
                                     
                                         //setCheck(true);
@@ -637,12 +624,8 @@ for(let j = 0; j < 64; j++) {
                                             checkCount++
                                            
     
-    console.log('logging checkCount')
-    console.log(checkCount);                                        dispatch(detectCheckActionCreator());
-                                           //setCheck(true);
-                                                                //   setCheck(true);
-                        
-    
+                                     dispatch(detectCheckActionCreator());
+                                   
                                             break;
     
                                         default:
@@ -665,9 +648,7 @@ for(let j = 0; j < 64; j++) {
                                 if(piece1 === 5 || piece1 === 10) {
                                     let btn2 = document.getElementById(indexId);
                                     btn2.classList.add('colorCheck');
-                                   
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                                 
                                     dispatch(detectCheckActionCreator());
                                 }
                                 while(piece1 === 0 && rightIndexY < 7) {
@@ -690,12 +671,9 @@ for(let j = 0; j < 64; j++) {
                                         
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
-                                       
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                                    
                                         dispatch(detectCheckActionCreator());
-                                       // setCheck(true);
-                                                            //   setCheck(true);
+                               
                         
     
                                         break;
@@ -710,10 +688,7 @@ for(let j = 0; j < 64; j++) {
                                             dispatch(detectCheckActionCreator());
                                             checkCount++;
                                            
-                                            console.log('logging checkCount')
-                                            console.log(checkCount);
-                                          // setCheck(true);
-                                                               //   setCheck(true);
+                                      
                         
     
                                             break;
@@ -746,9 +721,7 @@ for(let j = 0; j < 64; j++) {
                                 if(piece1 === 5 || piece1 === 10) {
                                     let btn2 = document.getElementById(indexId);
                                     btn2.classList.add('colorCheck');
-                                    console.log('logging checkCount')
-                                   
-                                    console.log(checkCount);
+                                  
                                     dispatch(detectCheckActionCreator());
                                 }
                                 while(piece1 === 0 && upIndexX > 0) {
@@ -768,13 +741,10 @@ for(let j = 0; j < 64; j++) {
     
                                             btn1.classList.add('colorCheck');
                                             checkCount++;
-                                           
-                                            console.log('logging checkCount')
-                                            console.log(checkCount);
+                                   
         
                                             dispatch(detectCheckActionCreator());
-                                           // setCheck(true)
-                                                                //   setCheck(true);
+                                
                         
     
                                             break;
@@ -787,12 +757,10 @@ for(let j = 0; j < 64; j++) {
                                                 btn1.classList.add('colorCheck');
                                                 checkCount++;
                                                
-                                                console.log('logging checkCount')
-                                                console.log(checkCount);
+                                            
     
                                                 dispatch(detectCheckActionCreator());
-                                               // setCheck(true)
-                                                                    //   setCheck(true);
+                                       
                         
     
                                                 break;
@@ -822,19 +790,13 @@ for(let j = 0; j < 64; j++) {
                                 switch(piece1) {
                                     case 5:
                                         btn1.classList.add('colorCheck');
-                                       // checkCount++;
-                                      
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                                     
                                         dispatch(detectCheckActionCreator());
                                         break;
     
                                     case 10:
                                         btn1.classList.add('colorCheck');
-                                      //  checkCount++;
-                                     
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                          
                                         dispatch(detectCheckActionCreator());
                                         break;
                                     default:break;
@@ -858,11 +820,9 @@ for(let j = 0; j < 64; j++) {
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                                    
                                         dispatch(detectCheckActionCreator());
-                                       // setCheck(true)
-                                                            //   setCheck(true);
+                             
                         
     
                                         break;
@@ -877,11 +837,8 @@ for(let j = 0; j < 64; j++) {
                                             checkCount++
                                            
     
-    console.log('logging checkCount')
-    console.log(checkCount);                                        dispatch(detectCheckActionCreator());
-                                         //   setCheck(true)
-                                                              //   setCheck(true);
-                        
+                                     dispatch(detectCheckActionCreator());
+                                 
     
                                             break;
                                         default:break;
@@ -910,29 +867,19 @@ for(let j = 0; j < 64; j++) {
                                 case 1:
                                     btn1.classList.add('colorCheck');
                                     checkCount++
-    
-    console.log('logging checkCount')
-    console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                             dispatch(detectCheckActionCreator());
                                     break;
                                 case 3:
                                     btn1.classList.add('colorCheck');
-                                   // checkCount++
+                 
                                   
-    
-    console.log('logging checkCount')
-    console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                               dispatch(detectCheckActionCreator());
                                     break;
                                 case 10:
                                     btn1.classList.add('colorCheck');
-                                   // checkCount++
-                                  
-    
-    console.log('logging checkCount')
-    console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                              dispatch(detectCheckActionCreator());
                                     break;
-                                    //setCheck(true)
-                                                         //   setCheck(true);
-                        
+                          
     
                                     
                                 default:break;
@@ -956,11 +903,9 @@ for(let j = 0; j < 64; j++) {
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                              
                                         dispatch(detectCheckActionCreator());
-                                       // setCheck(true)
-                                                            //   setCheck(true);
+                             
                         
     
                                         break;
@@ -972,11 +917,9 @@ for(let j = 0; j < 64; j++) {
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                          
                                         dispatch(detectCheckActionCreator());
-                                       // setCheck(true)
-                                                            //   setCheck(true);
+                          
                         
     
                                         break;
@@ -1004,24 +947,19 @@ for(let j = 0; j < 64; j++) {
                                     case 1:
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                            
                                         dispatch(detectCheckActionCreator());
                                         break;
                                     case 3:
                                         btn1.classList.add('colorCheck');
-                                       // checkCount++;
+                        
                                       
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                         
                                         dispatch(detectCheckActionCreator());
                                         break;
                                     case 10:
                                         btn1.classList.add('colorCheck');
-                                      //  checkCount++;
-                                     
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                        
                                         dispatch(detectCheckActionCreator());
                                         break;
                                     default:break;
@@ -1045,9 +983,7 @@ for(let j = 0; j < 64; j++) {
                                       
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
-                                       
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                          
                                         dispatch(detectCheckActionCreator());
                                         break;
                                     case 10:
@@ -1059,8 +995,7 @@ for(let j = 0; j < 64; j++) {
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                                   
                                         dispatch(detectCheckActionCreator());
                                         break;
                                         default:break;
@@ -1090,25 +1025,16 @@ for(let j = 0; j < 64; j++) {
                                     case 1:
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                                     
                                         dispatch(detectCheckActionCreator());
                                         break;
                                     case 3:
                                         btn1.classList.add('colorCheck');
-                                       // checkCount++
-                                      
-    
-    console.log('logging checkCount')
-    console.log(checkCount);                                    dispatch(detectCheckActionCreator());
+                                            dispatch(detectCheckActionCreator());
                                         break;
                                     case 10:
                                         btn1.classList.add('colorCheck');
-                                      //  checkCount++
-                                     
-    
-    console.log('logging checkCount')
-    console.log(checkCount);                                    dispatch(detectCheckActionCreator());
+                                     dispatch(detectCheckActionCreator());
                                         break;
                                     default:break;
                                 }}
@@ -1132,8 +1058,7 @@ for(let j = 0; j < 64; j++) {
                                             btn1.classList.add('colorCheck');
                                             checkCount++;
                                            
-                                            console.log('logging checkCount')
-                                            console.log(checkCount);
+                                         
         
                                             dispatch(detectCheckActionCreator());
                                             break;
@@ -1145,9 +1070,7 @@ for(let j = 0; j < 64; j++) {
                                             btn1.classList.add('colorCheck');
                                             checkCount++
                                            
-    
-    console.log('logging checkCount')
-    console.log(checkCount);                                        dispatch(detectCheckActionCreator());
+                                       dispatch(detectCheckActionCreator());
                                             break;
                                             default:break;
                                             
@@ -1178,23 +1101,17 @@ for(let j = 0; j < 64; j++) {
                                     btn1.classList.add('colorCheck');
                                     checkCount++
     
-    console.log('logging checkCount')
-    console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                               dispatch(detectCheckActionCreator());
                                     break;
                                 case 3:
                                     btn1.classList.add('colorCheck');
-                                   // checkCount++;
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                          
                                    
                                     dispatch(detectCheckActionCreator());
                                     break;
                                 case 10:
                                     btn1.classList.add('colorCheck');
-                                  //  checkCount++;
-                                 
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                       
                                     dispatch(detectCheckActionCreator());
                                     break;
                                         default:break;
@@ -1218,8 +1135,7 @@ for(let j = 0; j < 64; j++) {
                                             btn1.classList.add('colorCheck');
                                             checkCount++;
                                            
-                                            console.log('logging checkCount')
-                                            console.log(checkCount);
+                                     
         
                                             dispatch(detectCheckActionCreator());
                                             break;
@@ -1233,8 +1149,7 @@ for(let j = 0; j < 64; j++) {
                                                 btn1.classList.add('colorCheck');
                                                 checkCount++;
                                                
-                                                console.log('logging checkCount')
-                                                console.log(checkCount);
+                                       
     
                                                 dispatch(detectCheckActionCreator());
                                                 break;
@@ -1273,11 +1188,9 @@ for(let j = 0; j < 64; j++) {
                          if(pieceUpRight === 2) {
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+                 
                             dispatch(detectCheckActionCreator());
-                           // setCheck(true);
-                                                //   setCheck(true);
+                
                         
     
                         }
@@ -1294,12 +1207,9 @@ for(let j = 0; j < 64; j++) {
                          if(pieceUpLeft === 2) {
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+                      
                             dispatch(detectCheckActionCreator());
-                           // setCheck(true);
-                                                //   setCheck(true);
-                        
+            
     
                         }
                     }
@@ -1315,12 +1225,9 @@ for(let j = 0; j < 64; j++) {
                        if(pieceDownLeft === 2) {
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+            
                             dispatch(detectCheckActionCreator());
-                          //  setCheck(true);
-                                               //   setCheck(true);
-                        
+                      
     
                         }
                     }
@@ -1335,11 +1242,9 @@ for(let j = 0; j < 64; j++) {
                          if(pieceDownRight === 2) {
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+                      
                             dispatch(detectCheckActionCreator());
-                          //  setCheck(true);
-                                               //   setCheck(true);
+                    
                         
     
                         }
@@ -1357,11 +1262,9 @@ for(let j = 0; j < 64; j++) {
                          if(pieceLeftUp === 2) {
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+                   
                             dispatch(detectCheckActionCreator());
-                          //  setCheck(true);
-                                               //   setCheck(true);
+                   
                         
     
                         }
@@ -1382,11 +1285,9 @@ for(let j = 0; j < 64; j++) {
                             
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+                 
                             dispatch(detectCheckActionCreator());
-                          //  setCheck(true);
-                                               //   setCheck(true);
+                        
                         
     
                         }
@@ -1404,10 +1305,9 @@ for(let j = 0; j < 64; j++) {
                         if(pieceLeftTwoDown === 2) {    
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+                   
                             dispatch(detectCheckActionCreator());
-                         //   setCheck(true);
+               
                         
                         }
                     }
@@ -1425,10 +1325,9 @@ for(let j = 0; j < 64; j++) {
                          if(pieceRightTwoDown === 2) {
                             btn1.classList.add('colorCheck');
                             checkCount++;
-                            console.log('logging checkCount')
-                            console.log(checkCount);
+                   
                             dispatch(detectCheckActionCreator());
-                          //  setCheck(true);
+               
                          
                         }
                     }
@@ -1463,7 +1362,7 @@ for(let j = 0; j < 64; j++) {
             if(turn === 1) {
             try{
                checkCount = 0;
-                console.log('detecting check for white king')
+        
             for(let indexIdX = 0; indexIdX < 8; indexIdX++) {
                 for(let indexIdY = 0; indexIdY < 8; indexIdY++) {
                     let id = board[indexIdX][indexIdY];
@@ -1484,8 +1383,7 @@ for(let j = 0; j < 64; j++) {
                             if(piece1 === -5 || piece1 === -10) {
                                 let btn2 = document.getElementById(indexId);
                                 btn2.classList.add('colorCheck');
-                                console.log('logging checkCount')
-                                console.log(checkCount);
+                          
                                
                                 dispatch(detectCheckActionCreator());
                                 
@@ -1508,12 +1406,10 @@ for(let j = 0; j < 64; j++) {
                                     btn1.classList.add('colorCheck');
                                    
                                     checkCount++;
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                            
                                     dispatch(detectCheckActionCreator());
                                 
-                                    //setCheck(true);
-                                                         //   setCheck(true);
+                             
                     
 
                                     break;
@@ -1526,11 +1422,8 @@ for(let j = 0; j < 64; j++) {
                                         btn1.classList.add('colorCheck');
                                         checkCount++
                                        
-
-console.log('logging checkCount')
-console.log(checkCount);                                        dispatch(detectCheckActionCreator());
-                                       //setCheck(true);
-                                                            //   setCheck(true);
+                                     dispatch(detectCheckActionCreator());
+                                   
                     
 
                                         break;
@@ -1556,8 +1449,7 @@ console.log(checkCount);                                        dispatch(detectC
                             if(piece1 === -5 || piece1 === -10) {
                                 let btn2 = document.getElementById(indexId);
                                 btn2.classList.add('colorCheck');
-                                console.log('logging checkCount')
-                                console.log(checkCount);
+                   
                                
                                 dispatch(detectCheckActionCreator());
                             }
@@ -1580,11 +1472,9 @@ console.log(checkCount);                                        dispatch(detectC
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
                                    
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                           
                                     dispatch(detectCheckActionCreator());
-                                   // setCheck(true);
-                                                        //   setCheck(true);
+                         
                     
 
                                     break;
@@ -1598,10 +1488,7 @@ console.log(checkCount);                                        dispatch(detectC
                                         dispatch(detectCheckActionCreator());
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
-                                      // setCheck(true);
-                                                           //   setCheck(true);
+                                
                     
 
                                         break;
@@ -1635,8 +1522,7 @@ console.log(checkCount);                                        dispatch(detectC
                             if(piece1 === -5 || piece1 === -10) {
                                 let btn2 = document.getElementById(indexId);
                                 btn2.classList.add('colorCheck');
-                                console.log('logging checkCount')
-                                console.log(checkCount);
+                        
                                
                                 dispatch(detectCheckActionCreator());
                             }
@@ -1657,13 +1543,10 @@ console.log(checkCount);                                        dispatch(detectC
 
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
-                                       
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                           
     
                                         dispatch(detectCheckActionCreator());
-                                       // setCheck(true)
-                                                            //   setCheck(true);
+                                 
                     
 
                                         break;
@@ -1676,12 +1559,10 @@ console.log(checkCount);                                        dispatch(detectC
                                             btn1.classList.add('colorCheck');
                                             checkCount++;
                                            
-                                            console.log('logging checkCount')
-                                            console.log(checkCount);
+                              
 
                                             dispatch(detectCheckActionCreator());
-                                           // setCheck(true)
-                                                                //   setCheck(true);
+                                 
                     
 
                                             break;
@@ -1708,19 +1589,13 @@ console.log(checkCount);                                        dispatch(detectC
                             switch(piece1) {
                                 case -5:
                                     btn1.classList.add('colorCheck');
-                                   // checkCount++;
-                                  
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                          
                                     dispatch(detectCheckActionCreator());
                                     break;
 
                                 case -10:
                                     btn1.classList.add('colorCheck');
-                                  //  checkCount++;
-                                 
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                           
                                     dispatch(detectCheckActionCreator());
                                     break;
                                 default:break;
@@ -1744,11 +1619,9 @@ console.log(checkCount);                                        dispatch(detectC
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
                                    
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                             
                                     dispatch(detectCheckActionCreator());
-                                   // setCheck(true)
-                                                        //   setCheck(true);
+                             
                     
 
                                     break;
@@ -1762,11 +1635,8 @@ console.log(checkCount);                                        dispatch(detectC
                                         btn1.classList.add('colorCheck');
                                         checkCount++
                                        
-
-console.log('logging checkCount')
-console.log(checkCount);                                        dispatch(detectCheckActionCreator());
-                                     //   setCheck(true)
-                                                          //   setCheck(true);
+                                     dispatch(detectCheckActionCreator());
+                            
                     
 
                                         break;
@@ -1794,27 +1664,19 @@ console.log(checkCount);                                        dispatch(detectC
                                 btn1.classList.add('colorCheck');
                                 checkCount++
 
-console.log('logging checkCount')
-console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                              dispatch(detectCheckActionCreator());
                                 break;
                             case -3:
                                 btn1.classList.add('colorCheck');
-                               
-                               // checkCount++
-
-console.log('logging checkCount')
-console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                        
+                              dispatch(detectCheckActionCreator());
                                 break;
                             case -10:
                                 btn1.classList.add('colorCheck');
                                
-                               // checkCount++
-
-console.log('logging checkCount')
-console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                               dispatch(detectCheckActionCreator());
                                 break;
-                                //setCheck(true)
-                                                     //   setCheck(true);
+                            
                     
 
                                 
@@ -1839,11 +1701,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
                                    
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                            
                                     dispatch(detectCheckActionCreator());
-                                   // setCheck(true)
-                                                        //   setCheck(true);
+                      
                     
 
                                     break;
@@ -1855,11 +1715,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
                                    
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                         
                                     dispatch(detectCheckActionCreator());
-                                   // setCheck(true)
-                                                        //   setCheck(true);
+                           
                     
 
                                     break;
@@ -1887,24 +1745,17 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                 case -1:
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                       
                                     dispatch(detectCheckActionCreator());
                                     break;
                                 case -3:
                                     btn1.classList.add('colorCheck');
-                                   // checkCount++;
-                                  
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                          
                                     dispatch(detectCheckActionCreator());
                                     break;
                                 case -10:
                                     btn1.classList.add('colorCheck');
-                                  //  checkCount++;
-                                 
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                      
                                     dispatch(detectCheckActionCreator());
                                     break;
                                 default:break;
@@ -1926,9 +1777,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     }
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
-                                   
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                        
                                     dispatch(detectCheckActionCreator());
                                     break;
                                 case -10:
@@ -1939,8 +1788,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
                                    
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                             
                                     dispatch(detectCheckActionCreator());
                                     break;
                                     default:break;
@@ -1971,25 +1819,17 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                 case -1:
                                     btn1.classList.add('colorCheck');
                                     checkCount++;
-                                    console.log('logging checkCount')
-                                    console.log(checkCount);
+                              
                                     dispatch(detectCheckActionCreator());
                                     break;
                                 case -3:
                                     btn1.classList.add('colorCheck');
                                    
-                                   // checkCount++
-
-console.log('logging checkCount')
-console.log(checkCount);                                    dispatch(detectCheckActionCreator());
+                                  dispatch(detectCheckActionCreator());
                                     break;
                                 case -10:
                                     btn1.classList.add('colorCheck');
-                                   
-                                  //  checkCount++
-
-console.log('logging checkCount')
-console.log(checkCount);                                    dispatch(detectCheckActionCreator());
+                                 dispatch(detectCheckActionCreator());
                                     break;
                                 default:break;
                             }
@@ -2011,8 +1851,7 @@ console.log(checkCount);                                    dispatch(detectCheck
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                                      
     
                                         dispatch(detectCheckActionCreator());
                                         break;
@@ -2024,9 +1863,7 @@ console.log(checkCount);                                    dispatch(detectCheck
                                        
                                         btn1.classList.add('colorCheck');
                                         checkCount++
-
-console.log('logging checkCount')
-console.log(checkCount);                                        dispatch(detectCheckActionCreator());
+                                       dispatch(detectCheckActionCreator());
                                         break;
                                         default:break;
                                         
@@ -2057,24 +1894,17 @@ console.log(checkCount);                                        dispatch(detectC
                                 case -1:
                                 btn1.classList.add('colorCheck');
                                 checkCount++
-
-console.log('logging checkCount')
-console.log(checkCount);                                dispatch(detectCheckActionCreator());
+                                dispatch(detectCheckActionCreator());
                                 break;
                             case -3:
                                 btn1.classList.add('colorCheck');
-                               // checkCount++;
-                                console.log('logging checkCount')
-                                console.log(checkCount);
+                   
                                
                                 dispatch(detectCheckActionCreator());
                                 break;
                             case -10:
                                 btn1.classList.add('colorCheck');
-                              //  checkCount++;
-                             
-                                console.log('logging checkCount')
-                                console.log(checkCount);
+                        
                                 dispatch(detectCheckActionCreator());
                                 break;
                                     default:break;
@@ -2098,8 +1928,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                         btn1.classList.add('colorCheck');
                                         checkCount++;
                                        
-                                        console.log('logging checkCount')
-                                        console.log(checkCount);
+                              
     
                                         dispatch(detectCheckActionCreator());
                                         break;
@@ -2113,8 +1942,7 @@ console.log(checkCount);                                dispatch(detectCheckActi
                                            
                                             btn1.classList.add('colorCheck');
                                             checkCount++;
-                                            console.log('logging checkCount')
-                                            console.log(checkCount);
+                              
 
                                             dispatch(detectCheckActionCreator());
                                             break;
@@ -2152,11 +1980,9 @@ console.log(checkCount);                                dispatch(detectCheckActi
                         piece = game[id]?.pieceValue
                         btn1.classList.add('colorCheck');
                         checkCount++;
-                        console.log('logging checkCount')
-                        console.log(checkCount);
+       
                         dispatch(detectCheckActionCreator());
-                       // setCheck(true);
-                                            //   setCheck(true);
+                  
                     
 
                     }
@@ -3657,10 +3483,7 @@ catch(err) {
             }catch(err) {
                 console.log(err);
             }
-        
-        console.log('logging game');
-        console.log(game);
-
+ 
         if(game.length === 65) {
                 return;
         }
@@ -3676,9 +3499,7 @@ catch(err) {
         let id = (imgId.split(":")[1] === undefined ? imgId : imgId.split(":")[1]);
         id = parseInt(id);
         let btn = document.getElementById(id);
-        console.log('logging id');
-        console.log(id);
-        
+   
         if(btn.classList.contains('colorBlue')) {
             
             let piece = game[id - 2].pieceValue
@@ -3771,8 +3592,7 @@ catch(err) {
                 
                     piece.push(id);
                     piece.push(game[id]?.pieceValue);
-                    console.log('logging piece');
-                    console.log(piece);
+             
                     if(turn === 2 && player2 !== null) {
                 
                  if(piece[1] !== 0) {
@@ -4481,7 +4301,7 @@ catch(err) {
                             }}
                             }
                             catch(err) {
-                                console.log('error from leftUp')
+                         
                                 console.log(err);
                             }
 
@@ -4566,7 +4386,7 @@ catch(err) {
                         }
 
                             catch(err) {
-                                console.log('error from RighttUp')
+                           
                                 console.log(err);
                             }
 
@@ -4594,7 +4414,7 @@ catch(err) {
                                     }
                                 }
                              else   if(pieceRightDown > 0) {
-                                console.log('from right down color red')
+                    
                                 if(detectCheck(piece[0], diagRightDown) === false ) {
                                     btnRightDown.classList.add('colorRed');
                                 }
@@ -4628,7 +4448,6 @@ catch(err) {
                                     let btnRightDown = document.getElementById(diagRightDown);
                                    
                                     if(pieceRightDown > 0) {
-                                    console.log('from right down color red')
                                     if(btnRightDown.classList.contains('colorCheck')) {
                                         btnRightDown.classList.add('colorRed');
                                         btnRightDown.classList.remove('colorCheck');
@@ -4655,8 +4474,7 @@ catch(err) {
                             }}}
                         }
                             catch(err) {
-                                console.log('error from RightDown')
-                                console.log(err);
+                              console.log(err);
                             }
 
 
@@ -4718,7 +4536,6 @@ catch(err) {
                                     let btnLeftDown = document.getElementById(diagLeftDown);
                                    
                                     if(pieceLeftDown > 0) {
-                                    console.log('from left down color red')
                                     if(btnLeftDown.classList.contains('colorCheck')) {
                                         btnLeftDown.classList.add('colorRed');
                                         btnLeftDown.classList.remove('colorCheck');
@@ -4747,7 +4564,6 @@ catch(err) {
                             }
                             }
                             catch(err) {
-                                console.log('error from leftDown')
                                 console.log(err);
                                
                             }
@@ -5124,7 +4940,6 @@ catch(err) {
                             }}
                             }}
                             catch(err) {
-                                console.log('error from leftUp')
                                 console.log(err);
                                
                             }
@@ -5200,7 +5015,6 @@ catch(err) {
                         }
 
                             catch(err) {
-                                console.log('error from RighttUp')
                                 console.log(err);
                             }
 
@@ -5285,7 +5099,6 @@ catch(err) {
                             }}}
                             }
                             catch(err) {
-                                console.log('error from RightDown')
                                 console.log(err);
                                
                             }
@@ -5377,7 +5190,6 @@ catch(err) {
                             }
                             }}
                             catch(err) {
-                                console.log('error from leftDown')
                                 console.log(err);
                              
                             }
@@ -5401,9 +5213,7 @@ catch(err) {
                                     z--;
                                     idIndex--;
                                     let piece = game[idIndex].pieceValue;
-                                    console.log('logging castling');
-                                    console.log(piece);
-                                    console.log('z' + z);
+                               
                                     
                                     if(z === 0) {
                                         let rookpiece = game[idIndex].pieceValue
@@ -5444,9 +5254,7 @@ catch(err) {
                                     z++;
                                     idIndex++;
                                     let piece = game[idIndex].pieceValue;
-                                    console.log('logging castling');
-                                    console.log(piece);
-                                    console.log('z' + z);
+                              
                                     
                                     if(z === 7) {
                                         let rookpiece = game[idIndex].pieceValue
@@ -5655,7 +5463,6 @@ catch(err) {
                                                 
                                             }
                                             else if(piece1 === 0 && detectCheck(id, downIndex) === false && pieceBackedUp(downIndex, downX, downY, 0) === false){
-                                                console.log('FROM down Index');
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5690,8 +5497,7 @@ catch(err) {
                                     }
                                     else{
                                         if(piece1 > 0) {
-                                            console.log('turn of player');
-                                           // console.log(turnOfPlayer[x]);
+                                    
                                             if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
@@ -5786,8 +5592,6 @@ catch(err) {
                                     }
                                     else{
                                         if(piece1 > 0) {
-                                            console.log('pieceBackedUp');
-                                            console.log(pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0));
                                             if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
@@ -5865,7 +5669,6 @@ catch(err) {
                                 id = board[j][k];
                         if(xIndex === 6) {
                             if(checkFlag === false) {
-                            console.log('xIndex case pawn white')
                             let oneUp = id - 8;
                             let twoUp = id - 16;
                             let pieceOneUp = [];
@@ -5877,12 +5680,10 @@ catch(err) {
                             if(pieceOneUp[1] === 0) {
                                 let btn1 = document.getElementById(oneUp);
                                 if(pieceTwoUp[1] === 0) {
-                                    console.log('both color green?')
 
                                    
                                     let btn2 = document.getElementById(twoUp);
-                                    console.log(btn1);
-                                    console.log(btn2);
+                              
                                     if(detectCheck(id, oneUp) === false) {
                                     btn1.classList.add("colorGreen");
                                     }
@@ -5926,7 +5727,6 @@ catch(err) {
 
                         if(checkCount <= 1) {
 
-                        console.log('xIndex case pawn white')
                         let oneUp = id - 8;
                         let twoUp = id - 16;
                         let pieceOneUp = [];
@@ -5941,8 +5741,7 @@ catch(err) {
 
                                
                                 let btn2 = document.getElementById(twoUp);
-                                console.log(btn1);
-                                console.log(btn2);
+                           
                                 if(btn2.classList.contains('colorCheck')) {
                                     btn2.classList.add('colorGreen');
                                     btn2.classList.remove('colorCheck');
@@ -6020,7 +5819,6 @@ catch(err) {
 
                                 let btn3 = document.getElementById(diagonalOneRightUp);
                                 if(detectCheck(id, diagonalOneRightUp) === false) {
-                                    console.log('here?????????????????????????????????')
                                 btn3.classList.add('colorRed');
                                 }
                             }}
@@ -6067,9 +5865,7 @@ catch(err) {
                         }}
                     }
                         else if(turn === 1 && player1 !== null){
-                            console.log('player1')
                             id = board[j][k];
-                            console.log(piece[1]);
                            
                                 switch(piece[1]) {
                                    
@@ -6158,8 +5954,11 @@ catch(err) {
                                 yIndex = k;
                                 try{
                                 if(checkFlag === false) {
+
+                                    xIndex++;
+                                    if(xIndex <= 7) {
                                 let pieceDown = game[oneDown]?.pieceValue;
-                                xIndex++;
+                              
                                 while(pieceDown === 0 || pieceDown < 0) {
                                    
                                     let btn1 = document.getElementById(oneDown);
@@ -6180,10 +5979,11 @@ catch(err) {
                                         break;
                                     }
                                     pieceDown = game[oneDown]?.pieceValue;
-                                }
+                                }}
                                }
                             else{
                                 if(checkCount <= 1) {
+                                    xIndex = j;
                                     xIndex++;
                                     if(xIndex <= 7) {
                                 let pieceDown = game[oneDown]?.pieceValue;
@@ -6287,7 +6087,7 @@ catch(err) {
                             
                             }catch(err) {
                                     console.log(err);
-                                    break;
+                                    
                                 }
 
                                 xIndex = j;
@@ -6941,7 +6741,6 @@ catch(err) {
                             }}}
                         }
                             catch(err) {
-                                console.log('error from RightDown')
                                 console.log(err);
                             }
 
@@ -7712,9 +7511,7 @@ catch(err) {
                                         z--;
                                         idIndex--;
                                         let piece = game[idIndex].pieceValue;
-                                        console.log('logging castling');
-                                        console.log(piece);
-                                        console.log('z' + z);
+                                  
                                         
                                         if(z === 0) {
                                             let rookpiece = game[idIndex].pieceValue
@@ -7754,15 +7551,12 @@ catch(err) {
                                     let z = yIndex;
                                     let idIndex = id;
                                     if(checkData.castlingWhiteRight === true) {
-                                        console.log('logging castlingwhiteright');
-                                        console.log(checkData.castlingWhiteRight);
+                                 
                                     while(z <= 7) {
                                         z++;
                                         idIndex++;
                                         let piece = game[idIndex].pieceValue;
-                                        console.log('logging castling');
-                                        console.log(piece);
-                                        console.log('z' + z);
+                               
                                         
                                         if(z === 7) {
                                             let rookpiece = game[idIndex].pieceValue
@@ -7968,7 +7762,6 @@ catch(err) {
                                             else{
                                                
                                                  if(piece1 === 0 && detectCheck(piece[0], downIndex) === false && pieceBackedUp(downIndex, downX, downY, 1)===false){
-                                                    console.log('FROM down Index');
                                                     btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -8103,8 +7896,6 @@ catch(err) {
                                         }
                                         else{
                                             if(piece1 < 0) {
-                                                console.log('pieceBackedUp');
-                                                console.log(pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1));
                                                 if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
                                                     btn1.classList.add('colorRed');
                                                     btn1.classList.remove('colorCheck');
@@ -8174,13 +7965,11 @@ catch(err) {
 
                             case 1:
                                 try{
-                                    console.log('it is in piece 1');
                                     xIndex = j;
                                     yIndex = k;
                                     id = board[j][k];
                             if(xIndex === 6) {
                                 if(checkFlag === false) {
-                                console.log('xIndex case pawn white')
                                 let oneUp = id - 8;
                                 let twoUp = id - 16;
                                 let pieceOneUp = [];
@@ -8189,21 +7978,14 @@ catch(err) {
                                 let pieceTwoUp = [];
                                 pieceTwoUp.push(twoUp);
                                 pieceTwoUp.push(game[twoUp]?.pieceValue);
-                                console.log('logging one up');
-                                console.log(pieceOneUp);
-                                console.log('logging piece teo up');
-                                console.log(pieceTwoUp);
+                             
                                 if(pieceOneUp[1] === 0) {
                                     let btn1 = document.getElementById(oneUp);
                                     if(pieceTwoUp[1] === 0) {
-                                        console.log('both color green?')
 
                                        
                                         let btn2 = document.getElementById(twoUp);
-                                        console.log(btn1);
-                                        console.log(btn2);
-                                        console.log(detectCheck(id, oneUp));
-                                        console.log(detectCheck(id, twoUp));
+                                   
                                         if(detectCheck(id, oneUp) === false) {
                                         btn1.classList.add("colorGreen");
                                         }
@@ -8248,7 +8030,6 @@ catch(err) {
 
                             if(checkCount <= 1) {
 
-                            console.log('xIndex case pawn white')
                             let oneUp = id - 8;
                             let twoUp = id - 16;
                             let pieceOneUp = [];
@@ -8263,8 +8044,7 @@ catch(err) {
 
                                    
                                     let btn2 = document.getElementById(twoUp);
-                                    console.log(btn1);
-                                    console.log(btn2);
+                                 
                                     if(btn2.classList.contains('colorCheck')) {
                                         btn2.classList.add('colorGreen');
                                         btn2.classList.remove('colorCheck');
@@ -8404,14 +8184,11 @@ catch(err) {
 
 
 function pieceBackedUp(id, x, y, color) {
-    console.log('logging  color');
-    console.log(color);
     let whitePiece = 1;
     let blackPiece = 0;
     if(color === blackPiece) {
         let j = x;
         let k = y;
-        //let piece1 = game[id].pieceValue;
         //check for rook & Queen backup
         //upwards
         try{
@@ -8553,7 +8330,6 @@ function pieceBackedUp(id, x, y, color) {
         try{
             j--
             k++;
-            console.log('RIGHT UP DIAGONAL')
             if(j >= 0 && k <= 7) {
             let rightUpDiag = id - 7;
             let piece = game[rightUpDiag].pieceValue;
@@ -10435,9 +10211,10 @@ function pieceBackedUp(id, x, y, color) {
                             
                              
                                 if(checkCount <= 1) {
+                                    xIndex++;
+                                    if(xIndex <= 7) {
                                 let pieceDown = game[oneDown]?.pieceValue;
-                                xIndex++;
-                                if(xIndex <= 7) {
+                             
                                 while(pieceDown === 0 || pieceDown < 0) {
                                     if(xIndex > 7) {
                                         break;
@@ -11852,10 +11629,9 @@ try{
             
             
         dispatch(retreiveStateActionCreator(payload));
-        }catch(err) {
-            console.log(err)
-        }
+        
             
+    
             
     ws.send(message);
     console.log('sent');
@@ -11865,6 +11641,10 @@ try{
     }
 
     dispatch(trueLoadingFlagActionCreator());
+}
+    catch(err) {
+        console.log(err)
+    }
         
        
    }}, 2000); }}catch(err) {
