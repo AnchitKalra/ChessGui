@@ -8375,7 +8375,6 @@ function pieceBackedUp(id, x, y, color) {
                     if(piece === 3 || piece === 10) {
                         return true;
                     }
-                    console.log('left doen diagonal');
                 }
             }
         }
@@ -8557,11 +8556,7 @@ function pieceBackedUp(id, x, y, color) {
    else if(color === whitePiece) {
         let j = x;
         let k = y;
-        if(j === 7 && k === 4) {
-            console.log('logging 7, 4') 
-            
-        }
-        //let piece1 = game[id].pieceValue;
+  
         //check for rook & Queen backup
         //upwards
         try{
@@ -8630,10 +8625,7 @@ function pieceBackedUp(id, x, y, color) {
                 leftAxis--;
                 piece = game[leftAxis].pieceValue;
             }
-            console.log('logging king down');
-            console.log(k);
-            console.log(piece);
-            console.log(leftAxis);
+      
             if(piece === -5 || piece === -10) {
                 return true;
             }
@@ -8648,33 +8640,22 @@ function pieceBackedUp(id, x, y, color) {
         k = y;
 
         k++;
-        console.log('logging right side');
-        console.log(j);
-        console.log(k);
+     
         if(k <= 7) {
             let rightAxis = id + 1;
             let piece = game[rightAxis].pieceValue;
             if(piece === -5 || piece === -10 || piece === -6) {
-                console.log('logging right side inside while');
-                console.log(piece);
-                console.log(rightAxis);
-                console.log(k);
+          
                 return true;
             }
             if(piece === 0 || piece === 6) {
                 while((piece === 0 || piece === 6) && k < 7) {
-                    console.log('logging right side inside while');
-                    console.log(piece);
-                    console.log(rightAxis);
-                    console.log(k);
+                
                     k++;
                     rightAxis++;
                     piece = game[rightAxis].pieceValue;
                 }
-                console.log('logging king down right side');
-                console.log(k);
-                console.log(piece);
-                console.log(rightAxis);
+            
                 if(piece === -5 || piece === -10) {
                     return true;
                 }
@@ -8723,7 +8704,6 @@ function pieceBackedUp(id, x, y, color) {
         try{
             j--
             k++;
-            console.log('RIGHT UP DIAGONAL')
             if(j >= 0 && k <= 7) {
             let rightUpDiag = id - 7;
             let piece = game[rightUpDiag].pieceValue;
@@ -8769,7 +8749,6 @@ function pieceBackedUp(id, x, y, color) {
                     if(piece === -3 || piece === -10) {
                         return true;
                     }
-                    console.log('left doen diagonal');
                 }
             }
         }
@@ -9181,8 +9160,7 @@ function pieceBackedUp(id, x, y, color) {
                             let btn1 = document.getElementById(leftDownIndex);
                         
                                 if(piece1 < 0) {
-                                    console.log('pieceBackedUp');
-                                    console.log(pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1));
+                               
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
                                        legalMoves++;
                                     }
@@ -9249,7 +9227,6 @@ function pieceBackedUp(id, x, y, color) {
 
                         if(checkCount <= 1) {
 
-                        console.log('xIndex case pawn white')
                         let oneUp = id - 8;
                         let twoUp = id - 16;
                         let pieceOneUp = [];
@@ -9264,8 +9241,7 @@ function pieceBackedUp(id, x, y, color) {
 
                                
                                 let btn2 = document.getElementById(twoUp);
-                                console.log(btn1);
-                                console.log(btn2);
+                             
                                 if(btn2.classList.contains('colorCheck')) {
                                   legalMoves++;
                                 }
@@ -9711,7 +9687,6 @@ function pieceBackedUp(id, x, y, color) {
                         }}
                     }
                         catch(err) {
-                            console.log('error from RightDown')
                             console.log(err);
                         }
 
@@ -10159,15 +10134,13 @@ function pieceBackedUp(id, x, y, color) {
                             
                                let xIndex = j;
                               
-                                console.log('logging checkCount');
-                                console.log(checkCount);
+                          
                                 if(checkCount <= 1) {
                                 let pieceUp = game[oneUp]?.pieceValue;
                                 xIndex--;
                                 if(xIndex >= 0) {
                                 
                                 while(pieceUp === 0 || pieceUp < 0) {
-                                    console.log('pieceUp');
                                     
                                     if(xIndex < 0) {
                                         break;
@@ -10175,7 +10148,6 @@ function pieceBackedUp(id, x, y, color) {
                                     let btn1 = document.getElementById(oneUp);
                                     
                                      if(pieceUp < 0 || pieceUp === 0) {
-                                        console.log('????Checkmate>????')
                                         if(pieceUp < 0) {
                                         if(btn1.classList.contains('colorCheck')) {
                                            legalMoves++;
@@ -10184,7 +10156,6 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                         else if(pieceUp === 0) {
                                             if(btn1.classList.contains('colorCheck')) {
-                                                console.log('NOT CHECKMATE!')
                                               legalMoves++;
                                             }
                                         }
@@ -10559,8 +10530,7 @@ function pieceBackedUp(id, x, y, color) {
                             let btn1 = document.getElementById(leftDownIndex);
                         
                                 if(piece1 > 0) {
-                                    console.log('pieceBackedUp');
-                                    console.log(pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0));
+                            
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                        legalMoves++;
                                     }
@@ -10622,7 +10592,6 @@ function pieceBackedUp(id, x, y, color) {
                              
                             if(checkCount <= 1) {
 
-                                console.log('xIndex case pawn white')
                                 let oneUp = id - 8;
                                 let twoUp = id - 16;
                                 let pieceOneUp = [];
@@ -10643,8 +10612,7 @@ function pieceBackedUp(id, x, y, color) {
                                         if(btn2.classList.contains('colorCheck')) {
                                             legalMoves++;
                                         }
-                                        console.log(btn1);
-                                        console.log(btn2);
+                                   
                                        
                                     }
                                     else{
@@ -10968,7 +10936,6 @@ function pieceBackedUp(id, x, y, color) {
                         }
                         }
                         catch(err) {
-                            console.log('error from leftUp')
                             console.log(err);
                         }
 
@@ -11017,7 +10984,6 @@ function pieceBackedUp(id, x, y, color) {
                     }
 
                         catch(err) {
-                            console.log('error from RighttUp')
                             console.log(err);
                         }
 
@@ -11042,7 +11008,6 @@ function pieceBackedUp(id, x, y, color) {
                                 let btnRightDown = document.getElementById(diagRightDown);
                                
                                 if(pieceRightDown > 0) {
-                                console.log('from right down color red')
                                 if(btnRightDown.classList.contains('colorCheck')) {
                                    legalMoves++;
                                 }
@@ -11066,7 +11031,6 @@ function pieceBackedUp(id, x, y, color) {
                         }}}
                     }
                         catch(err) {
-                            console.log('error from RightDown')
                             console.log(err);
                         }
 
@@ -11092,7 +11056,6 @@ function pieceBackedUp(id, x, y, color) {
                                 let btnLeftDown = document.getElementById(diagLeftDown);
                                
                                 if(pieceLeftDown > 0) {
-                                console.log('from left down color red')
                                 if(btnLeftDown.classList.contains('colorCheck')) {
                                    legalMoves++;
                                 }
@@ -11119,7 +11082,6 @@ function pieceBackedUp(id, x, y, color) {
                         }
                         }
                         catch(err) {
-                            console.log('error from leftDown')
                             console.log(err);
                            
                         }
@@ -11333,7 +11295,6 @@ function pieceBackedUp(id, x, y, color) {
                                 }}
                                 }
                                 catch(err) {
-                                    console.log('error from leftUp')
                                     console.log(err);
                                    
                                 }
@@ -11377,7 +11338,6 @@ function pieceBackedUp(id, x, y, color) {
                             }
     
                                 catch(err) {
-                                    console.log('error from RighttUp')
                                     console.log(err);
                                 }
     
@@ -11425,7 +11385,6 @@ function pieceBackedUp(id, x, y, color) {
                                 }}
                                 }
                                 catch(err) {
-                                    console.log('error from RightDown')
                                     console.log(err);
                                    
                                 }
@@ -11477,7 +11436,6 @@ function pieceBackedUp(id, x, y, color) {
                                 
                                 }}
                                 catch(err) {
-                                    console.log('error from leftDown')
                                     console.log(err);
                                  
                                 }
@@ -11535,8 +11493,7 @@ function printMessage(data) {
             setCheckmate(true);
             gameWin()
         }
-    console.log('logging from print message');
-    console.log(data);
+
    
     if(data === "player2" && open === true) {
         setOpen(false);
@@ -11621,11 +11578,9 @@ try{
           
     setTimeout(() => {
     if(game[63].player2 === 'player2' && count < 2) {
-        console.log('logging count');
-        console.log(count)
+       
       
         try{
-            console.log(payload);
             
             
         dispatch(retreiveStateActionCreator(payload));
@@ -11655,7 +11610,6 @@ try{
 function getPrevious() {
     try{
     let payload = [];
-    console.log(prev[64]);
     payload.push(game[63].gameId);
    
  if(prev[64] === undefined) {
@@ -11674,8 +11628,7 @@ function getPrevious() {
         payload.push(1);
     }
    
-    console.log('logging payload')
-    console.log(payload)
+
     dispatch(previousActionCreator(payload));
     setPrevFlag(true);
 
@@ -11687,7 +11640,6 @@ function getPrevious() {
 function getForward() {
     try{
         let payload = [];
-        console.log(prev);
         payload.push(game[63].gameId);
         if(prevFlag === true) {
             payload.push(prev[64] + 2);
@@ -11712,8 +11664,7 @@ function getForward() {
         }
       
        
-        console.log('logging payload')
-        console.log(payload)
+  
         dispatch(forwardActionCreator(payload));
         if(forwardFlag === false) {
             setForwardFlag(true);
