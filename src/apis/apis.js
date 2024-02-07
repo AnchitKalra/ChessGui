@@ -21,7 +21,7 @@ export const closeConnection = async() => {
         await instance.get(ENDPOINT.CLOSE);
     }
     catch(err) {
-        console.log(err);
+      
     }
 }
 export const getPreviousApi = async(payload) => {

@@ -13,7 +13,6 @@ import useSound from 'use-sound';
 import checkDone from './check.wav';
 import moveDone from './move.wav';
 import gameDone from './gameOver.wav';
-import axios from 'axios';
 import { closeConnection } from '../apis/apis';
 
 
@@ -11531,15 +11530,21 @@ function printMessage(data) {
    
     let btn1 = document.getElementById(message[0]);
     let btn2 = document.getElementById(message[1]);
+    
+    try{
     if(!btn1.classList.contains('colorCheck')) {
     btn1?.classList.add('colorMove');
     moveMade();
   
     }
+
     if(!btn2.classList.contains('colorCheck')) {
     btn2?.classList.add('colorMove');
     moveMade();
     }
+}catch(err) {
+
+}
 
 
     if( turn === 1) {
