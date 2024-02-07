@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-const instance = axios.create({ baseURL: 'http://192.168.1.15:8080/'})
+const instance = axios.create({ baseURL: 'http://192.168.1.3:8080/'})
 
 
    
@@ -11,9 +11,19 @@ const ENDPOINT = {
     SAVEANDGETSTATE: "chess/getState",
     RETREIVESTATE: 'chess/retrieveState',
     GETPREVIOUS: 'chess/previous',
-    GETFORWARD: 'chess/forward'
+    GETFORWARD: 'chess/forward',
+    CLOSE: 'chess/close'
 }
 
+
+export const closeConnection = async() => {
+    try{
+        await instance.get(ENDPOINT.CLOSE);
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
 export const getPreviousApi = async(payload) => {
     try{
         let response = await instance.post(ENDPOINT.GETPREVIOUS, payload);

@@ -13,6 +13,8 @@ import useSound from 'use-sound';
 import checkDone from './check.wav';
 import moveDone from './move.wav';
 import gameDone from './gameOver.wav';
+import axios from 'axios';
+import { closeConnection } from '../apis/apis';
 
 
 
@@ -70,6 +72,15 @@ function ChessGui() {
         
         
     }
+
+    try{
+    setInterval(() => {
+       closeConnection();
+    }, 120000)
+}catch(err) {
+    console.log(err);
+
+}
 
 
    
@@ -11469,7 +11480,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.15:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.3:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
