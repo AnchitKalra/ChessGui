@@ -126,8 +126,8 @@ function addStorage() {
     try{
     
            
-        if(game[63].player2!== 'player2' && player1 === null && player2 === null) {
-            localStorage.setItem('player1', game[63].player1);
+        if(game[63].player2!== 'player2' && (player1 === null || player1 === 'null') && player2 === null) {
+            localStorage.setItem('player1', 'player1');
     
          
         
