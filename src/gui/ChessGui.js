@@ -11593,7 +11593,7 @@ try{
             payload.push(2);
           
     setTimeout(() => {
-    if(game[63].player2 === 'player2' && count < 2) {
+    if(game[63].player2 === 'player2' && count < 1) {
        
       
         try{
