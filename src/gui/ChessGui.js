@@ -6054,8 +6054,10 @@ catch(err) {
                                 yIndex = k;
                                 try{
                                 if(checkFlag === false) {
-                                let pieceLeft = game[oneLeft]?.pieceValue;
                                 yIndex--;
+                                if(yIndex >= 0) {
+                                    
+                                let pieceLeft = game[oneLeft]?.pieceValue;
                                 while(pieceLeft === 0 || pieceLeft < 0) {
                                    
                                     let btn1 = document.getElementById(oneLeft);
@@ -6076,7 +6078,7 @@ catch(err) {
                                         break;
                                     }
                                     pieceLeft = game[oneLeft]?.pieceValue;
-                                }
+                                }}
                                }
                             else{
                                 if(checkCount <= 1) {
@@ -9020,6 +9022,11 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftIndex, leftX, leftY, 1) === false) {
                                         legalMoves++;
                                     }
+                                    else{
+                                        if(pieceBackedUp(leftIndex, leftX, leftY, 1)===false) {
+                                            legalMoves++;
+                                        }
+                                    }
                                 }
                                 else{
                                     if(btn1.classList.contains('colorCheck')) {
@@ -9045,6 +9052,11 @@ function pieceBackedUp(id, x, y, color) {
                                 if(piece1 < 0) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightIndex, rightX, rightY, 1) === false) {
                                       legalMoves++;
+                                    }
+                                    else{
+                                        if(pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
+                                            legalMoves++;
+                                        }
                                     }
                                 }
                                 else{
@@ -10416,6 +10428,11 @@ function pieceBackedUp(id, x, y, color) {
                                 if(piece1 > 0) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightIndex, rightX, rightY, 0) === false) {
                                       legalMoves++;
+                                    }
+                                    else{
+                                        if(pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
+                                            legalMoves++;
+                                        }
                                     }
                                 }
                                 else{
