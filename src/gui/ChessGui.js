@@ -5331,6 +5331,11 @@ catch(err) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
                                             }
+                                            else{
+                                                if(pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
+                                                    btn1.classList.add('colorRed')
+                                                }
+                                            }
                                         }
                                         else{
                                             if(btn1.classList.contains('colorCheck')) {
@@ -5373,6 +5378,11 @@ catch(err) {
                                             if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightIndex, rightX, rightY, 0) === false) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck')
+                                            }
+                                            else{
+                                                if(pieceBackedUp(rightIndex, rightX, rightX, 0) === false) {
+                                                    btn1.classList.add('colorRed')
+                                                }
                                             }
                                         }
                                         else{
@@ -5653,7 +5663,7 @@ catch(err) {
                                             }
                                             else{
                                                 if(pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
-                                                    btn1.classList.add('colorCheck');
+                                                    btn1.classList.add('colorRed');
                                                 }
                                             }
                                         }
@@ -7636,6 +7646,12 @@ catch(err) {
                                                     btn1.classList.add('colorRed');
                                                     btn1.classList.remove('colorCheck');
                                                 }
+                                                
+                                                else{
+                                                    if(pieceBackedUp(leftIndex, leftX, leftY, 1) === false) {
+                                                        btn1.classList.add('colorRed');
+                                                    }
+                                                }
                                             }
                                             else{
                                                 if(btn1.classList.contains('colorCheck')) {
@@ -7679,6 +7695,11 @@ catch(err) {
                                                 if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightIndex, rightX, rightY, 1) === false) {
                                                     btn1.classList.add('colorRed');
                                                     btn1.classList.remove('colorCheck')
+                                                }
+                                                else{
+                                                    if(pieceBackedUp(rightIndex, rightX, rightY, 1) === false) {
+                                                        btn1.classList.add('colorRed');
+                                                    }
                                                 }
                                             }
                                             else{
@@ -7773,7 +7794,7 @@ catch(err) {
                                                     btn1.classList.remove('colorCheck');
                                                 }
                                                 
-                                                else if(detectCheck(id, downIndex, downX, downY, 1) === false) {
+                                                else if(pieceBackedUp(downIndex, downX, downY, 1) === false) {
                                                     btn1.classList.add('colorRed');
                                                     
                                                 }
@@ -7962,7 +7983,7 @@ catch(err) {
                                                 }
                                                 else{
                                                     if(pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1) === false) {
-                                                        btn1.classList.add('colorCheck');
+                                                        btn1.classList.add('colorRed');
                                                     }
                                                 }
                                             }
