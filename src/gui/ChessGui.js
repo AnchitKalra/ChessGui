@@ -3487,7 +3487,6 @@ catch(err) {
             try{
                 if(checkMate === true) {
                   gameWin();
-                  return;
                   
                 }
             }catch(err) {
@@ -3609,6 +3608,11 @@ catch(err) {
                        
                         xIndex = j;
                         yIndex = k;
+                        if(checkMate === true) {
+                            setCheckmate(true);
+                            gameWin()
+                            return;
+                        }
                        
                       
                             
@@ -5876,6 +5880,11 @@ catch(err) {
                     }
                         else if(turn === 1 && player1 !== null){
                             id = board[j][k];
+                            if(checkMate === true) {
+                                setCheckmate(true);
+                                gameWin();
+                                return;
+                            }
                            
                                 switch(piece[1]) {
                                    
@@ -8995,7 +9004,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id,leftIndex, leftX, leftY, 1) === false && pieceBackedUp(leftIndex, leftX, leftY, 1)===false){
+                                    else if(piece1 === 0  && pieceBackedUp(leftIndex, leftX, leftY, 1)===false){
                                        legalMoves++;
                                     }
                                 }
@@ -9021,7 +9030,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && detectCheck(id,rightIndex, rightX, rightY, 1) === false && pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
                                         legalMoves++;
                                     }
                                 }
@@ -9052,7 +9061,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id,upIndex, upX, upY, 1) === false && pieceBackedUp(upIndex, upX, upY, 1) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(upIndex, upX, upY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9085,7 +9094,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id,downIndex, downX, downY, 1) === false && pieceBackedUp(downIndex, downX, downY, 1) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(downIndex, downX, downY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9116,7 +9125,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0 && detectCheck(id,leftUpIndex, leftUpX, leftUpY, 1) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false){
+                                     if(piece1 === 0  && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9149,7 +9158,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 1) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false){
+                                 if(piece1 === 0  && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false){
                                    legalMoves++;
                                 }
                             }
@@ -9181,7 +9190,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 1) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
+                                    if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
                                        legalMoves++;
                                     }
                                 }
@@ -9212,7 +9221,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 1) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
+                                    if(piece1 === 0  && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
                                       legalMoves++;
                                     }
                                 }
@@ -9245,6 +9254,7 @@ function pieceBackedUp(id, x, y, color) {
                         let pieceTwoUp = [];
                         pieceTwoUp.push(twoUp);
                         pieceTwoUp.push(game[twoUp].pieceValue);
+                        
                         if(pieceOneUp[1] === 0) {
                             let btn1 = document.getElementById(oneUp);
                             if(pieceTwoUp[1] === 0) {
