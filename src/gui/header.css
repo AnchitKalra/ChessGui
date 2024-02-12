@@ -1,0 +1,14 @@
+#outermostDiv{
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    height: 100px;
+}
+#tk_chess {
+    color: aliceblue;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 3%;
+}

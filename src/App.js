@@ -3,6 +3,7 @@ import './App.css';
 import ChessGui from './gui/ChessGui';
 import { useDispatch } from 'react-redux';
 import { getChessActionCreator } from './reducers/chessReducer';
+import Header from './gui/Header';
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ clearLocalStorage()
 }handleGame()
   return (
     <div>
+      <Header />
       <ChessGui />
     </div>
   );
