@@ -3,7 +3,7 @@ import './style.css';
 import {useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getStateActionCreator, retreiveStateActionCreator } from '../reducers/stateReducer';
-import { Button, Snackbar, Alert } from '@mui/material';
+import { Button, Snackbar, Alert, Typography } from '@mui/material';
 import { arrayDecrementActionCreator, arrayIdActionCreator, castlingBlackActionCreator, castlingBlackLeftActionCreator, castlingBlackRightActionCreator, castlingWhiteActionCreator, castlingWhiteLeftActionCreator, castlingWhiteRightActionCreator, checkCountDecrementActionCreator, checkCountIncrementActionCreator, checkFalseActionCreator, detectCheckActionCreator } from '../reducers/checkReducer';
 import { decrementActionCreator,  inrementActionCreator,  trueLoadingFlagActionCreator } from '../reducers/userReducer';
 import Backdrop from '@mui/material/Backdrop';
@@ -24,6 +24,8 @@ function ChessGui() {
     const dispatch = useDispatch();
     let [check, setCheck] = useState(false);
     let [prevFlag, setPrevFlag] = useState(false);
+
+    let [playerWon, setPlayerWon] = useState(0);
 
     
    
@@ -171,23 +173,7 @@ function addStorage() {
 
 
 
-    // function sort() {
-        
-    //     let player1 = localStorage.getItem('player1');
-    //     let player2 = localStorage.getItem('player2');
-    //     if(player1 !== null) {
-    //         game.sort((a, b)=> a.id - b.id)
-    //     }
-    //     if(player2 !== null) {
-    //         game.sort((a, b) => b.id - a.id)
-    //     }
-        
-    
-    
-        
-    //     return true;
-    // }
-    
+
     
       
         addPieces();
@@ -368,12 +354,20 @@ for(let j = 0; j < 64; j++) {
         
         detectCheckmate();
         if(checkFlag === true) {
-            if(checkmate(turn) === true) {
+            if(checkmate(turn) === 1) {
+                setPlayerWon(1);
            
                 setCheck(false);
                 setCheckmate(true);
                 gameWin();
             }    
+            if(checkmate(turn) === 2) {
+               setPlayerWon(2);
+           
+                setCheck(false);
+                setCheckmate(true);
+                gameWin();
+            }
         }}catch(err) {
             console.log(err)
         }  
@@ -3548,7 +3542,15 @@ catch(err) {
         else{
             if(checkFlag === true) {
             
-                if(checkmate(turn) === true) {
+                if(checkmate(turn) === 1) {
+                   setPlayerWon(1);
+                    setCheck(false);
+                    setCheckmate(true);
+                    gameWin();
+                  
+                }
+                if(checkmate(turn) === 2) {
+                   setPlayerWon(2);
                     setCheck(false);
                     setCheckmate(true);
                     gameWin();
@@ -3571,12 +3573,17 @@ catch(err) {
         detectCheckmate(game);
         try{
         if(checkFlag === true) {
-            if(checkmate(turn) === true) {
+            if(checkmate(turn) === 1) {
+               setPlayerWon(1);
                 gameWin()
+               
             }
-            else {
-           chechDetected();
+            if(checkmate(turn) === 2) {
+               setPlayerWon(2);
+                gameWin();
+                
             }
+           
         }
     }catch(err) {
         console.log(err);
@@ -5894,6 +5901,7 @@ catch(err) {
                             if(checkMate === true) {
                                 setCheckmate(true);
                                 gameWin();
+
                                 return;
                                 
                             }
@@ -9005,8 +9013,9 @@ function pieceBackedUp(id, x, y, color) {
         let legalMoves = 0;
         for(let j = 0; j < 8; j++) {
             for(let k = 0; k < 8; k++) {
+                try{
                 let id = board[j][k];
-                let piece = game[id].pieceValue;
+                let piece = game[id]?.pieceValue;
                 if(piece === 6) {
                     let leftIndex = id - 1;
                     let rightIndex = id + 1;
@@ -10371,6 +10380,9 @@ function pieceBackedUp(id, x, y, color) {
                         default: break;
                     }
                 }
+            }catch(err) {
+                return false;
+            }
 
             }
         }
@@ -10378,13 +10390,14 @@ function pieceBackedUp(id, x, y, color) {
             return false;
         }
         else{
-            return true;
+            return 2;
         }
     }
     else {
         let legalMoves = 0;
         for(let j = 0; j < 8; j++) {
             for(let k = 0; k < 8; k++) {
+                try{
                 let id = board[j][k];
                 let piece = game[id].pieceValue;
                 if(piece === -6) {
@@ -10650,6 +10663,7 @@ function pieceBackedUp(id, x, y, color) {
                     catch(err) {
                         console.log(err);
                     }
+                
 
                 }
                 else {
@@ -11518,7 +11532,9 @@ function pieceBackedUp(id, x, y, color) {
                     }
                 }
             }
-
+        }catch(err) {
+            return false;
+        }
             }
         }
         
@@ -11526,7 +11542,7 @@ function pieceBackedUp(id, x, y, color) {
             return false;
         }
         else{
-            return true;
+            return 1;
         }
     }
 
@@ -11559,7 +11575,8 @@ function printMessage(data) {
     try{
         if(data === true) {
             setCheckmate(true);
-            gameWin()
+            gameWin();
+
         }
 
    
@@ -11765,14 +11782,12 @@ function getForward() {
 <Snackbar open={checkMate}
             autoHideDuration={3000}
             anchorOrigin={{ vertical:'top', horizontal : 'center' }}
-            ><Alert severity ="success" variant='filled'> CheckMate! Game Over!</Alert></Snackbar>
+            ><Alert severity ="success" variant='filled'> `CheckMate! Game Over! `</Alert></Snackbar>
 
 
     <div id = 'game'>    <Button id = 'startGame' variant = 'contained' onClick = {handle2PlayerGame}>Play a 2 player game</Button>
     </div>
-    <div className='white_pieces'>
-
-    </div>
+ 
     <div id = 'flexDiv'>
             
         </div>
@@ -11785,6 +11800,10 @@ function getForward() {
         <CircularProgress color="inherit" />
       </Backdrop>
     </div>
+    <div id = 'checkmate'>
+    <Typography id = 'player1'>{playerWon === 1 ? ('WHITE WON') : ""}</Typography>
+    <Typography id = 'player2'>{playerWon === 2 ? ('BLACK WON') : ""} </Typography>
+  </div>
           <div className="container_div">
         <div className="eight_div">
         <div onClick={event=> handleGame(event)}>
@@ -11998,6 +12017,8 @@ function getForward() {
         <button id = 'back' onClick={getPrevious}>{'<<'}</button>
         <button id = 'fwd' onClick={getForward}>{'>>'}</button>
     </div>
+
+  
     </>)
           
  

@@ -89,6 +89,20 @@
     margin-left: 5%;
     background-color: green;
 }
+#checkmate {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 3%;
+    color: red;
+}
+#player1{
+    background-color: beige;
+}
+#player2{
+    background-color: beige;
+}
 @media screen and (max-width :  1000px){
 
     .container_div{
