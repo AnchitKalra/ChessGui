@@ -3610,8 +3610,9 @@ catch(err) {
                         yIndex = k;
                         if(checkMate === true) {
                             setCheckmate(true);
-                            gameWin()
+                            gameWin();
                             return;
+                            
                         }
                        
                       
@@ -5657,7 +5658,7 @@ catch(err) {
                                     }
                                     else{
                                         if(piece1 > 0) {
-                                            if(piece1.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                            if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
                                             }
@@ -5894,6 +5895,7 @@ catch(err) {
                                 setCheckmate(true);
                                 gameWin();
                                 return;
+                                
                             }
                            
                                 switch(piece[1]) {
@@ -10386,6 +10388,8 @@ function pieceBackedUp(id, x, y, color) {
                 let id = board[j][k];
                 let piece = game[id].pieceValue;
                 if(piece === -6) {
+                    
+                                
                     let leftIndex = id - 1;
                     let rightIndex = id + 1;
                     let upIndex = id - 8;
@@ -10398,21 +10402,27 @@ function pieceBackedUp(id, x, y, color) {
                         if(leftY >= 0 && leftX >= 0) {
                             let btn1 = document.getElementById(leftIndex);
                             let piece1 = game[leftIndex].pieceValue;
+                   
                                 if(piece1 > 0) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
-                                        legalMoves++;
+                                       legalMoves++;
                                     }
-                                
+                                    else{
+                                        if(pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
+                                           legalMoves++;
+                                        }
+                                    }
                                 }
                                 else{
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id , leftIndex, leftX, leftY, 0) === false && pieceBackedUp(leftIndex, leftX, leftY, 0) === false){
-                                       legalMoves++;
+                                    else if(piece1 === 0 && detectCheck(id, leftIndex) === false && pieceBackedUp(leftIndex, leftX, leftY, 0) === false){
+                                        legalMoves++;
                                     }
                                 }
                             }
+                        
                     }catch(err) {
                         console.log(err);
                     } 
@@ -10424,14 +10434,14 @@ function pieceBackedUp(id, x, y, color) {
                         if(rightY <= 7 && rightX <= 7) {
                             let btn1 = document.getElementById(rightIndex);
                             let piece1 = game[rightIndex].pieceValue;
-                           
+                   
                                 if(piece1 > 0) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightIndex, rightX, rightY, 0) === false) {
-                                      legalMoves++;
+                                       legalMoves++;
                                     }
                                     else{
-                                        if(pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
-                                            legalMoves++;
+                                        if(pieceBackedUp(rightIndex, rightX, rightX, 0) === false) {
+                                           legalMoves++;
                                         }
                                     }
                                 }
@@ -10439,11 +10449,12 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && detectCheck(id, rightIndex, rightX, rightY, 0) === false && pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
+                                    else if(piece1 === 0  && detectCheck(id, rightIndex) === false && pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
                                         legalMoves++;
                                     }
                                 }
                             }
+                        
                     }
                     catch(err) {
                         console.log(err);
@@ -10456,13 +10467,13 @@ function pieceBackedUp(id, x, y, color) {
                         if(upY >= 0 && upX >= 0) {
                             let btn1 = document.getElementById(upIndex);
                             let piece1 = game[upIndex].pieceValue;
-                           
-                                if(piece1 < 0) {
+                  
+                                if(piece1 > 0) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(upIndex, upX, upY, 0) === false) {
-                                        legalMoves++;
+                                       legalMoves++;
                                     }
                                     else if(pieceBackedUp(upIndex, upX, upY, 0) === false) {
-                                      legalMoves++;
+                                       legalMoves++;
 
                                     }
                                 }
@@ -10470,7 +10481,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id, upIndex, upX, upY, 0) === false && pieceBackedUp(upIndex, upX, upY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id, upIndex) === false && pieceBackedUp(upIndex, upX, upY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10488,7 +10499,7 @@ function pieceBackedUp(id, x, y, color) {
                         if(downY <= 7 && downX <= 7) {
                             let btn1 = document.getElementById(downIndex);
                             let piece1 = game[downIndex].pieceValue;
-                          
+                  
                                 if(piece1 > 0) {
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(downIndex, downX, downY, 0) === false) {
                                        legalMoves++;
@@ -10503,7 +10514,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id, downIndex, downX, downY, 0) === false && pieceBackedUp(downIndex, downX, downY, 0) === false){
+                                    else if(piece1 === 0 && detectCheck(id, downIndex) === false && pieceBackedUp(downIndex, downX, downY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10521,10 +10532,11 @@ function pieceBackedUp(id, x, y, color) {
                         if(leftUpX >= 0 && leftUpY >= 0) {
                             let btn1 = document.getElementById(leftUpIndex);
                             let piece1 = game[leftUpIndex].pieceValue;
-                          
-                                if(piece1 < 0) {
+                    
+                                if(piece1 > 0) {
+                            
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false) {
-                                      legalMoves++;
+                                       legalMoves++;
                                     }
                                     else{
                                         if(pieceBackedUp(leftUpIndex,leftUpX, leftUpY, 0) === false){
@@ -10534,7 +10546,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0 && detectCheck(id, leftUpIndex, leftUpX, leftUpY, 0) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false){
+                                     if(piece1 === 0 && detectCheck(id, leftUpIndex) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10554,25 +10566,25 @@ function pieceBackedUp(id, x, y, color) {
                     
                             let piece1 = game[rightUpIndex].pieceValue;
                             let btn1 = document.getElementById(rightUpIndex);
-                          
+                       
                             if(piece1 > 0) {
                                 if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false) {
                                    legalMoves++;
                                 }
                                 else{
-                                    if(pieceBackedUp(rightUpIndex,rightUpX, rightUpY, 0) === false){
-                                   legalMoves++;
+                                    if(pieceBackedUp(rightUpIndex,rightUpX, rightUpY, 0) === false ){
+                                    legalMoves++;
                                     }
                                 }
                             }
                             else{
                             
-                                 if(piece1 === 0 && detectCheck(id, rightUpIndex, rightUpX, rightUpY, 0) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false){
+                                 if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false){
                                    legalMoves++;
                                 }
                             }
-                        
                         }
+                        
                     }
                     catch(err) {
                         console.log(err);
@@ -10586,25 +10598,24 @@ function pieceBackedUp(id, x, y, color) {
                         if(leftDownX <= 7 && leftDownY >= 0) {
                             let piece1 = game[leftDownIndex].pieceValue;
                             let btn1 = document.getElementById(leftDownIndex);
-                        
+                    
                                 if(piece1 > 0) {
-                            
                                     if(btn1.classList.contains('colorCheck') && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
-                                       legalMoves++;
+                                        legalMoves++;
                                     }
                                     else{
                                         if(pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
-                                          legalMoves++;
+                                           legalMoves++;
                                         }
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 0) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
-                                       legalMoves++;
+                                    if(piece1 === 0 &&detectCheck(id, leftDownIndex) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
+                                        legalMoves++;
                                     }
                                 }
-                            
-                        }
+                            }
+                        
                     }
                     catch(err) {
                         console.log(err);
@@ -10616,31 +10627,30 @@ function pieceBackedUp(id, x, y, color) {
                         let rightDownY = k + 1;
                         if(rightDownX <= 7 && rightDownY <= 7) {
                             let piece1 = game[rightDownIndex].pieceValue;
-                           
-                         
-                      
+                            let btn1 = document.getElementById(rightDownIndex);
                                 if(piece1 > 0) {
-                                    if(piece1.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                    if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
                                       legalMoves++;
                                     }
                                     else{
                                         if(pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
-                                           legalMoves++;
+                                            legalMoves++;
                                         }
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 0) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
-                                      legalMoves++;
+                                    if(piece1 === 0 && detectCheck(id, rightDownIndex) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                       legalMoves++;
                                     }
                                 }
-                            
-                        }
+                            }
+                        
 
                     }
                     catch(err) {
                         console.log(err);
                     }
+
                 }
                 else {
                     if(color === 2) {
