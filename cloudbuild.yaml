@@ -1,14 +1,13 @@
 steps:
-
-# Step 0: FRONTEND copy only build and deploy cloud app frontend
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/chess-412709/$_REPO_NAME/myimage:$SHORT_SHA', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA']
+# Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: bash
-  dir: '/'
-  args: 
-    - '-c'
-    - |
-      cd ..
-      cp app-production-build.yaml /build
-      cd /build
-      gcloud app deploy
-  timeout: '1600s'
+  args: ['run', 'deploy', 'myservice', '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+images:
+- us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/myimage
+# [END cloudbuild_run_example_builddeploy]
