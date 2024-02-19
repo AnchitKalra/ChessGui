@@ -1,9 +1,14 @@
 steps:
-- name: 'Install dependencies'
-  args: ['npm', 'install']
-- name: 'Build the app'
-  args: ['npm', 'run', 'build']
-- name: 'Deploy the app'
-  args: ['gcloud', 'run', 'deploy', 'chess', '--image', 'gcr.io/chess-412709/chess:latest']
 
-images: ['gcr.io/chess-412709/chess:latest']
+# Step 0: FRONTEND copy only build and deploy cloud app frontend
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: bash
+  dir: '/'
+  args: 
+    - '-c'
+    - |
+      cd ..
+      cp app-production-build.yaml /build
+      cd /build
+      gcloud app deploy
+  timeout: '1600s'
