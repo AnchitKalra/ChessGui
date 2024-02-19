@@ -1,0 +1,7 @@
+steps:
+- name: 'Install dependencies'
+  args: ['npm install']
+- name: 'Build the app'
+  args: ['npm run build']
+- name: 'Deploy the app'
+  args: ['gcloud app deploy']
