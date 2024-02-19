@@ -1,4 +1,5 @@
-steps:
-  args: ['npm install']
-  args: ['npm run build']
-  args: ['gcloud app deploy']
+steps:{
+  args: 'npm install,
+  args: 'npm run build',
+  args: 'gcloud app deploy'
+}
