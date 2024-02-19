@@ -97,6 +97,14 @@
     margin: 3%;
     color: red;
 }
+#check{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 3%;
+    color: red;
+}
 #player1{
     background-color: beige;
 }

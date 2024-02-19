@@ -185,7 +185,7 @@ function addStorage() {
 
  function addPieces() {
         try{
-          
+            
             
 
            
@@ -272,9 +272,11 @@ for(let j = 0; j < 64; j++) {
         }
         if(checkCount > 0 && checkMate === false) {
             check = true;
+          
         }
         else{
            check = false;
+         
         }
      
       
@@ -375,7 +377,7 @@ for(let j = 0; j < 64; j++) {
             
             ws.send(true);
         }
-        
+       
         
         try{
             if(game[63].player2 === 'player2') {
@@ -526,6 +528,9 @@ for(let j = 0; j < 64; j++) {
 
       if(turn === 1) {
             dispatch(inrementActionCreator());
+            if(checkFlag === true) {
+                 dispatch(checkFalseActionCreator())
+            }
             setTimeout(()=> {
             ws.send(message);
                 btn1.classList.remove('colorMove');
@@ -535,6 +540,7 @@ for(let j = 0; j < 64; j++) {
             
         else if(turn === 2){
             dispatch(decrementActionCreator());
+          
             setTimeout(() => {
             ws.send(message)
             btn1.classList.remove('colorMove');
@@ -11573,6 +11579,7 @@ function pieceBackedUp(id, x, y, color) {
 
 function printMessage(data) {
     try{
+      
         if(data === true) {
             setCheckmate(true);
             gameWin();
@@ -11635,6 +11642,9 @@ function printMessage(data) {
        
           
         dispatch(retreiveStateActionCreator(payload));
+        if(checkFlag === true) {
+           dispatch(checkFalseActionCreator())
+        }
        
         }, 1000);
     }
@@ -11650,6 +11660,10 @@ function printMessage(data) {
     
        
         dispatch(retreiveStateActionCreator(payload));
+        if(checkFlag === true) {
+           dispatch(checkFalseActionCreator())
+        }
+       
       
         }, 1000);
     }}catch(err) {
@@ -11776,7 +11790,7 @@ function getForward() {
               <Snackbar open={check}
             autoHideDuration={3000}
             anchorOrigin={{ vertical:'top', horizontal : 'center' }}
-            onClose={()=> setCheck(false) }><Alert severity ="error" variant='filled'> Your king is on Check!</Alert></Snackbar>
+            onClose={()=> setCheck(false) }><Alert severity ="error" variant='filled'> This is Check!</Alert></Snackbar>
 
 
 <Snackbar open={checkMate}
@@ -11799,6 +11813,10 @@ function getForward() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+    </div>
+    <div id = 'check'>
+        <Typography id = 'player1'>{turn === 1 && checkFlag === true ? ('WHITE KING IS ON CHECK') : ""}</Typography>
+        <Typography id = 'player2'>{turn === 2 && checkFlag === true ? ('BLACK KING IS ON CHECK') : ""}</Typography>
     </div>
     <div id = 'checkmate'>
     <Typography id = 'player1'>{playerWon === 1 ? ('WHITE WON') : ""}</Typography>
