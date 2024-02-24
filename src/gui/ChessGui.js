@@ -1032,12 +1032,12 @@ for(let j = 0; j < 64; j++) {
                             if(piece1 > 0) {
                                 let btn1 = document.getElementById(indexId);
                                 switch(piece1) {
-                                    case 1:
-                                        btn1.classList.add('colorCheck');
-                                        checkCount++;
+                                 //   case 1:
+                                    //    btn1.classList.add('colorCheck');
+                                    //    checkCount++;
                                      
-                                        dispatch(detectCheckActionCreator());
-                                        break;
+                                   //     dispatch(detectCheckActionCreator());
+                                    //    break;
                                     case 3:
                                         btn1.classList.add('colorCheck');
                                             dispatch(detectCheckActionCreator());
@@ -1107,12 +1107,12 @@ for(let j = 0; j < 64; j++) {
                             if(piece1 > 0) {
                                 let btn1 = document.getElementById(indexId);
                                 switch(piece1) {
-                                    case 1:
-                                    btn1.classList.add('colorCheck');
-                                    checkCount++
+                                 //   case 1:
+                                  //  btn1.classList.add('colorCheck');
+                                   // checkCount++
     
-                               dispatch(detectCheckActionCreator());
-                                    break;
+                             //  dispatch(detectCheckActionCreator());
+                              //      break;
                                 case 3:
                                     btn1.classList.add('colorCheck');
                           
@@ -1827,10 +1827,10 @@ for(let j = 0; j < 64; j++) {
                             let btn1 = document.getElementById(indexId);
                             switch(piece1) {
                                 case -1:
-                                    btn1.classList.add('colorCheck');
-                                    checkCount++;
+                                  //  btn1.classList.add('colorCheck');
+                                    //checkCount++;
                               
-                                    dispatch(detectCheckActionCreator());
+                                    //dispatch(detectCheckActionCreator());
                                     break;
                                 case -3:
                                     btn1.classList.add('colorCheck');
@@ -1901,11 +1901,11 @@ for(let j = 0; j < 64; j++) {
                         if(piece1 < 0 || piece1 === 0) {
                             let btn1 = document.getElementById(indexId);
                             switch(piece1) {
-                                case -1:
-                                btn1.classList.add('colorCheck');
-                                checkCount++
-                                dispatch(detectCheckActionCreator());
-                                break;
+                        //         case -1:
+                        //         btn1.classList.add('colorCheck');
+                        //         checkCount++
+                        // dispatch(detectCheckActionCreator());
+                        //         break;
                             case -3:
                                 btn1.classList.add('colorCheck');
                    
