@@ -23,8 +23,10 @@ export const chessEngineApi = async(payload) => {
       let response =  await instance.post(ENDPOINT.CHESSENGINE, payload);
       console.log('logging response from chess engine');
       console.log(response);
+      if(response.status === 200) {
 
       return response;
+      }
     }
     catch(err) {
         console.log(err);
@@ -53,12 +55,7 @@ export const getPreviousApi = async(payload) => {
 export const signupApi = async(payload) =>{
     try{
        let response = await instance.post(ENDPOINT.SIGNUP, payload);
-     if(response.data === null || response.data === undefined || response.data === '') {
-
-     }
-     else{
-        return response;
-     }
+       return response;
     }catch(err) {
         console.log(err);
     }

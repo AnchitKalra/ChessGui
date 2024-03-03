@@ -46,7 +46,7 @@ const ACTION = {
              return state;         
              
          }
-         break;
+         return state;
     
            
             default: return state;

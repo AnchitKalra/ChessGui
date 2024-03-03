@@ -658,11 +658,13 @@ for(let j = 0; j < 64; j++) {
                 break;
             }
            }
-           let beta = Math.ceil(id /8);
-           beta = beta % 8;
-           if(beta === 0) {
-            beta = 8;
-           }
+           let beta = id;
+        for(let j = 0; j < indices.length; j++) {
+            if(beta < indices[j]) {
+                beta = j + 1;
+                break;
+            }
+        }
    
            switch(alpha) {
                case 0:
