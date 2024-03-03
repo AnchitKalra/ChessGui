@@ -4,6 +4,7 @@ import { chessReducer } from "./chessReducer";
 import { stateReducer } from "./stateReducer";
 import { checkReducer } from "./checkReducer";
 import { previousReducer } from "./previousReducer";
+import { chessEngineReducer } from "./chessEngineReducer";
 
 
 
@@ -12,5 +13,6 @@ export default combineReducers({
     chess: chessReducer,
     chessState: stateReducer,
     check: checkReducer,
-    prev: previousReducer
+    prev: previousReducer,
+    chessEngine: chessEngineReducer
 });

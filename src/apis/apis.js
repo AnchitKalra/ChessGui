@@ -12,9 +12,24 @@ const ENDPOINT = {
     RETREIVESTATE: 'chess/retrieveState',
     GETPREVIOUS: 'chess/previous',
     GETFORWARD: 'chess/forward',
-    CLOSE: 'chess/close'
+    CLOSE: 'chess/close',
+    CHESSENGINE: 'chess/engine'
 }
 
+export const chessEngineApi = async(payload) => {
+       
+    try{
+        console.log(payload);
+      let response =  await instance.post(ENDPOINT.CHESSENGINE, payload);
+      console.log('logging response from chess engine');
+      console.log(response);
+
+      return response;
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
 
 export const closeConnection = async() => {
     try{
@@ -38,7 +53,12 @@ export const getPreviousApi = async(payload) => {
 export const signupApi = async(payload) =>{
     try{
        let response = await instance.post(ENDPOINT.SIGNUP, payload);
-       return response;
+     if(response.data === null || response.data === undefined || response.data === '') {
+
+     }
+     else{
+        return response;
+     }
     }catch(err) {
         console.log(err);
     }

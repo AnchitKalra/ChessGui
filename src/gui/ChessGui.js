@@ -10,10 +10,10 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { forwardActionCreator, previousActionCreator } from '../reducers/previousReducer';
 import useSound from 'use-sound';
-import checkDone from './check.wav';
 import moveDone from './move.wav';
 import gameDone from './gameOver.wav';
-import { closeConnection } from '../apis/apis';
+import { chessEngineApi, closeConnection } from '../apis/apis';
+import { getChessEngineActionCreator } from '../reducers/chessEngineReducer';
 
 
 
@@ -24,8 +24,24 @@ function ChessGui() {
     const dispatch = useDispatch();
     let [check, setCheck] = useState(false);
     let [prevFlag, setPrevFlag] = useState(false);
+    let [payloadData, setPayloadData] = useState(null);
 
     let [playerWon, setPlayerWon] = useState(0);
+    let chessEngineData = useSelector(chessEngine=> chessEngine.chessEngine);
+    try{
+        if(chessEngineData?.chessEngineData === null) {
+    chessEngineData = chessEngineData.chessEngineData;
+        }
+    console.log('logging chess engine data');
+    console.log(chessEngineData);
+    }catch(err) {
+
+    }
+    if(chessEngineData === null) {
+        chessEngineData = 0.0;
+    }
+
+
 
     
    
@@ -56,6 +72,10 @@ function ChessGui() {
     [48, 49, 50, 51, 52, 53, 54, 55],
     [56, 57, 58, 59, 60, 61, 62, 63]];
 
+
+
+
+
    let initGame =  [-5,  -2, -3,  -10,  -6,  -3, -2, -5,-1,  -1,  -1, -1, -1,  -1, -1, -1, 0 , 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 5 , 2 , 3 , 10 , 6 , 3 , 2 , 5];
 
     let [checkMate, setCheckmate] = useState(false);
@@ -63,7 +83,6 @@ function ChessGui() {
 
     let game = useSelector(chessState => chessState.chessState);
     let [move] = useSound(moveDone);
-    let [check1] = useSound(checkDone);
     let [gameOver] = useSound(gameDone);
 
 
@@ -85,10 +104,7 @@ function ChessGui() {
 
 
    
-    let chechDetected = () => {
-        if(checkMate === false) {
-        check1();
-    }}
+  
 
     let gameWin = () =>{
         gameOver();
@@ -386,7 +402,11 @@ for(let j = 0; j < 64; j++) {
          
             if(game[63].player2 === null && game.length === 64) {
                 setOpen(true);
+                chessEngineApi("uci");
             }
+            dispatch(getChessEngineActionCreator('isready'));
+            dispatch(getChessEngineActionCreator("go"));
+            
            
         }catch(err) {
             console.log(err);
@@ -407,8 +427,6 @@ for(let j = 0; j < 64; j++) {
 
 
    function makeAMove(id) {
-
-
  
      
         let pieceValue = 0;
@@ -488,8 +506,9 @@ for(let j = 0; j < 64; j++) {
 
        
 
-        let payload = [];
       
+      
+       let payload = [];
        
             
             for(let j = 0; j < 64; j++) {
@@ -527,6 +546,7 @@ for(let j = 0; j < 64; j++) {
       
 
       if(turn === 1) {
+     
             dispatch(inrementActionCreator());
             if(checkFlag === true) {
                  dispatch(checkFalseActionCreator())
@@ -535,21 +555,251 @@ for(let j = 0; j < 64; j++) {
             ws.send(message);
                 btn1.classList.remove('colorMove');
                 btn2.classList.remove('colorMove');
-            },100);
+            },200);
       }
             
         else if(turn === 2){
+          
+     
+           
             dispatch(decrementActionCreator());
           
             setTimeout(() => {
             ws.send(message)
             btn1.classList.remove('colorMove');
             btn2.classList.remove('colorMove');
-            },100);
+            },200);
            
         }
 
-      
+/*
+
+         let board = [[0, 1, 2, 3, 4, 5, 6, 7],
+    [8, 9, 10, 11, 12, 13, 14, 15],
+    [16, 17, 18, 19, 20, 21, 22, 23],
+    [24, 25, 26, 27, 28, 29, 30, 31],
+    [32, 33, 34, 35, 36, 37, 38, 39],
+    [40, 41, 42, 43, 44, 45, 46, 47],
+    [48, 49, 50, 51, 52, 53, 54, 55],
+    [56, 57, 58, 59, 60, 61, 62, 63]];
+
+
+
+
+        +---+---+---+---+---+---+---+---+
+        | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+        +---+---+---+---+---+---+---+---+
+        | 8 | 9 | 10 | 11 | 12 | 13 | 14  15| p | 7
+        +---+---+---+---+---+---+---+---+
+        |  16 | 17  | 18  | 19  | 20  |   |   |   | 6
+        +---+---+---+---+---+---+---+---+
+        |   |   |   |   |   |   |   |   | 5
+        +---+---+---+---+---+---+---+---+
+        |   |   |   |   |   |   |   |   | 4
+        +---+---+---+---+---+---+---+---+
+        |   |   |   |   |   |   |   |   | 3
+        +---+---+---+---+---+---+---+---+
+        | P | P | P | P | P | P | P | P | 2
+        +---+---+---+---+---+---+---+---+
+        | R | N | B | Q | K | B | N | R | 1
+        +---+---+---+---+---+---+---+---+
+          a   b   c   d   e   f   g   h
+
+
+         +---+---+---+---+---+---+---+---+
+        | r | n | b | q | k | b | n | r | 8
+        +---+---+---+---+---+---+---+---+
+        | p | p | p | p | p | p | p | p | 7
+        +---+---+---+---+---+---+---+---+
+        |   |   |   |   |   |   |   |   | 6
+        +---+---+---+---+---+---+---+---+
+        |   |   |   |   |   |   |   |   | 5
+        +---+---+---+---+---+---+---+---+
+        |   |   |   |   |   |   |   |   | 4
+        +---+---+---+---+---+---+---+---+
+        |   |   |   |   |   |   |   |   | 3
+        +---+---+---+---+---+---+---+---+
+        | P | P | P | P | P | P | P | P | 2
+        +---+---+---+---+---+---+---+---+
+        | R | N | B | Q | K | B | N | R | 1
+        +---+---+---+---+---+---+---+---+
+          a   b   c   d   e   f   g   h
+
+
+          */
+
+
+          if(turn === 1) {
+          let k = 0;
+          for(let j = 63; j >= 0; j--) {
+               if(k === arrayId[1]) {
+                   arrayId[1] = j;
+                   break;
+               } 
+               k++;
+          }
+          k = 0;
+          for(let j = 63; j >= 0; j--) {
+           if(k === id) {
+               id = j;
+               break;
+           } 
+           k++;
+      }}
+
+   
+           let data = 'position startpos moves ';
+           let alpha = arrayId[1] % 8;
+           let alpha2 = arrayId[1];
+           let indices = [8, 16, 24, 32, 40, 48, 56, 64];
+           for(let j = 0; j < indices.length; j++) {
+            if(alpha2 < indices[j]) {
+                alpha2 = j + 1;
+                break;
+            }
+           }
+           let beta = Math.ceil(id /8);
+           beta = beta % 8;
+           if(beta === 0) {
+            beta = 8;
+           }
+   
+           switch(alpha) {
+               case 0:
+                   alpha = 'h';
+                   break;
+               case 1:
+                   alpha = 'g';
+                   break;
+                   case 2:
+                       alpha = 'f';
+                       break;
+                   case 3:
+                       alpha = 'e';
+                       break;
+               case 4:
+                   alpha = 'd';
+                   break;
+               case 5:
+                   alpha = 'c';
+                   break;
+               case 6:
+                   alpha = 'b';
+                   break;
+               case 7:
+                   alpha = 'a';
+                   break;
+                   default:
+                       break;
+           }
+           if(turn === 1) {
+        
+           let data1 = alpha + alpha2;
+           alpha = id;
+           alpha = alpha % 8;
+           switch(alpha) {
+            case 0:
+                alpha = 'h';
+                break;
+            case 1:
+                alpha = 'g';
+                break;
+                case 2:
+                    alpha = 'f';
+                    break;
+                case 3:
+                    alpha = 'e';
+                    break;
+            case 4:
+                alpha = 'd';
+                break;
+            case 5:
+                alpha = 'c';
+                break;
+            case 6:
+                alpha = 'b';
+                break;
+            case 7:
+                alpha = 'a';
+                break;
+                default:
+                    break;
+        }
+        data1 += alpha + beta;
+
+
+           if(payloadData === null) {
+            data += data1;
+            console.log('logging befor eval');
+            console.log(data);
+        
+            getChessEngineActionCreator(data);
+            dispatch(getChessEngineActionCreator(data));
+           
+           
+            ws.send('null' + data1);
+           
+           setPayloadData(data1);
+        
+           }
+           else{
+            payloadData += ' ' + data1;
+            data += payloadData;
+         
+            console.log('logging befor eval');
+            console.log(data);
+            dispatch(getChessEngineActionCreator(data));
+            ws.send('null' + data1);
+            setPayloadData(payloadData);
+          
+           }
+          
+           }else{
+
+     
+               
+           let data1 = alpha + alpha2;
+           alpha = id;
+           alpha = alpha % 8;
+           switch(alpha) {
+            case 0:
+                alpha = 'h';
+                break;
+            case 1:
+                alpha = 'g';
+                break;
+                case 2:
+                    alpha = 'f';
+                    break;
+                case 3:
+                    alpha = 'e';
+                    break;
+            case 4:
+                alpha = 'd';
+                break;
+            case 5:
+                alpha = 'c';
+                break;
+            case 6:
+                alpha = 'b';
+                break;
+            case 7:
+                alpha = 'a';
+                break;
+                default:
+                    break;
+        }
+        data1 += alpha + beta;
+           payloadData +=  ' ' + data1;
+           data += payloadData;
+           console.log('logging befor eval');
+           console.log(data);
+            dispatch(getChessEngineActionCreator(data));
+           ws.send('null' + data1);
+           setPayloadData(payloadData); 
+           
+       
+           }
         
 
 
@@ -3484,6 +3734,8 @@ catch(err) {
    
     function handleGame(e) {
         try{
+
+          
             try{
                 if(checkMate === true) {
                   gameWin();
@@ -11580,6 +11832,35 @@ function pieceBackedUp(id, x, y, color) {
 function printMessage(data) {
     try{
       
+       
+        console.log('logging received data');
+        console.log(data);
+        let data1 = '';
+
+        try{
+        for(let j = 0; j < data.length; j++) {
+            data1 += data[j];
+            if(j === 3) {
+                break;
+            }
+        }
+        if(data1 === 'null') {
+            data = data.split('null')[1];
+            console.log('logging data');
+            console.log(data);
+            if(payloadData === null) {
+                setPayloadData(data);
+                return;
+            }
+            else { 
+            setPayloadData(prev=> prev + ' ' + data);
+            return;
+            }
+        }
+    }catch(err) {
+        console.log(err);
+    }
+      
         if(data === true) {
             setCheckmate(true);
             gameWin();
@@ -11625,9 +11906,8 @@ function printMessage(data) {
     moveMade();
     }
 }catch(err) {
-
+    console.log(err)
 }
-
 
     if( turn === 1) {
 
@@ -11636,9 +11916,11 @@ function printMessage(data) {
         payload.push(2);
         prev = [-1];
 
+        console.log('turn === 1')
     dispatch(inrementActionCreator());
    
         setTimeout(() =>{
+            console.log('turn === 1')
        
           
         dispatch(retreiveStateActionCreator(payload));
@@ -11646,7 +11928,7 @@ function printMessage(data) {
            dispatch(checkFalseActionCreator())
         }
        
-        }, 1000);
+        }, 1200);
     }
     else if( turn === 2) {
         let payload = [];
@@ -11654,9 +11936,10 @@ function printMessage(data) {
         payload.push(game[0].gameId);
         payload.push(1);
     dispatch(decrementActionCreator());
-  
+    console.log('turn === 2')
       setTimeout(() =>{
     
+        console.log('turn === 2')
     
        
         dispatch(retreiveStateActionCreator(payload));
@@ -11665,16 +11948,19 @@ function printMessage(data) {
         }
        
       
-        }, 1000);
+        }, 1200);
     }}catch(err) {
         console.log(err);
     }
+  
+  
 }
 
 
 
 function loadingFunc() {
 try{
+   
     if(game[63].player2 !== null) {
     let message = "player2"
     let payload = [];
@@ -11707,7 +11993,7 @@ try{
     }
         
        
-   }}, 2000); }}catch(err) {
+   }}, 1000); }}catch(err) {
         console.log(err);
     }
 }
@@ -11821,6 +12107,11 @@ function getForward() {
     <div id = 'checkmate'>
     <Typography id = 'player1'>{playerWon === 1 ? ('WHITE WON') : ""}</Typography>
     <Typography id = 'player2'>{playerWon === 2 ? ('BLACK WON') : ""} </Typography>
+  </div>
+  <div id = 'eval'>
+    <p>
+        <Typography>Evaluation is {chessEngineData}</Typography>
+    </p>
   </div>
           <div className="container_div">
         <div className="eight_div">
