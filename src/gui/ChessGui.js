@@ -4128,7 +4128,7 @@ catch(err) {
                                     else{
                                         if(checkCount <= 1) {
                                             yIndex++;
-                                            if(yIndex >= 7) {
+                                            if(yIndex <= 7) {
                                         let pieceRight = game[oneRight]?.pieceValue;
                                      
                                         while(pieceRight === 0 || pieceRight > 0) {
@@ -5582,7 +5582,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if(detectCheck(id, leftIndex) === false && pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
+                                                if( pieceBackedUp(leftIndex, leftX, leftY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5609,7 +5609,7 @@ catch(err) {
                                             if(btn1.classList.contains('colorCheck')) {
                                                 
                                             }
-                                            else if(piece1 === 0 && detectCheck(id, leftIndex) === false && pieceBackedUp(leftIndex, leftX, leftY, 0) === false){
+                                            else if(piece1 === 0 && pieceBackedUp(leftIndex, leftX, leftY, 0) === false){
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5630,7 +5630,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if(detectCheck(id, rightIndex) === false && pieceBackedUp(rightIndex, rightX, rightY, 0) === false) {
+                                                if( pieceBackedUp(rightIndex, rightX, rightY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -5657,7 +5657,7 @@ catch(err) {
                                             if(btn1.classList.contains('colorCheck')) {
                                                 
                                             }
-                                            else if(piece1 === 0  && detectCheck(id, rightIndex) === false && pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
+                                            else if(piece1 === 0  && pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5705,7 +5705,7 @@ catch(err) {
                                             if(btn1.classList.contains('colorCheck')) {
                                                 
                                             }
-                                            else if(piece1 === 0 && detectCheck(id, upIndex) === false && pieceBackedUp(upIndex, upX, upY, 0) === false){
+                                            else if(piece1 === 0  && pieceBackedUp(upIndex, upX, upY, 0) === false){
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5727,7 +5727,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if(detectCheck(id, downIndex) === false && pieceBackedUp(downIndex, downX, downY, 0) === false) {    
+                                                if( pieceBackedUp(downIndex, downX, downY, 0) === false) {    
                                                 btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -5754,7 +5754,7 @@ catch(err) {
                                             if(btn1.classList.contains('colorCheck')) {
                                                 
                                             }
-                                            else if(piece1 === 0 && detectCheck(id, downIndex) === false && pieceBackedUp(downIndex, downX, downY, 0) === false){
+                                            else if(piece1 === 0  && pieceBackedUp(downIndex, downX, downY, 0) === false){
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5776,7 +5776,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if(detectCheck(id, leftUpIndex) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false) {
+                                                if( pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -5802,7 +5802,7 @@ catch(err) {
                                         }
                                         else{
                                         
-                                             if(piece1 === 0 && detectCheck(id, leftUpIndex) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false){
+                                             if(piece1 === 0 && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false){
                                                 btn1.classList.add('colorGreen')
                                             }
                                         }
@@ -5824,7 +5824,7 @@ catch(err) {
                                     let btn1 = document.getElementById(rightUpIndex);
                                     if(checkFlag === false){
                                     if(piece1 === 0) {
-                                        if(detectCheck(id, rightUpIndex) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false) {
+                                        if( pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false) {
                                         btn1.classList.add('colorGreen');
                                         }
                                     }
@@ -5878,7 +5878,7 @@ catch(err) {
                                         if(piece1 > 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                             btn1.classList.add('colorRed');
                                         }
-                                        if(piece1 === 0 && detectCheck(id, leftDownIndex) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
+                                        if(piece1 === 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                             btn1.classList.add('colorGreen');
                                         }
                                     }
@@ -5895,7 +5895,7 @@ catch(err) {
                                             }
                                         }
                                         else{
-                                            if(piece1 === 0 &&detectCheck(id, leftDownIndex) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
+                                            if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5919,7 +5919,7 @@ catch(err) {
                                                 btn1.classList.add('colorRed');
                                             }
                                         }
-                                        else if(piece1 === 0 && detectCheck(id, rightDownIndex) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                        else if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
                                             btn1.classList.add('colorGreen');
                                         }
                                     }
@@ -5936,7 +5936,7 @@ catch(err) {
                                             }
                                         }
                                         else{
-                                            if(piece1 === 0 && detectCheck(id, rightDownIndex) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                            if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -6304,6 +6304,7 @@ catch(err) {
                                         btn1.classList.add('colorGreen');
                                         btn1.classList.remove('colorCheck');
                                     }
+                                   
                                 }
                                         
                                     
@@ -6394,6 +6395,7 @@ catch(err) {
                                 xIndex = j;
                                 yIndex = k;
                                 try{
+                                    console.log('oneRight');
                                     if(checkFlag === false) {
                                         yIndex++;
                                         if(yIndex <= 7) {
@@ -6423,13 +6425,18 @@ catch(err) {
                                        }}
                                     else{
                                         if(checkCount <= 1) {
+                                            console.log('checkcount');
                                             yIndex++;
                                             if(yIndex <= 7) {
                                         let pieceRight = game[oneRight]?.pieceValue;
+                                        let btn1 = document.getElementById(oneRight);
                                      
                                         while(pieceRight === 0 || pieceRight < 0) {
+                                            console.log('pieceRight');
+                                            console.log(pieceRight);
+                                            btn1 = document.getElementById(oneRight);
                                           
-                                            let btn1 = document.getElementById(oneRight);
+                                        
                                            
                                           
                                                 if(pieceRight < 0) {
@@ -6437,6 +6444,7 @@ catch(err) {
                                                 btn1.classList.add('colorRed');
                                                 btn1.classList.remove('colorCheck');
                                             }
+                                          
                                             break;
                                         }
                                         else if(pieceRight === 0) {
@@ -6444,6 +6452,7 @@ catch(err) {
                                                 btn1.classList.add('colorGreen');
                                                 btn1.classList.remove('colorCheck');
                                             }
+                                            
                                         }
                                                 
                                             
@@ -7900,7 +7909,7 @@ catch(err) {
                                          
                                               
                                                 if(piece1 === 0) {
-                                                    if(detectCheck(id, leftIndex) === false && pieceBackedUp(leftIndex, leftX, leftY, 1) === false) {
+                                                    if( pieceBackedUp(leftIndex, leftX, leftY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
                                                     }
                                                 }
@@ -7929,7 +7938,7 @@ catch(err) {
                                                 if(btn1.classList.contains('colorCheck')) {
                                                     
                                                 }
-                                                else if(piece1 === 0 && detectCheck(id, leftIndex) === false && pieceBackedUp(leftIndex, leftX, leftY, 1) === false){
+                                                else if(piece1 === 0  && pieceBackedUp(leftIndex, leftX, leftY, 1) === false){
                                                     btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -7950,7 +7959,7 @@ catch(err) {
                                           
                                               
                                                 if(piece1 === 0) {
-                                                    if(detectCheck(id, rightIndex) === false && pieceBackedUp(rightIndex, rightX, rightY, 1) === false) {
+                                                    if( pieceBackedUp(rightIndex, rightX, rightY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
                                                     }
                                                 }
@@ -7978,7 +7987,7 @@ catch(err) {
                                                 if(btn1.classList.contains('colorCheck')) {
                                                     
                                                 }
-                                                else if(piece1 === 0  && detectCheck(id, rightIndex) === false && pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
+                                                else if(piece1 === 0   && pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
                                                     btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -8000,7 +8009,7 @@ catch(err) {
                                          
                                               
                                                 if(piece1 === 0) {
-                                                    if(detectCheck(id, upIndex) === false && pieceBackedUp(upIndex, upX, upY, 1) === false) {
+                                                    if( pieceBackedUp(upIndex, upX, upY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
                                                     }
                                                 }
@@ -8025,7 +8034,7 @@ catch(err) {
                                             }
                                             else{
                                                
-                                               if(piece1 === 0 && detectCheck(id, upIndex) === false && pieceBackedUp(upIndex, upX, upY, 1) === false){
+                                               if(piece1 === 0  && pieceBackedUp(upIndex, upX, upY, 1) === false){
                                                     btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -8047,7 +8056,7 @@ catch(err) {
                                           
                                               
                                                 if(piece1 === 0) {
-                                                    if(detectCheck(id, downIndex) === false && pieceBackedUp(downIndex, downX, downY, 1) === false) {
+                                                    if( pieceBackedUp(downIndex, downX, downY, 1) === false) {
                                                     btn1.classList.add('colorGreen');
                                                     }
                                                 }
@@ -8073,7 +8082,7 @@ catch(err) {
                                             }
                                             else{
                                                
-                                                 if(piece1 === 0 && detectCheck(piece[0], downIndex) === false && pieceBackedUp(downIndex, downX, downY, 1)===false){
+                                                 if(piece1 === 0 && pieceBackedUp(downIndex, downX, downY, 1)===false){
                                                     btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -8098,7 +8107,7 @@ catch(err) {
                                            
                                               
                                                 if(piece1 === 0) {
-                                                   if(detectCheck(id, leftUpIndex) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1)=== false) {
+                                                   if( pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1)=== false) {
                                                     btn1.classList.add('colorGreen');
                                                    }
                                                 
@@ -8125,7 +8134,7 @@ catch(err) {
                                             }
                                             else{
                                             
-                                                 if(piece1 === 0 && detectCheck(id, leftUpIndex) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1)=== false){
+                                                 if(piece1 === 0 && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1)=== false){
                                                     btn1.classList.add('colorGreen')
                                                 }
                                             }
@@ -8148,7 +8157,7 @@ catch(err) {
                                         let btn1 = document.getElementById(rightUpIndex);
                                         if(checkFlag === false){
                                         if(piece1 === 0) {
-                                            if(detectCheck(id, rightUpIndex, rightUpX, rightUpY, 1) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1)===false) {
+                                            if( pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1)===false) {
                                             btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -8179,7 +8188,7 @@ catch(err) {
                                         }
                                         else{
                                         
-                                             if(piece1 === 0 && detectCheck(id, rightUpIndex) === false && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1)===false){
+                                             if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1)===false){
                                                 btn1.classList.add('colorGreen')
                                             }
                                         }
@@ -8202,7 +8211,7 @@ catch(err) {
                                             if(piece1 < 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
                                                 btn1.classList.add('colorRed');
                                             }
-                                            if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 1) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1)=== false) {
+                                            if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1)=== false) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -8219,7 +8228,7 @@ catch(err) {
                                                 }
                                             }
                                             else{
-                                                if(piece1 === 0 && detectCheck(id, leftDownIndex, leftDownX, leftDownY, 1) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1)===false) {
+                                                if(piece1 === 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1)===false) {
                                                     btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -8243,7 +8252,7 @@ catch(err) {
                                                     btn1.classList.add('colorRed');
                                                 }
                                             }
-                                            else if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 1) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
+                                            else if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -8260,7 +8269,7 @@ catch(err) {
                                                 }
                                             }
                                             else{
-                                                if(piece1 === 0 && detectCheck(id, rightDownIndex, rightDownX, rightDownY, 1) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
+                                                if(piece1 === 0  && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
                                                     btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -11813,7 +11822,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.5:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.4:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 

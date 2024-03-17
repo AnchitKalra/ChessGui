@@ -12,3 +12,19 @@
     justify-content: center;
     margin-left: 3%;
 }
+#innerDiv{
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+    width: 80%;
+    }
+#signup{
+
+    margin-left: 80%;
+    padding: 2%;
+}
+#login{
+    padding: 2%;
+    margin-left: 5%;
+   margin-right: 0%;
+}
