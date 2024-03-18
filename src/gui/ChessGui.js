@@ -3878,7 +3878,7 @@ catch(err) {
                         if(checkMate === true) {
                             setCheckmate(true);
                             gameWin();
-                            return;
+//return;
                             
                         }
                        
@@ -6162,7 +6162,7 @@ catch(err) {
                                 setCheckmate(true);
                                 gameWin();
 
-                                return;
+                           
                                 
                             }
                            
@@ -8244,7 +8244,7 @@ catch(err) {
                                     let rightDownX = j + 1;
                                     let rightDownY = k + 1;
                                     if(rightDownX <= 7 && rightDownY <= 7) {
-                                        let piece1 = game[rightDownIndex].pieceValue;
+                                        let piece1 = game[rightDownIndex]?.pieceValue;
                                         let btn1 = document.getElementById(rightDownIndex);
                                         if(checkFlag === false) {
                                             if(piece1 < 0) {
@@ -8258,12 +8258,13 @@ catch(err) {
                                         }
                                         else{
                                             if(piece1 < 0) {
-                                                if(piece1.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1) === false) {
+                                                if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1) === false) {
                                                     btn1.classList.add('colorRed');
                                                     btn1.classList.remove('colorCheck');
                                                 }
                                                 else{
                                                     if(pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1) === false) {
+                                                        console.log('rightDownIndex');
                                                         btn1.classList.add('colorRed');
                                                     }
                                                 }
@@ -9312,7 +9313,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && pieceBackedUp(leftIndex, leftX, leftY, 1)===false){
+                                    else if(piece1 === 0  && pieceBackedUp(leftIndex, leftX, leftY, 1)===false && detectCheck(id, leftIndex) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9343,7 +9344,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && pieceBackedUp(rightIndex, rightX, rightY, 1) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(rightIndex, rightX, rightY, 1) === false && detectCheck(id, rightIndex) === false){
                                         legalMoves++;
                                     }
                                 }
@@ -9374,7 +9375,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && pieceBackedUp(upIndex, upX, upY, 1) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(upIndex, upX, upY, 1) === false && detectCheck(id, upIndex) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9407,7 +9408,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && pieceBackedUp(downIndex, downX, downY, 1) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(downIndex, downX, downY, 1) === false && detectCheck(id, downIndex) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9438,7 +9439,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0  && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false){
+                                     if(piece1 === 0  && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1) === false && detectCheck(id, leftUpIndex) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -9471,7 +9472,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0  && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false){
+                                 if(piece1 === 0  && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1) === false && detectCheck(id, rightUpIndex) === false){
                                    legalMoves++;
                                 }
                             }
@@ -9503,7 +9504,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
+                                    if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false && detectCheck(id, leftDownIndex) === false) {
                                        legalMoves++;
                                     }
                                 }
@@ -9519,12 +9520,13 @@ function pieceBackedUp(id, x, y, color) {
                         let rightDownX = j + 1;
                         let rightDownY = k + 1;
                         if(rightDownX <= 7 && rightDownY <= 7) {
-                            let piece1 = game[rightDownIndex].pieceValue;
+                            let piece1 = game[rightDownIndex]?.pieceValue;
+                            let btn1 = document.getElementById(rightDownIndex);
                            
                          
                       
                                 if(piece1 < 0) {
-                                    if(piece1.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1) === false) {
+                                    if(btn1.classList.contains('colorCheck') && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1) === false) {
                                       legalMoves++;
                                     }
                                     else{
@@ -9534,7 +9536,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0  && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
+                                    if(piece1 === 0  && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false && detectCheck(id, rightDownIndex) === false) {
                                       legalMoves++;
                                     }
                                 }
@@ -10699,7 +10701,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id, leftIndex) === false && pieceBackedUp(leftIndex, leftX, leftY, 0) === false){
+                                    else if(piece1 === 0 && pieceBackedUp(leftIndex, leftX, leftY, 0) === false  && detectCheck(id, leftIndex) === false ){
                                         legalMoves++;
                                     }
                                 }
@@ -10731,7 +10733,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0  && detectCheck(id, rightIndex) === false && pieceBackedUp(rightIndex, rightX, rightY, 0) === false){
+                                    else if(piece1 === 0   && pieceBackedUp(rightIndex, rightX, rightY, 0) === false && detectCheck(id, rightIndex) === false){
                                         legalMoves++;
                                     }
                                 }
@@ -10763,7 +10765,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id, upIndex) === false && pieceBackedUp(upIndex, upX, upY, 0) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(upIndex, upX, upY, 0) === false && detectCheck(id, upIndex) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10796,7 +10798,7 @@ function pieceBackedUp(id, x, y, color) {
                                     if(btn1.classList.contains('colorCheck')) {
                                         
                                     }
-                                    else if(piece1 === 0 && detectCheck(id, downIndex) === false && pieceBackedUp(downIndex, downX, downY, 0) === false){
+                                    else if(piece1 === 0  && pieceBackedUp(downIndex, downX, downY, 0) === false && detectCheck(id, downIndex) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10828,7 +10830,7 @@ function pieceBackedUp(id, x, y, color) {
                                 }
                                 else{
                                 
-                                     if(piece1 === 0 && detectCheck(id, leftUpIndex) === false && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false){
+                                     if(piece1 === 0  && pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false && detectCheck(id, leftUpIndex) === false){
                                        legalMoves++;
                                     }
                                 }
@@ -10861,7 +10863,7 @@ function pieceBackedUp(id, x, y, color) {
                             }
                             else{
                             
-                                 if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false){
+                                 if(piece1 === 0 && pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false && detectCheck(id, rightUpIndex) === false){
                                    legalMoves++;
                                 }
                             }
@@ -10892,7 +10894,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 &&detectCheck(id, leftDownIndex) === false && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
+                                    if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false && detectCheck(id, leftDownIndex) === false) {
                                         legalMoves++;
                                     }
                                 }
@@ -10921,7 +10923,7 @@ function pieceBackedUp(id, x, y, color) {
                                     }
                                 }
                                 else{
-                                    if(piece1 === 0 && detectCheck(id, rightDownIndex) === false && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false) {
+                                    if(piece1 === 0  && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false && detectCheck(id, rightDownIndex) === false) {
                                        legalMoves++;
                                     }
                                 }
