@@ -3878,7 +3878,7 @@ catch(err) {
                         if(checkMate === true) {
                             setCheckmate(true);
                             gameWin();
-//return;
+                            return;
                             
                         }
                        
@@ -6161,6 +6161,7 @@ catch(err) {
                             if(checkMate === true) {
                                 setCheckmate(true);
                                 gameWin();
+                                return;
 
                            
                                 
