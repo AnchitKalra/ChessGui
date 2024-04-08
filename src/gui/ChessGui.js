@@ -37,9 +37,12 @@ function ChessGui() {
     }catch(err) {
 
     }
-    if(chessEngineData === null) {
-        chessEngineData = 0.0;
+    let [prevChessEngineData, setEngineData] = useState(0.0)
+    if(chessEngineData !== null || chessEngineData !== '') {
+        prevChessEngineData = chessEngineData;
+
     }
+
 
 
 
@@ -360,6 +363,15 @@ for(let j = 0; j < 64; j++) {
 
     useEffect(() => {
         try{
+            if(chessEngineData !== null || chessEngineData !== '') {
+                prevChessEngineData = chessEngineData;
+                setEngineData(prevChessEngineData);
+            }
+        }
+        catch(err) {
+
+        }
+        try{
         if(chessImages?.length > 2) {
        addStyles();
 
@@ -404,7 +416,7 @@ for(let j = 0; j < 64; j++) {
                 setOpen(true);
                 chessEngineApi("uci");
             }
-            dispatch(getChessEngineActionCreator('isready'));
+           
             dispatch(getChessEngineActionCreator("go"));
             
            
@@ -3878,8 +3890,7 @@ catch(err) {
                         if(checkMate === true) {
                             setCheckmate(true);
                             gameWin();
-                            return;
-                            
+                        
                         }
                        
                       
@@ -5582,7 +5593,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if( pieceBackedUp(leftIndex, leftX, leftY, 0) === false  && detectCheck(id, leftIndex) === false) {
+                                                if( pieceBackedUp(leftIndex, leftX, leftY, 0) === false ) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -5630,7 +5641,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if( pieceBackedUp(rightIndex, rightX, rightY, 0) === false  && detectCheck(id, rightIndex) === false) {
+                                                if( pieceBackedUp(rightIndex, rightX, rightY, 0) === false ) {
                                                 btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -5679,7 +5690,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if(detectCheck(id, upIndex) === false && pieceBackedUp(upIndex, upX, upY, 0) === false  && detectCheck(id, upIndex) === false) {
+                                                if(detectCheck(id, upIndex) === false && pieceBackedUp(upIndex, upX, upY, 0) === false  ) {
                                                 btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -5727,7 +5738,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if( pieceBackedUp(downIndex, downX, downY, 0) === false  && detectCheck(id, downIndex) === false) {    
+                                                if( pieceBackedUp(downIndex, downX, downY, 0) === false ) {    
                                                 btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -5776,7 +5787,7 @@ catch(err) {
                                         if(piece1 === 0 || piece1 > 0) {
                                           
                                             if(piece1 === 0) {
-                                                if( pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false  && detectCheck(id, leftUpIndex) === false) {
+                                                if( pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 0) === false ) {
                                                 btn1.classList.add('colorGreen');
                                                 }
                                             }
@@ -5824,7 +5835,7 @@ catch(err) {
                                     let btn1 = document.getElementById(rightUpIndex);
                                     if(checkFlag === false){
                                     if(piece1 === 0) {
-                                        if( pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false  && detectCheck(id, rightUpIndex) === false) {
+                                        if( pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 0) === false  ) {
                                         btn1.classList.add('colorGreen');
                                         }
                                     }
@@ -5878,7 +5889,7 @@ catch(err) {
                                         if(piece1 > 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false) {
                                             btn1.classList.add('colorRed');
                                         }
-                                        if(piece1 === 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false  && detectCheck(id, leftDownIndex) === false) {
+                                        if(piece1 === 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 0) === false  ) {
                                             btn1.classList.add('colorGreen');
                                         }
                                     }
@@ -5919,7 +5930,7 @@ catch(err) {
                                                 btn1.classList.add('colorRed');
                                             }
                                         }
-                                        else if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false  && detectCheck(id, rightDownIndex) === false) {
+                                        else if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 0) === false ) {
                                             btn1.classList.add('colorGreen');
                                         }
                                     }
@@ -7953,14 +7964,14 @@ catch(err) {
                                 try{
                                     let rightX = j;
                                     let rightY = k + 1;
-                                    if(rightY <= 7 && rightX <= 7) {
+                                    if(rightY <= 7) {
                                         let btn1 = document.getElementById(rightIndex);
                                         let piece1 = game[rightIndex].pieceValue;
                                         if(checkFlag === false) {
                                           
                                               
                                                 if(piece1 === 0) {
-                                                    if( pieceBackedUp(rightIndex, rightX, rightY, 1) === false  && detectCheck(id, rightIndex) === false) {
+                                                    if( pieceBackedUp(rightIndex, rightX, rightY, 1) === false ) {
                                                     btn1.classList.add('colorGreen');
                                                     }
                                                 }
@@ -8010,7 +8021,7 @@ catch(err) {
                                          
                                               
                                                 if(piece1 === 0) {
-                                                    if( pieceBackedUp(upIndex, upX, upY, 1) === false  && detectCheck(id, upIndex) === false) {
+                                                    if( pieceBackedUp(upIndex, upX, upY, 1) === false  ) {
                                                     btn1.classList.add('colorGreen');
                                                     }
                                                 }
@@ -8057,7 +8068,7 @@ catch(err) {
                                           
                                               
                                                 if(piece1 === 0) {
-                                                    if( pieceBackedUp(downIndex, downX, downY, 1) === false  && detectCheck(id, downIndex) === false) {
+                                                    if( pieceBackedUp(downIndex, downX, downY, 1) === false  ) {
                                                     btn1.classList.add('colorGreen');
                                                     }
                                                 }
@@ -8108,7 +8119,7 @@ catch(err) {
                                            
                                               
                                                 if(piece1 === 0) {
-                                                   if( pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1)=== false  && detectCheck(id, leftUpIndex) === false) {
+                                                   if( pieceBackedUp(leftUpIndex, leftUpX, leftUpY, 1)=== false  ) {
                                                     btn1.classList.add('colorGreen');
                                                    }
                                                 
@@ -8158,7 +8169,7 @@ catch(err) {
                                         let btn1 = document.getElementById(rightUpIndex);
                                         if(checkFlag === false){
                                         if(piece1 === 0) {
-                                            if( pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1)===false  && detectCheck(id, rightUpIndex) === false) {
+                                            if( pieceBackedUp(rightUpIndex, rightUpX, rightUpY, 1)===false  ) {
                                             btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -8212,7 +8223,7 @@ catch(err) {
                                             if(piece1 < 0 && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1) === false) {
                                                 btn1.classList.add('colorRed');
                                             }
-                                            if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1)=== false  && detectCheck(id, leftDownIndex) === false) {
+                                            if(piece1 === 0  && pieceBackedUp(leftDownIndex, leftDownX, leftDownY, 1)=== false  ) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -8253,7 +8264,7 @@ catch(err) {
                                                     btn1.classList.add('colorRed');
                                                 }
                                             }
-                                            else if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false  && detectCheck(id, rightDownIndex) === false) {
+                                            else if(piece1 === 0 && pieceBackedUp(rightDownIndex, rightDownX, rightDownY, 1)===false) {
                                                 btn1.classList.add('colorGreen');
                                             }
                                         }
@@ -8660,7 +8671,7 @@ function pieceBackedUp(id, x, y, color) {
                 return true;
             }
             if((piece === 0 || piece === -6)) {
-                while((piece === 0 || piece === -6)&& j < 7 && k < 7) {
+                while((piece === 0 || piece === -6)&& j > 0 && k < 7) {
                     j--;
                     k++;
                     rightUpDiag -= 7;
@@ -8689,7 +8700,7 @@ function pieceBackedUp(id, x, y, color) {
                 }
 
                 if(piece === 0 || piece === -6) {
-                    while((piece === 0 || piece === -6) && j < 7 && k > 0) {
+                    while((piece === 0 || piece === -6) && j <7 && k > 0) {
                         j++;
                         k--;
                         leftDownDiag += 7;
@@ -8810,7 +8821,7 @@ function pieceBackedUp(id, x, y, color) {
         k++;
         if(j <= 7 && k <= 7) {
             let rightDown = id + 17;
-            let piece = game[rightDown].pieceValue;
+            let piece = game[rightDown]?.pieceValue;
             if(piece === 2) {
                 return true;
             }
@@ -8827,7 +8838,7 @@ function pieceBackedUp(id, x, y, color) {
         k += 2;
         if(j <= 7 && k <= 7) {
             let downRight = id + 10;
-            let piece = game[downRight].pieceValue;
+            let piece = game[downRight]?.pieceValue;
             if(piece === 2) {
                 return true;
             }
@@ -8844,7 +8855,7 @@ function pieceBackedUp(id, x, y, color) {
         k += 2;
         if(j >= 0 && k <= 7) {
             let upRight = id - 6;
-            let piece = game[upRight].pieceValue;
+            let piece = game[upRight]?.pieceValue;
             if(piece === 2) {
                 return true;
             }
@@ -8863,7 +8874,7 @@ function pieceBackedUp(id, x, y, color) {
         k++;
         if(j >= 0 && k <= 7) {
             let rightUp = id - 15;
-            let piece = game[rightUp].pieceValue;
+            let piece = game[rightUp]?.pieceValue;
             if(piece === 2) {
                 return true;
             }
@@ -11246,6 +11257,194 @@ function pieceBackedUp(id, x, y, color) {
                         }
 
                         break;
+                        case -5:
+                      
+                        let oneUp = id - 8;
+                        let oneDown = id + 8;
+                        let oneLeft = id - 1;
+                        let oneRight = id + 1;
+                        try{
+       
+                    
+                       let xIndex = j;
+                      
+                  
+                        if(checkCount <= 1) {
+                        let pieceUp = game[oneUp]?.pieceValue;
+                        xIndex--;
+                        if(xIndex >= 0) {
+                        
+                        while(pieceUp === 0 || pieceUp > 0) {
+                            
+                            if(xIndex < 0) {
+                                break;
+                            }
+                            let btn1 = document.getElementById(oneUp);
+                            
+                             if(pieceUp > 0 || pieceUp === 0) {
+                                if(pieceUp > 0) {
+                                if(btn1.classList.contains('colorCheck')) {
+                                   legalMoves++;
+                                }
+                                break;
+                            }
+                                else if(pieceUp === 0) {
+                                    if(btn1.classList.contains('colorCheck')) {
+                                      legalMoves++;
+                                    }
+                                }
+                            
+                               
+                            }
+                            oneUp -= 8;
+                            xIndex--;
+                            if(xIndex < 0) {
+                                break;
+                            }
+                            pieceUp = game[oneUp].pieceValue;
+                        
+                    }}}
+                    
+                    }catch(err) {
+                            console.log(err);
+                          
+                        }
+
+                        try{
+
+                       let xIndex = j;
+                    
+                     
+                        if(checkCount <= 1) {
+                            xIndex++;
+                            if(xIndex <= 7) {
+                        let pieceDown = game[oneDown]?.pieceValue;
+                     
+                        while(pieceDown === 0 || pieceDown > 0) {
+                            if(xIndex > 7) {
+                                break;
+                            }
+                            let btn1 = document.getElementById(oneDown);
+                            
+                             if(pieceDown > 0 || pieceDown === 0) {
+                                if(pieceDown < 0) {
+                            if(btn1.classList.contains('colorCheck')) {
+                               legalMoves++;
+                            }
+                            break;
+                        }
+                        else if(pieceDown === 0) {
+                            if(btn1.classList.contains('colorCheck')) {
+                              legalMoves++;
+                            }
+                        }
+                              //  break;
+                            }
+                            oneDown += 8;
+                            xIndex++;
+                            if(xIndex > 7) {
+                                break;
+                            }
+                            pieceDown = game[oneDown].pieceValue;
+                        }
+                    }}
+                    
+                    }catch(err) {
+                            console.log(err);
+                        }
+
+                        try{
+
+                      
+                      let  yIndex = k;
+                     
+                        if(checkCount <= 1) {
+                        let pieceLeft = game[oneLeft]?.pieceValue;
+                        yIndex--;
+                        if(yIndex >= 0) {
+                        while(pieceLeft === 0 || pieceLeft > 0) {
+                            if(yIndex < 0) {
+                                break;
+                            }
+                            let btn1 = document.getElementById(oneLeft);
+                           
+                             if(pieceLeft > 0 || pieceLeft === 0) {
+                                if(pieceLeft > 0) {
+                            if(btn1.classList.contains('colorCheck')) {
+                               legalMoves++;
+                            }
+                            break;
+                        }
+                        else if(pieceLeft === 0) {
+                            if(btn1.classList.contains('colorCheck')) {
+                              legalMoves++;
+                            } 
+                        }
+                                //break;
+                            }
+                            oneLeft--;
+                            yIndex--;
+                            if(yIndex < 0) {
+                                break;
+                            }
+                            pieceLeft = game[oneLeft].pieceValue;
+                        }
+                    }}
+                    
+                    
+                    }catch(err) {
+                            console.log(err);
+                           
+                        }
+
+                       
+                        try{
+                      
+                         
+                          let  yIndex = k;
+                                if(checkCount <= 1) {
+                                let pieceRight = game[oneRight].pieceValue;
+                                yIndex++;
+                                if(yIndex <= 7) {
+                                while(pieceRight === 0 || pieceRight > 0) {
+                                    if(yIndex > 7) {
+                                        break;
+                                    }
+                                    let btn1 = document.getElementById(oneRight);
+                                   
+                                    if(pieceRight > 0 || pieceRight === 0) {
+                                        if(pieceRight > 0) {
+                                    if(btn1.classList.contains('colorCheck')) {
+                                       legalMoves++;
+                                    }
+                                    break;
+                                }
+                                else if(pieceRight === 0) {
+                                    if(btn1.classList.contains('colorCheck')) {
+                                       legalMoves++;
+                                    }
+                                }
+                                        //break;
+                                    }
+                                    oneRight++;
+                                    yIndex++;
+                                    if(yIndex > 7) {
+                                        break;
+                                    }
+                                    pieceRight = game[oneRight].pieceValue;
+                                }
+                            
+                            
+                            }}}
+                            
+                        catch(err) {
+                            console.log(err);
+                           
+                        }
+
+                    break;
+
+
 
                         case -10:
 
@@ -11825,7 +12024,7 @@ function pieceBackedUp(id, x, y, color) {
 // On pressing Connect this method will be called 
  function connect() { 
   
-  setWs(new WebSocket("ws://192.168.1.4:8080/hello"));
+  setWs(new WebSocket("ws://192.168.1.7:8080/hello"));
   
   //This function will called everytime new message arrives 
   document.getElementById("startGame").disabled = true; 
@@ -11942,7 +12141,7 @@ function printMessage(data) {
            dispatch(checkFalseActionCreator())
         }
        
-        }, 1200);
+        }, 1500);
     }
     else if( turn === 2) {
         let payload = [];
@@ -11962,7 +12161,7 @@ function printMessage(data) {
         }
        
       
-        }, 1200);
+        }, 1500);
     }}catch(err) {
         console.log(err);
     }
@@ -12124,7 +12323,7 @@ function getForward() {
   </div>
   <div id = 'eval'>
     <p>
-        <Typography>Evaluation is {chessEngineData}</Typography>
+        <Typography>Evaluation is {chessEngineData || prevChessEngineData}</Typography>
     </p>
   </div>
           <div className="container_div">
